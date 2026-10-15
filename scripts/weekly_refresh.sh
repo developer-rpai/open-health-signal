@@ -5,3 +5,4 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 make refresh
+make newsletter

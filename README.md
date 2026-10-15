@@ -28,6 +28,9 @@ flowchart TB
   py --> duck[("DuckDB counts")]
   py --> snap["JSON snapshot"]
   snap --> site["Next.js static dashboard"]
+  snap --> letter["Weekly newsletter issue"]
+  letter --> archive["/newsletter archive"]
+  letter --> provider["Buttondown or Resend<br/>dry-run unless NEWSLETTER_SEND=1"]
   py --> hook["New high signals to a webhook"]
 ```
 
@@ -72,6 +75,8 @@ Weekly cron, from the repository root:
 | Disease trends | Publications, trial starts, weekly spike screen, CDC arthritis prevalence |
 | Methods | Formulas, sources, licenses, limitations, and the disclaimer |
 | About | Purpose, maintainer, and citation |
+| Newsletter | Archive of weekly briefings |
+| Subscribe | Email signup with consent and double opt-in |
 
 ## Data sources and licenses
 
@@ -131,7 +136,7 @@ The dashboard is a Next.js app with `output: "export"`.
 1. Push this repository to GitHub.
 2. In Vercel, import the repository and set **Root Directory** to `web`.
 3. Framework preset: Next.js. Build command: `npm run build`. Vercel serves the static `out` directory produced by `output: "export"`.
-4. No environment variables are required. The snapshot JSON is already in `web/data/` and is read at build time.
+4. The dashboard itself builds with no secrets. To connect the subscribe form, set the public variables below **before** the build. They are baked into the static pages.
 
 Custom domain:
 
@@ -149,8 +154,55 @@ There is no public preview URL from this workspace. Run `make dashboard` locally
 | --- | --- |
 | `scripts/weekly_refresh.sh` and `make refresh` | Weekly. Example crontab: Monday 12:00 UTC. |
 | `.github/workflows/weekly-refresh.yml` | `0 12 * * 1` |
-| `n8n/ism-weekly-refresh.json` | Monday 12:00 UTC. Posts **new** high signals to `SIGNAL_WEBHOOK_URL`. The first snapshot is a baseline and does not call the webhook. Self-hosted n8n only. See `n8n/README.md`. |
+| `n8n/ism-weekly-refresh.json` | Monday 12:00 UTC. After `make refresh`, one branch posts **new** high signals to `SIGNAL_WEBHOOK_URL` and another runs `make newsletter`. The newsletter runs even when there are no new high signals. The first snapshot is a baseline and does not call the webhook. Self-hosted n8n only. See `n8n/README.md`. |
 | `apify/fda-safety-pages/` | Actor stub for the Drug Safety Communications page and state health-department pages that have no API. |
+
+## Weekly newsletter
+
+`make newsletter` (or `python -m inflammon newsletter`) diffs the current snapshot against the previous fingerprint and writes:
+
+- `data/newsletter/issues/<date>/` — `issue.json`, `issue.html`, and `issue.txt`
+- `data/newsletter/index.json` and `data/newsletter/state/` — the archive index and the fingerprint used next week
+- `web/data/newsletter/` — the same issue, read by the static site
+- `web/public/newsletter/email/<date>.html` — the email, served at `/newsletter/email/<date>.html`
+
+The default is a **dry run**: the issue is archived and nothing is emailed. Sending happens only with `--send` or `NEWSLETTER_SEND=1`. `NEWSLETTER_DRY_RUN=1` forces a dry run even then. Rebuilding the same snapshot does not treat it as new; the diff uses the fingerprint from the prior snapshot.
+
+The first issue has no earlier snapshot, so it lists the latest notices and the strongest prespecified signals. Later issues list what changed: new alerts and recalls, signals that newly meet the Evans or ROR screen, signals whose PRR rose by at least 25%, and trials and papers that were not in the previous extract.
+
+### Which key goes where
+
+Copy [`.env.example`](.env.example). The static site and the Monday job do not read the same variables.
+
+| Variable | Who reads it | Secret? |
+| --- | --- | --- |
+| `NEXT_PUBLIC_NEWSLETTER_PROVIDER` | Next.js build (`web/.env.local` or the Vercel project). `buttondown` or `resend`. | No. It is visible in the static pages. |
+| `NEXT_PUBLIC_BUTTONDOWN_USERNAME` | Next.js build. Buttondown username for the embed form. | No. |
+| `NEXT_PUBLIC_SUBSCRIBE_ENDPOINT` | Next.js build, only for the Resend alternative. URL of the separate subscribe function. | No. |
+| `BUTTONDOWN_API_KEY` | Monday job (`python -m inflammon newsletter`) and GitHub Actions secret `BUTTONDOWN_API_KEY`. | Yes. Never `NEXT_PUBLIC_`. |
+| `NEWSLETTER_PROVIDER` | Monday job. `buttondown` (default) or `resend`. | No. |
+| `SITE_URL` | Monday job. Absolute dashboard URL printed in the email. GitHub variable `SITE_URL`. | No. |
+| `NEWSLETTER_SEND` | Monday job. `1` sends. Empty or anything else is a dry run. GitHub variable `NEWSLETTER_SEND`. A manual workflow run sends only if **send_newsletter** is checked. | No. |
+| `RESEND_API_KEY` | Monday job and the Resend function. GitHub secret `RESEND_API_KEY`. | Yes. |
+| `RESEND_AUDIENCE_ID` | Monday job and the Resend function. GitHub secret `RESEND_AUDIENCE_ID`. | Treat as a secret. |
+| `NEWSLETTER_FROM` | Monday job and the Resend function. Verified sender. GitHub variable `NEWSLETTER_FROM`. | No. |
+| `NEWSLETTER_CONFIRM_SECRET` | Resend function only. Signs the confirmation link. | Yes. |
+| `SUBSCRIBE_FUNCTION_URL` | Resend function only. Public origin of that deploy. | No. |
+
+Buttondown is the path that works on a static export. The form is a normal HTML POST to `https://buttondown.com/api/emails/embed-subscribe/<username>` with `email` and `embed=1`. Buttondown does not activate the address until the person opens the confirmation email. The consent checkbox is `required`, so the browser blocks submit until it is checked. If the username is missing, the form stays on the page and says the list is not connected.
+
+The Monday send is `POST https://api.buttondown.com/v1/emails` with `Authorization: Token <BUTTONDOWN_API_KEY>`, status `about_to_send`, and the HTML prefixed by `<!-- buttondown-editor-mode: fancy -->`. The unsubscribe link is Buttondown’s `{{ unsubscribe_url }}`.
+
+Resend cannot collect subscribers from a static page by itself. `newsletter/resend/` is a separate two-route function: `POST /subscribe` emails a confirmation link, and `GET /confirm` adds the address to the audience. Deploy that directory on its own (see `newsletter/resend/README.md`). The Monday job then creates a broadcast and calls `/broadcasts/{id}/send`. The unsubscribe token is `{{{RESEND_UNSUBSCRIBE_URL}}}`.
+
+Create `web/.env.local` for local dashboard builds (that file is gitignored):
+
+```bash
+NEXT_PUBLIC_NEWSLETTER_PROVIDER=buttondown
+NEXT_PUBLIC_BUTTONDOWN_USERNAME=your-buttondown-username
+```
+
+Leave the API key out of that file. Export `BUTTONDOWN_API_KEY` only in the shell or the GitHub secret that runs `make newsletter`.
 
 ## Tests
 
@@ -158,7 +210,7 @@ There is no public preview URL from this workspace. Run `make dashboard` locally
 make test
 ```
 
-The tests check PRR, ROR, confidence intervals, chi-square, the Evans rule, the Haldane correction, and the weekly spike rule against hand-computed 2×2 tables. They do not call the network.
+The tests check PRR, ROR, confidence intervals, chi-square, the Evans rule, the Haldane correction, and the weekly spike rule against hand-computed 2×2 tables. Newsletter tests check the snapshot diff, HTML escaping, the plain-text rendering, and that a dry run does not call the network.
 
 ## Citation
 

@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { SubscribeForm } from "@/components/subscribe-form";
+
 const LINKS = [
   { href: "/", label: "Overview" },
   { href: "/signals", label: "Drug signals" },
   { href: "/trends", label: "Disease trends" },
+  { href: "/newsletter", label: "Newsletter" },
   { href: "/methods", label: "Methods" },
   { href: "/about", label: "About" },
 ];
@@ -26,7 +29,7 @@ export function SiteHeader() {
         </Link>
         <nav aria-label="Primary" className="flex flex-wrap gap-1">
           {LINKS.map((link) => {
-            const active = pathname === link.href;
+            const active = link.href === "/" ? pathname === "/" : pathname === link.href || pathname.startsWith(`${link.href}/`);
             return (
               <Link
                 key={link.href}
@@ -51,7 +54,21 @@ export function SiteHeader() {
 export function SiteFooter({ generated, version }: { generated: string; version: string }) {
   return (
     <footer className="mt-16 border-t border-border">
-      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 text-sm text-muted-foreground sm:px-6">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <h2 className="text-xl">Weekly briefing</h2>
+          <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
+            FDA notices, safety signals, trials, and papers after each Monday refresh.{" "}
+            <Link href="/subscribe" className="underline decoration-border underline-offset-2 hover:text-foreground">
+              Subscribe page
+            </Link>
+            .
+          </p>
+          <div className="mt-4 max-w-md">
+            <SubscribeForm id="footer-subscribe" />
+          </div>
+        </div>
+        <div className="flex flex-col gap-2 text-sm text-muted-foreground lg:pt-1">
         <p>
           Snapshot {generated}. Version {version}. Refreshed weekly from public sources.
           Not medical advice.
@@ -67,6 +84,7 @@ export function SiteFooter({ generated, version }: { generated: string; version:
           </Link>
           .
         </p>
+        </div>
       </div>
     </footer>
   );

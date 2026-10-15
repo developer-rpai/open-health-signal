@@ -33,6 +33,17 @@
     },
     {
       "parameters": {
+        "command": "make -C \"${INFLAMMON_REPO:-/opt/inflammon}\" newsletter"
+      },
+      "id": "a1b2c3d4-6666-4666-8666-666666666666",
+      "name": "Build weekly newsletter",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [760, 520],
+      "notes": "Runs after the Monday refresh, including when there are no new high signals. Dry-run unless NEWSLETTER_SEND=1 on the n8n host. Buttondown needs BUTTONDOWN_API_KEY. Resend needs RESEND_API_KEY, RESEND_AUDIENCE_ID, and NEWSLETTER_FROM."
+    },
+    {
+      "parameters": {
         "operation": "read",
         "fileSelector": "={{$env.INFLAMMON_REPO || '/opt/inflammon'}}/data/snapshot/high_signals_new.json"
       },
@@ -88,6 +99,11 @@
         [
           {
             "node": "Read new high signals",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build weekly newsletter",
             "type": "main",
             "index": 0
           }

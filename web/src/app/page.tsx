@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { SubscribeForm } from "@/components/subscribe-form";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatGenerated, formatNumber, formatRatio, titleCaseReaction } from "@/lib/format";
@@ -32,6 +33,22 @@ export default function OverviewPage() {
           openFDA extract dated {manifest.openfda_last_updated ?? "unknown"}. Snapshot generated{" "}
           {formatGenerated(manifest.generated_at)}.
         </p>
+      </section>
+
+      <section className="grid gap-6 rounded-2xl bg-card p-6 ring-1 ring-foreground/10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center sm:p-8">
+        <div>
+          <p className="font-mono text-[11px] tracking-[0.18em] text-primary uppercase">Weekly briefing</p>
+          <h2 className="mt-2 text-3xl">One email after the Monday refresh.</h2>
+          <p className="mt-3 leading-relaxed text-muted-foreground">
+            New FDA safety alerts and recalls, drug-safety signals that are new or stronger, notable trials, and the
+            top new PubMed papers. Past issues stay in the{" "}
+            <Link href="/newsletter" className="text-primary underline-offset-2 hover:underline">
+              archive
+            </Link>
+            .
+          </p>
+        </div>
+        <SubscribeForm id="home-subscribe" />
       </section>
 
       {failedSources.length > 0 ? (

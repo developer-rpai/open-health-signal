@@ -6,6 +6,12 @@ on:
     # runs once a week rather than every day.
     - cron: "0 12 * * 1"
   workflow_dispatch:
+    inputs:
+      send_newsletter:
+        description: "Send this issue through the newsletter provider"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -25,10 +31,22 @@ jobs:
         run: pytest
       - name: Refresh public sources
         run: python -m inflammon refresh
+      - name: Build the newsletter
+        env:
+          NEWSLETTER_PROVIDER: ${{ vars.NEWSLETTER_PROVIDER }}
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+          NEWSLETTER_FROM: ${{ vars.NEWSLETTER_FROM }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          # Scheduled runs send only when the repository variable NEWSLETTER_SEND is 1.
+          # A manual run sends only when the send_newsletter input is checked.
+          NEWSLETTER_SEND: ${{ github.event_name == 'workflow_dispatch' && (inputs.send_newsletter && '1' || '0') || vars.NEWSLETTER_SEND }}
+        run: python -m inflammon newsletter
       - name: Commit snapshot
         run: |
           git config user.name "inflammon-refresh"
           git config user.email "inflammon-refresh@users.noreply.github.com"
-          git add data/snapshot web/data
+          git add data/snapshot web/data data/newsletter web/public/newsletter
           git diff --staged --quiet || git commit -m "Refresh weekly public-data snapshot"
           git push
