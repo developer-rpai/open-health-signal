@@ -1,0 +1,6 @@
+{
+  "rule": "evans_signal or ror_signal, preset reaction, not an admin or indication term",
+  "baseline_run": false,
+  "items": [],
+  "note": "Signals that were absent from the previous baseline."
+}

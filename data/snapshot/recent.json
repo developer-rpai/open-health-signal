@@ -1,0 +1,638 @@
+{
+  "publications": [
+    {
+      "pmid": "42580209",
+      "title": "Rapid fecal lipidome profiling in inflammatory bowel disease: A novel approach for exploratory disease molecular characterization and therapeutic monitoring",
+      "journal": "J Pharm Biomed Anal",
+      "published": "2027 Jan 1",
+      "topic": "crohns_disease",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42580209/"
+    },
+    {
+      "pmid": "42424228",
+      "title": "Human gut flagellome profiling using FlaPro reveals TLR5-related phenotype-specific alterations in IBD",
+      "journal": "Gut Microbes",
+      "published": "2026 Dec 31",
+      "topic": "crohns_disease",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42424228/"
+    },
+    {
+      "pmid": "42310970",
+      "title": "High thrombin activity associated with crohn's disease induces microbiota pathogenicity contributing to mucosal inflammation",
+      "journal": "Gut Microbes",
+      "published": "2026 Dec 31",
+      "topic": "crohns_disease",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42310970/"
+    },
+    {
+      "pmid": "41688878",
+      "title": "Responses of intestinal organoids to infection by Mycobacterium avium resemble symptoms observed in Crohn's disease",
+      "journal": "Gut Microbes",
+      "published": "2026 Dec 31",
+      "topic": "crohns_disease",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/41688878/"
+    },
+    {
+      "pmid": "41427586",
+      "title": "Miniature bioreactor arrays for modeling functional and structural dysbiosis in inflammatory bowel disease",
+      "journal": "Gut Microbes",
+      "published": "2026 Dec 31",
+      "topic": "crohns_disease",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/41427586/"
+    },
+    {
+      "pmid": "42727524",
+      "title": "Leveraging electronic health records for subtype-dependent directionality in depression and gastrointestinal disease: a retrospective cohort study",
+      "journal": "J Psychosom Res",
+      "published": "2026 Dec",
+      "topic": "crohns_disease",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42727524/"
+    },
+    {
+      "pmid": "42556455",
+      "title": "Integrated DIA proteomics of tissue and exudate reveals screening markers for early detection of ulcerative colitis and colorectal cancer",
+      "journal": "Clin Chim Acta",
+      "published": "2027 Feb 15",
+      "topic": "ulcerative_colitis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42556455/"
+    },
+    {
+      "pmid": "42486317",
+      "title": "Reduced fecal GP2 levels in ulcerative colitis associate with inflammatory activity and microbial composition",
+      "journal": "Clin Chim Acta",
+      "published": "2027 Feb 15",
+      "topic": "ulcerative_colitis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42486317/"
+    },
+    {
+      "pmid": "42700497",
+      "title": "Peroxynitrite-activated near-infrared fluorescence sensing platform for early non-invasive IBD diagnosis, herbal formula efficacy evaluation and anti-enteritis bioactive components screening",
+      "journal": "Talanta",
+      "published": "2027 Feb 1",
+      "topic": "ulcerative_colitis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42700497/"
+    },
+    {
+      "pmid": "42476206",
+      "title": "Callistephus A from Callistephus chinensis alleviates DSS-induced ulcerative colitis and gut-liver axis disruption by targeting the JAK2/STAT1 pathway and remodeling gut microbiota",
+      "journal": "J Ethnopharmacol",
+      "published": "2027 Jan 10",
+      "topic": "ulcerative_colitis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42476206/"
+    },
+    {
+      "pmid": "42425376",
+      "title": "Orientin alleviates ulcerative colitis by regulating ferroptosis and glycolysis via the ROS/HIF-1α/GLUT1 signaling axis",
+      "journal": "J Ethnopharmacol",
+      "published": "2027 Jan 10",
+      "topic": "ulcerative_colitis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42425376/"
+    },
+    {
+      "pmid": "42401248",
+      "title": "Cortex Phellodendri total alkaloids ameliorate ulcerative colitis by restoring intestinal barrier integrity via modulation of the ER-mitochondria axis",
+      "journal": "J Ethnopharmacol",
+      "published": "2027 Jan 10",
+      "topic": "ulcerative_colitis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42401248/"
+    },
+    {
+      "pmid": "42546583",
+      "title": "Inflammation-triggered nanodrug delivery microneedles targeting pathogenic COX2(+) endothelial cell-mediated glycocalyx degradation to ameliorate psoriasis",
+      "journal": "Biomaterials",
+      "published": "2027 Feb",
+      "topic": "psoriasis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42546583/"
+    },
+    {
+      "pmid": "42486458",
+      "title": "Xiegan Liangxue Jiedu Decoction ameliorates psychiatric comorbidities in psoriasis via regulation of sphingolipid metabolism",
+      "journal": "J Ethnopharmacol",
+      "published": "2027 Jan 10",
+      "topic": "psoriasis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42486458/"
+    },
+    {
+      "pmid": "42531968",
+      "title": "FTIR spectroscopy-based differentiation of seborrheic dermatitis and scalp psoriasis using clinically normal fingernails",
+      "journal": "Spectrochim Acta A Mol Biomol Spectrosc",
+      "published": "2027 Jan 5",
+      "topic": "psoriasis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42531968/"
+    },
+    {
+      "pmid": "42461117",
+      "title": "Gut-derived genistein from Parabacteroides distasonis alleviates psoriatic inflammation via CD200-mediated NF-κB inhibition in mice",
+      "journal": "Gut Microbes",
+      "published": "2026 Dec 31",
+      "topic": "psoriasis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42461117/"
+    },
+    {
+      "pmid": "41482938",
+      "title": "Long-term management of psoriasis recurrence via modulation of cutaneous microbiome: synergistic topical therapy with blue light and aptamer-functionalized curcumin formulation",
+      "journal": "Drug Deliv",
+      "published": "2026 Dec 31",
+      "topic": "psoriasis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/41482938/"
+    },
+    {
+      "pmid": "42379535",
+      "title": "Elucidating the therapeutic mechanism of Gomisin G from Guomin Gecoction for psoriasis treatment through targeting the PI3K-AKT/JAK3-STAT3 pathway",
+      "journal": "J Ethnopharmacol",
+      "published": "2026 Dec 6",
+      "topic": "psoriasis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42379535/"
+    },
+    {
+      "pmid": "42468728",
+      "title": "A novel urinary metabolic signature for the non-invasive screening of lupus nephritis in systemic lupus erythematosus",
+      "journal": "Clin Chim Acta",
+      "published": "2027 Feb 15",
+      "topic": "lupus",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42468728/"
+    },
+    {
+      "pmid": "42834216",
+      "title": "AA in Rheumatoid Arthritis and Lupus",
+      "journal": "Rev Physiol Biochem Pharmacol",
+      "published": "2027",
+      "topic": "lupus",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42834216/"
+    },
+    {
+      "pmid": "42747315",
+      "title": "Gut microbiota functional remodeling and butyrate depletion amplify anti-Ro/La antibody-driven type I interferon activation in neonatal lupus",
+      "journal": "Gut Microbes",
+      "published": "2026 Dec 31",
+      "topic": "lupus",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42747315/"
+    },
+    {
+      "pmid": "42733187",
+      "title": "Reducing glucocorticoid burden in lupus with omega-3 fatty acids: docosahexaenoic acid augments prednisone efficacy in maintaining cyclophosphamide-induced remission of preclinical lupus nephritis",
+      "journal": "Autoimmunity",
+      "published": "2026 Dec 31",
+      "topic": "lupus",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42733187/"
+    },
+    {
+      "pmid": "42691090",
+      "title": "The m6A reader IGF2BP2 promotes proinflammatory signaling in Lupus nephritis by recognizing STAT1 m6A modifications",
+      "journal": "Autoimmunity",
+      "published": "2026 Dec 31",
+      "topic": "lupus",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42691090/"
+    },
+    {
+      "pmid": "42687341",
+      "title": "Androgen-associated remodeling of pulmonary NK cells and sex-biased susceptibility in lupus-associated diffuse alveolar hemorrhage",
+      "journal": "Autoimmunity",
+      "published": "2026 Dec 31",
+      "topic": "lupus",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42687341/"
+    }
+  ],
+  "trials": [
+    {
+      "nct_id": "NCT06293365",
+      "title": "Two-period Crossover Study to Demonstrate the Comparability of Pharmacokinetics of Subcutaneous Ianalumab Between 2mL Auto-injector/2mL PFS with1mL Pre-filled Syringe in Adult Participants With Autoimmune Disease",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE2",
+      "conditions": "Sjögrens Disease; Systemic Lupus Erythematosus; Rheumatoid Arthritis",
+      "start_date": "2024-07-02",
+      "last_update": "2026-10-14",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT06293365"
+    },
+    {
+      "nct_id": "NCT07829497",
+      "title": "Pain Phenotyping of Rheumatic Diseases - An Observational Study",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "",
+      "conditions": "Rheumatic Diseases; Lupus Erythematosus, Systemic; Lupus Vasculitis, Central Nervous System; Arthritis; Spondylarthritis; Ankylosing Spondylarthritis",
+      "start_date": "2026-10-19",
+      "last_update": "2026-10-14",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07829497"
+    },
+    {
+      "nct_id": "NCT07245992",
+      "title": "A Study of F8IL10 Intra-articular Treatment in Rheumatoid Arthritis",
+      "status": "RECRUITING",
+      "phase": "PHASE1",
+      "conditions": "Rheumatoid Arthritis (RA)",
+      "start_date": "2026-03-04",
+      "last_update": "2026-10-14",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07245992"
+    },
+    {
+      "nct_id": "NCT07873931",
+      "title": "A Study of BMS-986553 in Participants With Refractory Autoimmune Diseases",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "PHASE1",
+      "conditions": "Systemic Lupus Erythematosus; Sjögren's Disease; Rheumatoid Arthritis; Idiopathic Inflammatory Myopathies; Systemic Sclerosis; Lupus Nephritis",
+      "start_date": "2026-10-30",
+      "last_update": "2026-10-14",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07873931"
+    },
+    {
+      "nct_id": "NCT07704580",
+      "title": "Phase 1b/2 Study of IV Sarilumab in Adult With RA",
+      "status": "RECRUITING",
+      "phase": "PHASE1, PHASE2",
+      "conditions": "Rheumatoid Arthritis",
+      "start_date": "2026-07-02",
+      "last_update": "2026-10-13",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07704580"
+    },
+    {
+      "nct_id": "NCT07607964",
+      "title": "A Study to Assess Adverse Events, How the Drug Moves Through the Body and Effectiveness of Intravenous Infusions and Subcutaneous Injections of ABBV-519 in Adult Participants With Systemic Lupus Erythematosus (SLE) or Rheumatoid Arthritis (RA)",
+      "status": "RECRUITING",
+      "phase": "PHASE1",
+      "conditions": "Systemic Lupus Erythematosus; Rheumatoid Arthritis",
+      "start_date": "2026-05-28",
+      "last_update": "2026-10-13",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07607964"
+    },
+    {
+      "nct_id": "NCT07621809",
+      "title": "Two Arm, Double-blind, Phase III Study Assessing Efficacy and Safety of Ianalumab Versus Placebo, in Participants With Sjögren's Disease With High Symptom Burden",
+      "status": "RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Sjögren´s Disease",
+      "start_date": "2026-07-16",
+      "last_update": "2026-10-13",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07621809"
+    },
+    {
+      "nct_id": "NCT01425892",
+      "title": "The Pathogenesis and Natural History of Sjogren's Disease",
+      "status": "RECRUITING",
+      "phase": "",
+      "conditions": "Sjogren's Syndrome; Salivary Gland; Pathogenesis",
+      "start_date": "2012-01-18",
+      "last_update": "2026-10-13",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT01425892"
+    },
+    {
+      "nct_id": "NCT07619547",
+      "title": "Longitudinal Immunophenotyping of Patients With Inflammatory Bowel Disease",
+      "status": "RECRUITING",
+      "phase": "",
+      "conditions": "Inflammatory Bowel Disease; Crohn's Disease; Ulcerative Colitis",
+      "start_date": "2026-10-19",
+      "last_update": "2026-10-14",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT07619547"
+    },
+    {
+      "nct_id": "NCT07577843",
+      "title": "A Study of JNJ-78934804 in Participants With Moderately to Severely Active Crohn's Disease",
+      "status": "RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Crohn Disease",
+      "start_date": "2026-05-22",
+      "last_update": "2026-10-14",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT07577843"
+    },
+    {
+      "nct_id": "NCT07775352",
+      "title": "Intestinal Ultrasound Guided Management in Inflammatory Bowel Disease",
+      "status": "RECRUITING",
+      "phase": "NA",
+      "conditions": "Inflammatory Bowel Diseases; Crohn Disease; Colitis, Ulcerative",
+      "start_date": "2026-03-25",
+      "last_update": "2026-10-14",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT07775352"
+    },
+    {
+      "nct_id": "NCT06581328",
+      "title": "A Study of Vedolizumab in Adults With Ulcerative Colitis (UC) or Crohn's Disease (CD) in the Community Setting",
+      "status": "RECRUITING",
+      "phase": "PHASE4",
+      "conditions": "Ulcerative Colitis; Crohn's Disease",
+      "start_date": "2025-03-27",
+      "last_update": "2026-10-14",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT06581328"
+    },
+    {
+      "nct_id": "NCT07828886",
+      "title": "Immune Aging and Advanced Therapy Outcomes in Older Adults With IBD",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "",
+      "conditions": "Inflammatory Bowel Disease (Crohn&#39;s Disease and Ulcerative Colitis); Frailty; Immunosenescence",
+      "start_date": "2026-10-12",
+      "last_update": "2026-10-13",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT07828886"
+    },
+    {
+      "nct_id": "NCT07871383",
+      "title": "Effect of Intestinal Carriage of *Pilosibacter Rotomagensis* on Intestinal Inflammatory Activity",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "",
+      "conditions": "Crohn's Diseases",
+      "start_date": "2026-10-01",
+      "last_update": "2026-10-13",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT07871383"
+    },
+    {
+      "nct_id": "NCT06430801",
+      "title": "A Study to Evaluate the Efficacy and Safety of Tulisokibart (MK-7240) in Participants With Moderate to Severe Crohn's Disease (MK-7240-008)",
+      "status": "RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Crohn's Disease",
+      "start_date": "2024-06-05",
+      "last_update": "2026-10-13",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT06430801"
+    },
+    {
+      "nct_id": "NCT05299931",
+      "title": "An Open-Label Extension and Long-term Efficacy and Safety Monitoring Study of Patients With Crohn's Disease Previously Included in the Loss of RESponse to Ustekinumab Treated by Dose Escalation Study",
+      "status": "COMPLETED",
+      "phase": "PHASE3",
+      "conditions": "Crohn Disease",
+      "start_date": "2021-09-10",
+      "last_update": "2026-10-13",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT05299931"
+    },
+    {
+      "nct_id": "NCT07619547",
+      "title": "Longitudinal Immunophenotyping of Patients With Inflammatory Bowel Disease",
+      "status": "RECRUITING",
+      "phase": "",
+      "conditions": "Inflammatory Bowel Disease; Crohn's Disease; Ulcerative Colitis",
+      "start_date": "2026-10-19",
+      "last_update": "2026-10-14",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT07619547"
+    },
+    {
+      "nct_id": "NCT07775352",
+      "title": "Intestinal Ultrasound Guided Management in Inflammatory Bowel Disease",
+      "status": "RECRUITING",
+      "phase": "NA",
+      "conditions": "Inflammatory Bowel Diseases; Crohn Disease; Colitis, Ulcerative",
+      "start_date": "2026-03-25",
+      "last_update": "2026-10-14",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT07775352"
+    },
+    {
+      "nct_id": "NCT06581328",
+      "title": "A Study of Vedolizumab in Adults With Ulcerative Colitis (UC) or Crohn's Disease (CD) in the Community Setting",
+      "status": "RECRUITING",
+      "phase": "PHASE4",
+      "conditions": "Ulcerative Colitis; Crohn's Disease",
+      "start_date": "2025-03-27",
+      "last_update": "2026-10-14",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT06581328"
+    },
+    {
+      "nct_id": "NCT05988528",
+      "title": "Clinical Study to Evaluate the Possible Efficacy of Nifuroxazide in Patient With Ulcerative Colitis",
+      "status": "COMPLETED",
+      "phase": "PHASE2, PHASE3",
+      "conditions": "Inflammatory Bowel Diseases",
+      "start_date": "2023-08-20",
+      "last_update": "2026-10-13",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT05988528"
+    },
+    {
+      "nct_id": "NCT05781698",
+      "title": "Repurposing Fenofibrate in Modulating AMPK/NLRP3 Inflammasome in Patients With Ulcerative Colitis",
+      "status": "COMPLETED",
+      "phase": "PHASE2",
+      "conditions": "Inflammatory Bowel Diseases",
+      "start_date": "2023-03-20",
+      "last_update": "2026-10-13",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT05781698"
+    },
+    {
+      "nct_id": "NCT07828886",
+      "title": "Immune Aging and Advanced Therapy Outcomes in Older Adults With IBD",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "",
+      "conditions": "Inflammatory Bowel Disease (Crohn&#39;s Disease and Ulcerative Colitis); Frailty; Immunosenescence",
+      "start_date": "2026-10-12",
+      "last_update": "2026-10-13",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT07828886"
+    },
+    {
+      "nct_id": "NCT07577856",
+      "title": "A Study of JNJ-78934804 in Participants With Moderately to Severely Active Ulcerative Colitis",
+      "status": "RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Colitis, Ulcerative",
+      "start_date": "2026-05-23",
+      "last_update": "2026-10-13",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT07577856"
+    },
+    {
+      "nct_id": "NCT06026449",
+      "title": "Gluten-free Diet in PSC and IBD",
+      "status": "COMPLETED",
+      "phase": "NA",
+      "conditions": "Primary Sclerosing Cholangitis; Ulcerative Colitis; Biliary Tract Diseases; Biliary Disease Tract; Intestinal Disease",
+      "start_date": "2023-01-01",
+      "last_update": "2026-10-13",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT06026449"
+    },
+    {
+      "nct_id": "NCT06671483",
+      "title": "A Study of Zasocitinib in Adults With Psoriatic Arthritis Who Have Not Taken Biologic Medicines",
+      "status": "RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Psoriatic Arthritis",
+      "start_date": "2025-03-03",
+      "last_update": "2026-10-14",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT06671483"
+    },
+    {
+      "nct_id": "NCT06671496",
+      "title": "A Study of Zasocitinib in Adults With Psoriatic Arthritis Who Have or Have Not Been Treated With Biologic Medicines",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Psoriatic Arthritis",
+      "start_date": "2025-03-10",
+      "last_update": "2026-10-14",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT06671496"
+    },
+    {
+      "nct_id": "NCT05938361",
+      "title": "Efficacy of Tildrakizumab in Difficult-to-treat Areas in Psoriasis",
+      "status": "COMPLETED",
+      "phase": "",
+      "conditions": "Psoriasis Palmaris; Psoriasis Genital; Psoriasis of Scalp; Psoriasis Plantaris; Psoriasis Nail",
+      "start_date": "2023-06-01",
+      "last_update": "2026-10-14",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT05938361"
+    },
+    {
+      "nct_id": "NCT07792928",
+      "title": "A Study of HCXT-2001 Tablets and HCXT-2001 Tablets(A) in Healthy Adults",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "PHASE1",
+      "conditions": "Psoriasis",
+      "start_date": "2026-10-14",
+      "last_update": "2026-10-13",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT07792928"
+    },
+    {
+      "nct_id": "NCT07871721",
+      "title": "A Study of Zasocitinib in Adults With Psoriatic Arthritis (LATITUDE PsA NeXt)",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Psoriatic Arthritis",
+      "start_date": "2027-01-11",
+      "last_update": "2026-10-13",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT07871721"
+    },
+    {
+      "nct_id": "NCT07858591",
+      "title": "Retinal Capillary Vessel Density and Foveal Avascular Zone Size in Patients With Psoriatic Arthritis: A Case-Control Study.",
+      "status": "RECRUITING",
+      "phase": "",
+      "conditions": "Arthritic Psoriasis; Psoriasis (PsO); Retinal Vessels",
+      "start_date": "2026-09-01",
+      "last_update": "2026-10-13",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT07858591"
+    },
+    {
+      "nct_id": "NCT07780929",
+      "title": "A Prospective, Interventional, Exploratory Study Evaluating the Efficacy of Small-Molecule Compound XJH05 Ointment in the Treatment of Plaque Psoriasis",
+      "status": "RECRUITING",
+      "phase": "NA",
+      "conditions": "Psoriasis; Psoriasis (PsO)",
+      "start_date": "2025-11-17",
+      "last_update": "2026-10-13",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT07780929"
+    },
+    {
+      "nct_id": "NCT07116967",
+      "title": "Long-Term Safety Study of Deucravacitinib Versus Ustekinumab in Participants With Psoriasis (PRAGMATYK)",
+      "status": "RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Plaque Psoriasis",
+      "start_date": "2025-09-22",
+      "last_update": "2026-10-13",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT07116967"
+    },
+    {
+      "nct_id": "NCT06943937",
+      "title": "A Clinical Study of YTS109 Cell in R/R Systemic Lupus Erythematosus",
+      "status": "TERMINATED",
+      "phase": "PHASE1",
+      "conditions": "Lupus Nephritis (LN); Immune Thrombocytopenia (ITP)",
+      "start_date": "2025-04-16",
+      "last_update": "2026-10-14",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT06943937"
+    },
+    {
+      "nct_id": "NCT05624749",
+      "title": "Phase 3 Study to Evaluate Ianalumab on Top of Standard-of-care Therapy in Patients With Systemic Lupus Erythematosus (SIRIUS-SLE 2)",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Systemic Lupus Erythematosus",
+      "start_date": "2023-04-21",
+      "last_update": "2026-10-14",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT05624749"
+    },
+    {
+      "nct_id": "NCT05639114",
+      "title": "Phase 3 Study to Evaluate Two Regimens of Ianalumab on Top of Standard-of-care Therapy in Patients With Systemic Lupus Erythematosus (SIRIUS-SLE 1)",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Systemic Lupus Erythematosus",
+      "start_date": "2023-03-02",
+      "last_update": "2026-10-14",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT05639114"
+    },
+    {
+      "nct_id": "NCT06293365",
+      "title": "Two-period Crossover Study to Demonstrate the Comparability of Pharmacokinetics of Subcutaneous Ianalumab Between 2mL Auto-injector/2mL PFS with1mL Pre-filled Syringe in Adult Participants With Autoimmune Disease",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE2",
+      "conditions": "Sjögrens Disease; Systemic Lupus Erythematosus; Rheumatoid Arthritis",
+      "start_date": "2024-07-02",
+      "last_update": "2026-10-14",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT06293365"
+    },
+    {
+      "nct_id": "NCT06948110",
+      "title": "Deciphering the Genetic Architecture of Autoimmune Diseases",
+      "status": "RECRUITING",
+      "phase": "",
+      "conditions": "Autoimmune Diseases",
+      "start_date": "2026-10-19",
+      "last_update": "2026-10-14",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT06948110"
+    },
+    {
+      "nct_id": "NCT07409181",
+      "title": "A Study to Test Whether Different Doses of BI 3000202 Help People With Systemic Lupus Erythematosus (SLE)",
+      "status": "RECRUITING",
+      "phase": "PHASE2",
+      "conditions": "Systemic Lupus Erythematosus",
+      "start_date": "2026-04-20",
+      "last_update": "2026-10-14",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT07409181"
+    },
+    {
+      "nct_id": "NCT06653556",
+      "title": "A Study of LCAR-AIO in Subjects With Relapsed/Refractory Systemic Lupus Erythematosus",
+      "status": "COMPLETED",
+      "phase": "EARLY_PHASE1",
+      "conditions": "Systemic Lupus Erythematosus (SLE)",
+      "start_date": "2025-01-08",
+      "last_update": "2026-10-14",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT06653556"
+    },
+    {
+      "nct_id": "NCT07829497",
+      "title": "Pain Phenotyping of Rheumatic Diseases - An Observational Study",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "",
+      "conditions": "Rheumatic Diseases; Lupus Erythematosus, Systemic; Lupus Vasculitis, Central Nervous System; Arthritis; Spondylarthritis; Ankylosing Spondylarthritis",
+      "start_date": "2026-10-19",
+      "last_update": "2026-10-14",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT07829497"
+    }
+  ]
+}

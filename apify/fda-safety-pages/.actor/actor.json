@@ -1,0 +1,17 @@
+{
+  "actorSpecification": 1,
+  "name": "fda-safety-pages",
+  "title": "FDA and state safety page stub",
+  "description": "Fetches public FDA Drug Safety Communications or state health-department pages that have no API, and stores the links it can read from the HTML.",
+  "version": "0.1",
+  "meta": {
+    "templateId": "python-empty",
+    "generatedBy": "Cursor with Grok 4.7"
+  },
+  "input": "./input_schema.json",
+  "output": "./output_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "dockerfile": "../Dockerfile"
+}

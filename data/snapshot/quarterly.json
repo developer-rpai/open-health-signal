@@ -1,0 +1,598 @@
+{
+  "rows": [
+    {
+      "drug_class": "nsaid",
+      "year": 2024,
+      "quarter": 1,
+      "report_count": 8149,
+      "partial": false,
+      "drug_class_label": "NSAID",
+      "period": "2024-Q1"
+    },
+    {
+      "drug_class": "nsaid",
+      "year": 2024,
+      "quarter": 2,
+      "report_count": 8142,
+      "partial": false,
+      "drug_class_label": "NSAID",
+      "period": "2024-Q2"
+    },
+    {
+      "drug_class": "nsaid",
+      "year": 2024,
+      "quarter": 3,
+      "report_count": 7671,
+      "partial": false,
+      "drug_class_label": "NSAID",
+      "period": "2024-Q3"
+    },
+    {
+      "drug_class": "nsaid",
+      "year": 2024,
+      "quarter": 4,
+      "report_count": 7966,
+      "partial": false,
+      "drug_class_label": "NSAID",
+      "period": "2024-Q4"
+    },
+    {
+      "drug_class": "nsaid",
+      "year": 2025,
+      "quarter": 1,
+      "report_count": 8002,
+      "partial": false,
+      "drug_class_label": "NSAID",
+      "period": "2025-Q1"
+    },
+    {
+      "drug_class": "nsaid",
+      "year": 2025,
+      "quarter": 2,
+      "report_count": 7686,
+      "partial": false,
+      "drug_class_label": "NSAID",
+      "period": "2025-Q2"
+    },
+    {
+      "drug_class": "nsaid",
+      "year": 2025,
+      "quarter": 3,
+      "report_count": 8819,
+      "partial": false,
+      "drug_class_label": "NSAID",
+      "period": "2025-Q3"
+    },
+    {
+      "drug_class": "nsaid",
+      "year": 2025,
+      "quarter": 4,
+      "report_count": 7517,
+      "partial": false,
+      "drug_class_label": "NSAID",
+      "period": "2025-Q4"
+    },
+    {
+      "drug_class": "nsaid",
+      "year": 2026,
+      "quarter": 1,
+      "report_count": 7131,
+      "partial": false,
+      "drug_class_label": "NSAID",
+      "period": "2026-Q1"
+    },
+    {
+      "drug_class": "nsaid",
+      "year": 2026,
+      "quarter": 2,
+      "report_count": 7343,
+      "partial": false,
+      "drug_class_label": "NSAID",
+      "period": "2026-Q2"
+    },
+    {
+      "drug_class": "nsaid",
+      "year": 2026,
+      "quarter": 3,
+      "report_count": 0,
+      "partial": true,
+      "drug_class_label": "NSAID",
+      "period": "2026-Q3"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2024,
+      "quarter": 1,
+      "report_count": 15337,
+      "partial": false,
+      "drug_class_label": "Corticosteroid",
+      "period": "2024-Q1"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2024,
+      "quarter": 2,
+      "report_count": 16638,
+      "partial": false,
+      "drug_class_label": "Corticosteroid",
+      "period": "2024-Q2"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2024,
+      "quarter": 3,
+      "report_count": 16865,
+      "partial": false,
+      "drug_class_label": "Corticosteroid",
+      "period": "2024-Q3"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2024,
+      "quarter": 4,
+      "report_count": 19664,
+      "partial": false,
+      "drug_class_label": "Corticosteroid",
+      "period": "2024-Q4"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2025,
+      "quarter": 1,
+      "report_count": 15719,
+      "partial": false,
+      "drug_class_label": "Corticosteroid",
+      "period": "2025-Q1"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2025,
+      "quarter": 2,
+      "report_count": 15475,
+      "partial": false,
+      "drug_class_label": "Corticosteroid",
+      "period": "2025-Q2"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2025,
+      "quarter": 3,
+      "report_count": 17429,
+      "partial": false,
+      "drug_class_label": "Corticosteroid",
+      "period": "2025-Q3"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2025,
+      "quarter": 4,
+      "report_count": 15031,
+      "partial": false,
+      "drug_class_label": "Corticosteroid",
+      "period": "2025-Q4"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2026,
+      "quarter": 1,
+      "report_count": 14191,
+      "partial": false,
+      "drug_class_label": "Corticosteroid",
+      "period": "2026-Q1"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2026,
+      "quarter": 2,
+      "report_count": 13888,
+      "partial": false,
+      "drug_class_label": "Corticosteroid",
+      "period": "2026-Q2"
+    },
+    {
+      "drug_class": "corticosteroid",
+      "year": 2026,
+      "quarter": 3,
+      "report_count": 0,
+      "partial": true,
+      "drug_class_label": "Corticosteroid",
+      "period": "2026-Q3"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2024,
+      "quarter": 1,
+      "report_count": 13206,
+      "partial": false,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2024-Q1"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2024,
+      "quarter": 2,
+      "report_count": 16981,
+      "partial": false,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2024-Q2"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2024,
+      "quarter": 3,
+      "report_count": 11623,
+      "partial": false,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2024-Q3"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2024,
+      "quarter": 4,
+      "report_count": 11738,
+      "partial": false,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2024-Q4"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2025,
+      "quarter": 1,
+      "report_count": 10870,
+      "partial": false,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2025-Q1"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2025,
+      "quarter": 2,
+      "report_count": 14835,
+      "partial": false,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2025-Q2"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2025,
+      "quarter": 3,
+      "report_count": 10360,
+      "partial": false,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2025-Q3"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2025,
+      "quarter": 4,
+      "report_count": 8962,
+      "partial": false,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2025-Q4"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2026,
+      "quarter": 1,
+      "report_count": 7430,
+      "partial": false,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2026-Q1"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2026,
+      "quarter": 2,
+      "report_count": 9063,
+      "partial": false,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2026-Q2"
+    },
+    {
+      "drug_class": "tnf_inhibitor",
+      "year": 2026,
+      "quarter": 3,
+      "report_count": 0,
+      "partial": true,
+      "drug_class_label": "TNF inhibitor",
+      "period": "2026-Q3"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2024,
+      "quarter": 1,
+      "report_count": 7912,
+      "partial": false,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2024-Q1"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2024,
+      "quarter": 2,
+      "report_count": 10860,
+      "partial": false,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2024-Q2"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2024,
+      "quarter": 3,
+      "report_count": 8635,
+      "partial": false,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2024-Q3"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2024,
+      "quarter": 4,
+      "report_count": 8361,
+      "partial": false,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2024-Q4"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2025,
+      "quarter": 1,
+      "report_count": 7957,
+      "partial": false,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2025-Q1"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2025,
+      "quarter": 2,
+      "report_count": 7832,
+      "partial": false,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2025-Q2"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2025,
+      "quarter": 3,
+      "report_count": 7394,
+      "partial": false,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2025-Q3"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2025,
+      "quarter": 4,
+      "report_count": 7398,
+      "partial": false,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2025-Q4"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2026,
+      "quarter": 1,
+      "report_count": 6078,
+      "partial": false,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2026-Q1"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2026,
+      "quarter": 2,
+      "report_count": 6733,
+      "partial": false,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2026-Q2"
+    },
+    {
+      "drug_class": "il_inhibitor",
+      "year": 2026,
+      "quarter": 3,
+      "report_count": 0,
+      "partial": true,
+      "drug_class_label": "Interleukin inhibitor",
+      "period": "2026-Q3"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2024,
+      "quarter": 1,
+      "report_count": 6494,
+      "partial": false,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2024-Q1"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2024,
+      "quarter": 2,
+      "report_count": 6685,
+      "partial": false,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2024-Q2"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2024,
+      "quarter": 3,
+      "report_count": 6602,
+      "partial": false,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2024-Q3"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2024,
+      "quarter": 4,
+      "report_count": 6937,
+      "partial": false,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2024-Q4"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2025,
+      "quarter": 1,
+      "report_count": 6796,
+      "partial": false,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2025-Q1"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2025,
+      "quarter": 2,
+      "report_count": 6469,
+      "partial": false,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2025-Q2"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2025,
+      "quarter": 3,
+      "report_count": 6219,
+      "partial": false,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2025-Q3"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2025,
+      "quarter": 4,
+      "report_count": 5984,
+      "partial": false,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2025-Q4"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2026,
+      "quarter": 1,
+      "report_count": 4848,
+      "partial": false,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2026-Q1"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2026,
+      "quarter": 2,
+      "report_count": 4547,
+      "partial": false,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2026-Q2"
+    },
+    {
+      "drug_class": "jak_inhibitor",
+      "year": 2026,
+      "quarter": 3,
+      "report_count": 0,
+      "partial": true,
+      "drug_class_label": "JAK inhibitor",
+      "period": "2026-Q3"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2024,
+      "quarter": 1,
+      "report_count": 6749,
+      "partial": false,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2024-Q1"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2024,
+      "quarter": 2,
+      "report_count": 6624,
+      "partial": false,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2024-Q2"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2024,
+      "quarter": 3,
+      "report_count": 6359,
+      "partial": false,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2024-Q3"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2024,
+      "quarter": 4,
+      "report_count": 6454,
+      "partial": false,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2024-Q4"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2025,
+      "quarter": 1,
+      "report_count": 6056,
+      "partial": false,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2025-Q1"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2025,
+      "quarter": 2,
+      "report_count": 6268,
+      "partial": false,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2025-Q2"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2025,
+      "quarter": 3,
+      "report_count": 7577,
+      "partial": false,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2025-Q3"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2025,
+      "quarter": 4,
+      "report_count": 5803,
+      "partial": false,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2025-Q4"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2026,
+      "quarter": 1,
+      "report_count": 5949,
+      "partial": false,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2026-Q1"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2026,
+      "quarter": 2,
+      "report_count": 4609,
+      "partial": false,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2026-Q2"
+    },
+    {
+      "drug_class": "other_immunomodulator",
+      "year": 2026,
+      "quarter": 3,
+      "report_count": 0,
+      "partial": true,
+      "drug_class_label": "Other immunomodulator",
+      "period": "2026-Q3"
+    }
+  ]
+}

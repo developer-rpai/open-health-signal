@@ -1,0 +1,131 @@
+{
+  "name": "ISM weekly refresh",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [1],
+              "triggerAtHour": 12,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      },
+      "id": "a1b2c3d4-1111-4111-8111-111111111111",
+      "name": "Weekly Monday 12:00 UTC",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "command": "make -C \"${INFLAMMON_REPO:-/opt/inflammon}\" refresh"
+      },
+      "id": "a1b2c3d4-2222-4222-8222-222222222222",
+      "name": "Run weekly refresh",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [500, 300],
+      "notes": "Self-hosted n8n only. Set INFLAMMON_REPO to the repository root. The schedule is weekly, Monday 12:00 in the workflow timezone (set the workflow to UTC)."
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "fileSelector": "={{$env.INFLAMMON_REPO || '/opt/inflammon'}}/data/snapshot/high_signals_new.json"
+      },
+      "id": "a1b2c3d4-3333-4333-8333-333333333333",
+      "name": "Read new high signals",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const binary = $input.first().binary;\nconst key = binary ? Object.keys(binary)[0] : null;\nif (!key) {\n  return [];\n}\nconst buffer = await this.helpers.getBinaryDataBuffer(0, key);\nconst payload = JSON.parse(buffer.toString('utf8'));\nif (payload.baseline_run || !Array.isArray(payload.items) || payload.items.length === 0) {\n  return [];\n}\nreturn [{ json: { generated_for: 'inflammon', count: payload.items.length, items: payload.items } }];"
+      },
+      "id": "a1b2c3d4-4444-4444-8444-444444444444",
+      "name": "Keep only new high signals",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1020, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.SIGNAL_WEBHOOK_URL}}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "a1b2c3d4-5555-4555-8555-555555555555",
+      "name": "Post to webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1280, 300],
+      "notes": "Set SIGNAL_WEBHOOK_URL on the n8n host. The first snapshot is a baseline and posts nothing."
+    }
+  ],
+  "connections": {
+    "Weekly Monday 12:00 UTC": {
+      "main": [
+        [
+          {
+            "node": "Run weekly refresh",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run weekly refresh": {
+      "main": [
+        [
+          {
+            "node": "Read new high signals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read new high signals": {
+      "main": [
+        [
+          {
+            "node": "Keep only new high signals",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Keep only new high signals": {
+      "main": [
+        [
+          {
+            "node": "Post to webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "UTC"
+  },
+  "versionId": "b7e1c0a0-7c1a-4e1a-9c1a-ismweekly01",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

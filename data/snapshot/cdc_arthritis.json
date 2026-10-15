@@ -1,0 +1,69 @@
+{
+  "rows": [
+    {
+      "year": "2019",
+      "question": "Activity limitation due to arthritis among adults with arthritis",
+      "data_value": 42.3,
+      "unit": "%",
+      "stratification": "Overall",
+      "low_ci": 41.8,
+      "high_ci": 42.9
+    },
+    {
+      "year": "2021",
+      "question": "Activity limitation due to arthritis among adults with arthritis",
+      "data_value": 42.5,
+      "unit": "%",
+      "stratification": "Overall",
+      "low_ci": 41.9,
+      "high_ci": 43.0
+    },
+    {
+      "year": "2019",
+      "question": "Arthritis among adults",
+      "data_value": 25.0,
+      "unit": "%",
+      "stratification": "Overall",
+      "low_ci": 24.8,
+      "high_ci": 25.2
+    },
+    {
+      "year": "2020",
+      "question": "Arthritis among adults",
+      "data_value": 24.2,
+      "unit": "%",
+      "stratification": "Overall",
+      "low_ci": 23.9,
+      "high_ci": 24.5
+    },
+    {
+      "year": "2021",
+      "question": "Arthritis among adults",
+      "data_value": 25.2,
+      "unit": "%",
+      "stratification": "Overall",
+      "low_ci": 24.9,
+      "high_ci": 25.4
+    },
+    {
+      "year": "2022",
+      "question": "Arthritis among adults",
+      "data_value": 26.6,
+      "unit": "%",
+      "stratification": "Overall",
+      "low_ci": 26.4,
+      "high_ci": 26.9
+    },
+    {
+      "year": "2023",
+      "question": "Arthritis among adults",
+      "data_value": 25.4,
+      "unit": "%",
+      "stratification": "Overall",
+      "low_ci": 25.1,
+      "high_ci": 25.7
+    }
+  ],
+  "ibd_note": "data.cdc.gov has no IBD surveillance dataset comparable to Chronic Disease Indicators. Dataset hksd-2xuw includes arthritis. Crohn's disease and ulcerative colitis trends in this monitor are ClinicalTrials.gov start counts and PubMed publication counts.",
+  "catalog_note": "A data.cdc.gov catalog search for inflammatory bowel disease did not return a surveillance table comparable to Chronic Disease Indicators. IBD trends on this dashboard use ClinicalTrials.gov and PubMed."
+}

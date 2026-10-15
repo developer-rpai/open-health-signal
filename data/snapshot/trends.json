@@ -1,0 +1,5380 @@
+{
+  "publications": [
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 0,
+      "partial": true
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 1649,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 1636,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 1527,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 1672,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 1852,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 1812,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 1873,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 1826,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 1870,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 1743,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1199,
+      "partial": true
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 23,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 84,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 29,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 18,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 15,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 91,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 7,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 14,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 10,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 6,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 79,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 13,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 7,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 11,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 52,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 8,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 1368,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 1344,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 1332,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 1492,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 1894,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 1993,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 2238,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 2247,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 2328,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 2389,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1613,
+      "partial": true
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 32,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 101,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 41,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 40,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 32,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 98,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 21,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 20,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 19,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 27,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 98,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 11,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 21,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 12,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 69,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 9,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 1955,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 2215,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 2268,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 2375,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 2811,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 2661,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 2648,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 2459,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 2524,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 2187,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1443,
+      "partial": true
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 21,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 119,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 25,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 22,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 23,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 76,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 19,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 26,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 18,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 17,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 104,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 16,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 12,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 6,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 64,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 6,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 2043,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 2053,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 2113,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 2195,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 2370,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 2564,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 2509,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 2369,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 2289,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 2213,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1710,
+      "partial": true
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 32,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 142,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 34,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 26,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 31,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 99,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 21,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 31,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 30,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 24,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 101,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 23,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 21,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 27,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 101,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 4,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 3179,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 3091,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 3029,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 2829,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 2665,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 2067,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 1295,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 1147,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 1484,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 1633,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1308,
+      "partial": true
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 399,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 436,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 456,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 467,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 410,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 332,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 170,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 160,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 196,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 276,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 162,
+      "partial": true
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 1797,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 1877,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 1854,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 2061,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 2402,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 2446,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 2266,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 2007,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 1834,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 1882,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1521,
+      "partial": true
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 724,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 868,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 1086,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 1131,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 2254,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 2364,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 2011,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 1764,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 1727,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 1885,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1595,
+      "partial": true
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 214,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 298,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 363,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 506,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 790,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 1073,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 1280,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 1446,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 1514,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 1761,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1542,
+      "partial": true
+    }
+  ],
+  "publications_all": [
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 0,
+      "partial": true
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 1649,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 1636,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 1527,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 1672,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 1852,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 1812,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 1873,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 1826,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 1870,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 1743,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1199,
+      "partial": true
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 23,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 84,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 29,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 18,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 15,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 91,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 7,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 14,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 10,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 6,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 79,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 13,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 7,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 11,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 52,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 8,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 1368,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 1344,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 1332,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 1492,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 1894,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 1993,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 2238,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 2247,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 2328,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 2389,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1613,
+      "partial": true
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 32,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 101,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 41,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 40,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 32,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 98,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 21,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 20,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 19,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 27,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 98,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 11,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 21,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 12,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 69,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 9,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 1955,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 2215,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 2268,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 2375,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 2811,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 2661,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 2648,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 2459,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 2524,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 2187,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1443,
+      "partial": true
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 21,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 119,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 25,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 22,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 23,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 76,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 19,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 26,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 18,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 17,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 104,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 16,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 12,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 6,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 64,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 6,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 2043,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 2053,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 2113,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 2195,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 2370,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 2564,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 2509,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 2369,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 2289,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 2213,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1710,
+      "partial": true
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 32,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 142,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 34,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 26,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 31,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 99,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 21,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 31,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 30,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 24,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 101,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 23,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 21,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 27,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 101,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "topic_type": "condition",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 4,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 3179,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 3091,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 3029,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 2829,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 2665,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 2067,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 1295,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 1147,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 1484,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 1633,
+      "partial": false
+    },
+    {
+      "topic": "nsaid",
+      "label": "NSAIDs",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1308,
+      "partial": true
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 399,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 436,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 456,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 467,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 410,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 332,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 170,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 160,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 196,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 276,
+      "partial": false
+    },
+    {
+      "topic": "corticosteroid",
+      "label": "Corticosteroids",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 162,
+      "partial": true
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 1797,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 1877,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 1854,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 2061,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 2402,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 2446,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 2266,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 2007,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 1834,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 1882,
+      "partial": false
+    },
+    {
+      "topic": "tnf_inhibitor",
+      "label": "TNF inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1521,
+      "partial": true
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 724,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 868,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 1086,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 1131,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 2254,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 2364,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 2011,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 1764,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 1727,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 1885,
+      "partial": false
+    },
+    {
+      "topic": "il_inhibitor",
+      "label": "IL inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1595,
+      "partial": true
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 214,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 298,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 363,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 506,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 790,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 1073,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 1280,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 1446,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 1514,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 1761,
+      "partial": false
+    },
+    {
+      "topic": "jak_inhibitor",
+      "label": "JAK inhibitors",
+      "topic_type": "drug_class",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 1542,
+      "partial": true
+    }
+  ],
+  "trials": [
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 193,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 158,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 148,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 147,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 163,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 182,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 151,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 166,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 159,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 179,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 156,
+      "partial": true
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 5,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 5,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 13,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 13,
+      "partial": false
+    },
+    {
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 86,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 104,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 101,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 112,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 114,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 124,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 129,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 106,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 132,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 144,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 135,
+      "partial": true
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 6,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 4,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 10,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 9,
+      "partial": false
+    },
+    {
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 98,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 91,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 104,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 115,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 98,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 111,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 119,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 113,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 136,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 146,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 156,
+      "partial": true
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 11,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 5,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 4,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 8,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 9,
+      "partial": false
+    },
+    {
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 130,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 131,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 133,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 160,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 126,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 160,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 140,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 136,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 121,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 155,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 123,
+      "partial": true
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 8,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 9,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 8,
+      "partial": false
+    },
+    {
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2016",
+      "period_start": "2016-01-01",
+      "count": 37,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2017",
+      "period_start": "2017-01-01",
+      "count": 57,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2018",
+      "period_start": "2018-01-01",
+      "count": 63,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2019",
+      "period_start": "2019-01-01",
+      "count": 56,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2020",
+      "period_start": "2020-01-01",
+      "count": 60,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2021",
+      "period_start": "2021-01-01",
+      "count": 85,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2022",
+      "period_start": "2022-01-01",
+      "count": 99,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2023",
+      "period_start": "2023-01-01",
+      "count": 100,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2024",
+      "period_start": "2024-01-01",
+      "count": 145,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2025",
+      "period_start": "2025-01-01",
+      "count": 152,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "year",
+      "period": "2026",
+      "period_start": "2026-01-01",
+      "count": 163,
+      "partial": true
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W26",
+      "period_start": "2026-06-22",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W27",
+      "period_start": "2026-06-29",
+      "count": 15,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W28",
+      "period_start": "2026-07-06",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W29",
+      "period_start": "2026-07-13",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W30",
+      "period_start": "2026-07-20",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W31",
+      "period_start": "2026-07-27",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W32",
+      "period_start": "2026-08-03",
+      "count": 0,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W33",
+      "period_start": "2026-08-10",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W34",
+      "period_start": "2026-08-17",
+      "count": 1,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W35",
+      "period_start": "2026-08-24",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 12,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W37",
+      "period_start": "2026-09-07",
+      "count": 2,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W38",
+      "period_start": "2026-09-14",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W39",
+      "period_start": "2026-09-21",
+      "count": 3,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 11,
+      "partial": false
+    },
+    {
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "grain": "week",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 0,
+      "partial": false
+    }
+  ],
+  "alerts_weekly": [
+    {
+      "topic": "fda_notices",
+      "label": "FDA notices",
+      "grain": "week",
+      "period_start": "2026-09-14",
+      "count": 1,
+      "partial": false,
+      "period": "2026-W38"
+    },
+    {
+      "topic": "fda_notices",
+      "label": "FDA notices",
+      "grain": "week",
+      "period_start": "2026-09-21",
+      "count": 9,
+      "partial": false,
+      "period": "2026-W39"
+    },
+    {
+      "topic": "fda_notices",
+      "label": "FDA notices",
+      "grain": "week",
+      "period_start": "2026-09-28",
+      "count": 2,
+      "partial": false,
+      "period": "2026-W40"
+    },
+    {
+      "topic": "fda_notices",
+      "label": "FDA notices",
+      "grain": "week",
+      "period_start": "2026-10-05",
+      "count": 4,
+      "partial": false,
+      "period": "2026-W41"
+    },
+    {
+      "topic": "fda_notices",
+      "label": "FDA notices",
+      "grain": "week",
+      "period_start": "2026-10-12",
+      "count": 24,
+      "partial": false,
+      "period": "2026-W42"
+    }
+  ],
+  "spikes": [
+    {
+      "series": "publications",
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 0,
+      "baseline_mean": 0.0,
+      "baseline_sd": 0.0,
+      "z": null,
+      "ratio": null,
+      "is_spike": false,
+      "latest": true,
+      "reason": "zero_baseline_mean"
+    },
+    {
+      "series": "publications",
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 8,
+      "baseline_mean": 30.6,
+      "baseline_sd": 30.32632,
+      "z": -0.745227,
+      "ratio": 0.261438,
+      "is_spike": false,
+      "latest": true,
+      "reason": "within_baseline"
+    },
+    {
+      "series": "publications",
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 98,
+      "baseline_mean": 37.25,
+      "baseline_sd": 26.020596,
+      "z": 2.334689,
+      "ratio": 2.630872,
+      "is_spike": true
+    },
+    {
+      "series": "publications",
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 9,
+      "baseline_mean": 42.8,
+      "baseline_sd": 32.357821,
+      "z": -1.04457,
+      "ratio": 0.21028,
+      "is_spike": false,
+      "latest": true,
+      "reason": "within_baseline"
+    },
+    {
+      "series": "publications",
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 104,
+      "baseline_mean": 28.25,
+      "baseline_sd": 19.56491,
+      "z": 3.871727,
+      "ratio": 3.681416,
+      "is_spike": true
+    },
+    {
+      "series": "publications",
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 6,
+      "baseline_mean": 37.866667,
+      "baseline_sd": 35.36113,
+      "z": -0.901178,
+      "ratio": 0.158451,
+      "is_spike": false,
+      "latest": true,
+      "reason": "within_baseline"
+    },
+    {
+      "series": "publications",
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 101,
+      "baseline_mean": 37.0,
+      "baseline_sd": 25.410909,
+      "z": 2.518603,
+      "ratio": 2.72973,
+      "is_spike": true
+    },
+    {
+      "series": "publications",
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 101,
+      "baseline_mean": 34.75,
+      "baseline_sd": 27.038333,
+      "z": 2.450225,
+      "ratio": 2.906475,
+      "is_spike": true
+    },
+    {
+      "series": "publications",
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 4,
+      "baseline_mean": 49.533333,
+      "baseline_sd": 39.60315,
+      "z": -1.14974,
+      "ratio": 0.080754,
+      "is_spike": false,
+      "latest": true,
+      "reason": "within_baseline"
+    },
+    {
+      "series": "trials",
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 13,
+      "baseline_mean": 2.0,
+      "baseline_sd": 1.511858,
+      "z": 7.275816,
+      "ratio": 6.5,
+      "is_spike": true
+    },
+    {
+      "series": "trials",
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 13,
+      "baseline_mean": 2.875,
+      "baseline_sd": 4.223658,
+      "z": 2.397211,
+      "ratio": 4.521739,
+      "is_spike": true
+    },
+    {
+      "series": "trials",
+      "topic": "rheumatoid_arthritis",
+      "label": "Rheumatoid arthritis",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 1,
+      "baseline_mean": 3.533333,
+      "baseline_sd": 4.120795,
+      "z": -0.614768,
+      "ratio": 0.283019,
+      "is_spike": false,
+      "latest": true,
+      "reason": "within_baseline"
+    },
+    {
+      "series": "trials",
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 10,
+      "baseline_mean": 2.625,
+      "baseline_sd": 1.767767,
+      "z": 4.17193,
+      "ratio": 3.809524,
+      "is_spike": true
+    },
+    {
+      "series": "trials",
+      "topic": "crohns_disease",
+      "label": "Crohn's disease",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 1,
+      "baseline_mean": 3.266667,
+      "baseline_sd": 2.939064,
+      "z": -0.771221,
+      "ratio": 0.306122,
+      "is_spike": false,
+      "latest": true,
+      "reason": "within_baseline"
+    },
+    {
+      "series": "trials",
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 9,
+      "baseline_mean": 3.625,
+      "baseline_sd": 2.13391,
+      "z": 2.518851,
+      "ratio": 2.482759,
+      "is_spike": true
+    },
+    {
+      "series": "trials",
+      "topic": "ulcerative_colitis",
+      "label": "Ulcerative colitis",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 2,
+      "baseline_mean": 3.8,
+      "baseline_sd": 3.189268,
+      "z": -0.564393,
+      "ratio": 0.526316,
+      "is_spike": false,
+      "latest": true,
+      "reason": "within_baseline"
+    },
+    {
+      "series": "trials",
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 9,
+      "baseline_mean": 2.25,
+      "baseline_sd": 2.54951,
+      "z": 2.647568,
+      "ratio": 4.0,
+      "is_spike": true
+    },
+    {
+      "series": "trials",
+      "topic": "psoriasis",
+      "label": "Psoriasis",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 1,
+      "baseline_mean": 2.6,
+      "baseline_sd": 3.112188,
+      "z": -0.514108,
+      "ratio": 0.384615,
+      "is_spike": false,
+      "latest": true,
+      "reason": "within_baseline"
+    },
+    {
+      "series": "trials",
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "period": "2026-W36",
+      "period_start": "2026-08-31",
+      "count": 12,
+      "baseline_mean": 1.125,
+      "baseline_sd": 0.991031,
+      "z": 10.973418,
+      "ratio": 10.666667,
+      "is_spike": true
+    },
+    {
+      "series": "trials",
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "period": "2026-W40",
+      "period_start": "2026-09-28",
+      "count": 11,
+      "baseline_mean": 3.125,
+      "baseline_sd": 3.758324,
+      "z": 2.095349,
+      "ratio": 3.52,
+      "is_spike": true
+    },
+    {
+      "series": "trials",
+      "topic": "lupus",
+      "label": "Systemic lupus erythematosus",
+      "period": "2026-W41",
+      "period_start": "2026-10-05",
+      "count": 0,
+      "baseline_mean": 3.8,
+      "baseline_sd": 4.753946,
+      "z": -0.799336,
+      "ratio": 0.0,
+      "is_spike": false,
+      "latest": true,
+      "reason": "within_baseline"
+    },
+    {
+      "series": "alerts",
+      "topic": "fda_notices",
+      "label": "FDA notices",
+      "period": "2026-W42",
+      "period_start": "2026-10-12",
+      "count": 24,
+      "baseline_mean": 4.0,
+      "baseline_sd": 3.559026,
+      "z": 5.619515,
+      "ratio": 6.0,
+      "is_spike": true,
+      "latest": true,
+      "reason": "spike"
+    }
+  ]
+}

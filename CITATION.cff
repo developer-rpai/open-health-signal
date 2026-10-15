@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: "Inflammation Signal Monitor"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: Pai
+    given-names: Rakesh
+abstract: >-
+  Open-source public-health signal monitor for immune-mediated inflammatory
+  diseases and the safety of anti-inflammatory drugs. Weekly FAERS
+  disproportionality (PRR and ROR), FDA notices and recalls, ClinicalTrials.gov
+  starts, and PubMed counts, published as a static dashboard.
+license: MIT
+version: 0.1.0
+date-released: 2026-10-15
+keywords:
+  - pharmacovigilance
+  - FAERS
+  - inflammatory disease
+  - drug safety

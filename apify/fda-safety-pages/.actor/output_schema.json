@@ -1,0 +1,11 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Safety page links",
+  "properties": {
+    "dataset": {
+      "type": "string",
+      "title": "Links",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    }
+  }
+}

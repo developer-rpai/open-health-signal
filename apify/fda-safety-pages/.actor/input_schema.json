@@ -1,0 +1,27 @@
+{
+  "title": "FDA and state safety pages",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "startUrls": {
+      "title": "Start URLs",
+      "type": "array",
+      "description": "Public pages with no API. Defaults to the FDA Drug Safety Communications index. Add a state health-department advisory page, such as California CDPH or New York State Department of Health, when you want that board scraped too.",
+      "editor": "requestListSources",
+      "prefill": [
+        {
+          "url": "https://www.fda.gov/drugs/drug-safety-and-availability/drug-safety-communications"
+        }
+      ]
+    },
+    "maxItems": {
+      "title": "Maximum links",
+      "type": "integer",
+      "description": "Stop after this many links across all pages.",
+      "default": 40,
+      "minimum": 1,
+      "maximum": 200
+    }
+  },
+  "required": ["startUrls"]
+}

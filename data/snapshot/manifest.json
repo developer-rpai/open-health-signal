@@ -1,0 +1,61 @@
+{
+  "product": "Inflammation Signal Monitor",
+  "version": "0.1.0",
+  "generated_at": "2026-10-15T06:37:57+00:00",
+  "refresh_cadence": "weekly",
+  "spike_grain": "week",
+  "disclaimer": "Inflammation Signal Monitor is for research and public-health surveillance. It is not medical advice, and it does not estimate how often an adverse reaction occurs or prove that a drug caused it. FAERS is a spontaneous-report system with under-reporting, duplicate reports, and no exposure denominator. Do not start or stop a medicine based on this site. Talk with a clinician. Report adverse events to FDA MedWatch.",
+  "openfda_last_updated": "2026-07-30",
+  "faers_report_total": 20692690,
+  "signal_rows": 721,
+  "high_signal_rows": 289,
+  "new_high_signals": 0,
+  "high_signal_baseline_run": false,
+  "validation_recovered": 10,
+  "validation_tested": 10,
+  "sources": [
+    {
+      "id": "openfda_faers",
+      "label": "openFDA drug/event",
+      "status": "ok",
+      "detail": "openFDA drug/event last_updated=2026-07-30; database_n=20692690",
+      "rows": 1068
+    },
+    {
+      "id": "openfda_enforcement",
+      "label": "openFDA drug/enforcement",
+      "status": "ok",
+      "detail": "156 recalls across 50 product searches",
+      "rows": 156
+    },
+    {
+      "id": "fda_rss",
+      "label": "FDA MedWatch, Drugs RSS, and Drug Safety Communications",
+      "status": "ok",
+      "detail": "FDA MedWatch RSS 20 items; FDA Drugs RSS 20 items; DSC RSS unavailable (HTTP 404); DSC HTML index 43 links",
+      "rows": 83
+    },
+    {
+      "id": "clinicaltrials",
+      "label": "ClinicalTrials.gov API v2",
+      "status": "ok",
+      "detail": "135 trial counts, 40 recent studies, 0 failed queries",
+      "rows": 135
+    },
+    {
+      "id": "pubmed",
+      "label": "PubMed E-utilities",
+      "status": "ok",
+      "detail": "190 publication counts, 24 recent citations, 0 failed queries",
+      "rows": 190
+    },
+    {
+      "id": "cdc_cdi",
+      "label": "CDC Chronic Disease Indicators hksd-2xuw",
+      "status": "ok",
+      "detail": "7 US overall arthritis indicator rows. A data.cdc.gov catalog search for inflammatory bowel disease did not return a surveillance table comparable to Chronic Disease Indicators. IBD trends on this dashboard use ClinicalTrials.gov and PubMed.",
+      "rows": 7
+    }
+  ],
+  "not_medical_advice": true
+}
