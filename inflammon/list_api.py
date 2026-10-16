@@ -369,7 +369,12 @@ def _contact(fields, **kwargs) -> tuple[int, str, str]:
         post=kwargs["post"],
         summary=f"{name} ({email}) · {interest}",
     )
-    return _json(200, {"ok": True, "id": request_id, "message": "Message received. The owner is notified by email."})
+    message = (
+        "Message received. This dry run did not email the owner."
+        if kwargs["dry_run"]
+        else "Message received. The owner is notified by email."
+    )
+    return _json(200, {"ok": True, "id": request_id, "message": message})
 
 
 def _magic_link(fields, *, store: ListStore, dry_run: bool) -> tuple[int, str, str]:

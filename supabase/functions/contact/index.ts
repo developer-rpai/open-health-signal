@@ -47,7 +47,10 @@ Deno.serve(async (req) => {
       text: `${name} (${email}) · ${interest}\n${organization} · ${role}\n\n${message}\n${link}`,
     });
   }
-  return json(200, { ok: true, id: data.id, message: "Message received. The owner is notified by email." });
+  const message = dryRun()
+    ? "Message received. This dry run did not email the owner."
+    : "Message received. The owner is notified by email.";
+  return json(200, { ok: true, id: data.id, message });
 });
 
 async function verifyTurnstile(token: string, ip: string) {
