@@ -1,8 +1,6 @@
-"""Double opt-in for the Resend alternative.
+"""Retired. The list is Supabase, and Resend only sends mail.
 
-The static site cannot run this. Deploy ``newsletter/resend`` on its own
-(Vercel root directory, or any Python host) and point
-``NEXT_PUBLIC_SUBSCRIBE_ENDPOINT`` at ``/subscribe``.
+See ``newsletter/resend/README.md``. Do not deploy this module.
 """
 
 from __future__ import annotations

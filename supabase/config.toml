@@ -1,0 +1,19 @@
+project_id = "inflammation-signal-monitor"
+
+[functions.subscribe]
+verify_jwt = false
+
+[functions.confirm]
+verify_jwt = false
+
+[functions.unsubscribe]
+verify_jwt = false
+
+[functions.resend-webhook]
+verify_jwt = false
+
+[functions.contact]
+verify_jwt = false
+
+[functions.dispatch-send]
+verify_jwt = false

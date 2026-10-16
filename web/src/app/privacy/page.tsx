@@ -22,32 +22,35 @@ export default function PrivacyPage() {
       <section>
         <h2 className="text-2xl">Email only</h2>
         <p className="mt-2">
-          The subscribe form asks for an email address and a consent checkbox. No name, no health information, and no
-          payment details are requested. The static site does not keep a subscriber database of its own.
+          The subscribe form asks for an email address and a consent checkbox. The list stores that address, the time
+          you consented, and the IP address of the request. No health information and no payment details are requested.
+          The static dashboard does not keep its own copy of the list.
         </p>
       </section>
 
       <section>
-        <h2 className="text-2xl">Who processes the address</h2>
+        <h2 className="text-2xl">Who stores the address</h2>
         <p className="mt-2">
-          Buttondown is the processor. The form posts the address to Buttondown, and Buttondown stores it only after
-          you open the confirmation message. That confirmation step is double opt-in, and it stays in place. If this
-          deployment is switched to the Resend alternative, Resend is the processor and the same confirmation step
-          applies. API keys for either processor stay off the public site.
+          Supabase Postgres is the source of truth. A row is created as pending, with a hashed confirmation token.
+          Resend sends the confirmation email and, after you confirm, the weekly issue. Resend is not the list. A
+          bounce or a complaint webhook from Resend marks the address suppressed. API keys stay off the public site.
+          Double opt-in stays in place: the address is not active until the confirmation link is opened.
         </p>
       </section>
 
       <section>
         <h2 className="text-2xl">Opt-out, deletion, and GDPR rights</h2>
         <p className="mt-2">
-          You can unsubscribe from any issue or from the{" "}
-          <Link href="/unsubscribe" className="text-primary underline-offset-2 hover:underline">
-            unsubscribe page
-          </Link>
-          . Opt-outs are honored within ten business days. You may also request access, correction, erasure,
-          restriction of processing, objection, or a portable copy of the email address we hold. Those requests are
-          forwarded to the processor. Erasure removes the address from the mailing list. The public snapshot and the
-          newsletter archive do not contain subscriber addresses.
+          The signed link in each issue, and the one-click POST a mail client sends to that link, unsubscribe the
+          address immediately. You may also request access, correction, erasure, restriction of processing, objection,
+          or a portable copy of the address we hold. Those requests, when they do not arrive through the signed link,
+          are honored within ten business days. Erasure removes the address from the list. The public snapshot and the
+          newsletter archive do not contain subscriber addresses. The{" "}
+          <Link href="/contact" className="text-primary underline-offset-2 hover:underline">
+            contact form
+          </Link>{" "}
+          stores the name, email, organization, role, interest, message, and optional link you submit, with a status
+          and notes for the owner.
         </p>
       </section>
 

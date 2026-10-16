@@ -11,6 +11,7 @@ const LINKS = [
   { href: "/signals", label: "Drug signals" },
   { href: "/trends", label: "Disease trends" },
   { href: "/newsletter", label: "Newsletter" },
+  { href: "/contact", label: "Contact" },
   { href: "/methods", label: "Methods" },
   { href: "/about", label: "About" },
 ];
@@ -92,6 +93,7 @@ export function SiteFooter({ generated, version }: { generated: string; version:
           <Link className="underline decoration-border underline-offset-2 hover:text-foreground" href="/privacy">Privacy</Link>
           <Link className="underline decoration-border underline-offset-2 hover:text-foreground" href="/terms">Terms</Link>
           <Link className="underline decoration-border underline-offset-2 hover:text-foreground" href="/unsubscribe">Unsubscribe</Link>
+          <Link className="underline decoration-border underline-offset-2 hover:text-foreground" href="/approve">Approve issue</Link>
         </p>
         </div>
       </div>

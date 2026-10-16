@@ -10,4 +10,4 @@ npm run build   # writes web/out
 
 Pages read the JSON snapshot in `data/`, produced by `make refresh` from the repository root. Newsletter pages read `data/newsletter/`, produced by `make newsletter`. Set the Vercel project root to this directory.
 
-The subscribe form needs `NEXT_PUBLIC_BUTTONDOWN_USERNAME` in `.env.local` before `npm run dev` or `npm run build`. The Buttondown API key does not go in this directory. See the repository README.
+Subscribe, confirm, contact, and approve call `NEXT_PUBLIC_FUNCTIONS_BASE`. For a local dry run, point that at `http://127.0.0.1:43124` and run `python -m inflammon.local_functions` from the repository root. Do not put the Supabase service role or the Resend key in this directory.

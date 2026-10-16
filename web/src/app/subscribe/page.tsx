@@ -20,7 +20,7 @@ export default function SubscribePage() {
         </p>
         <ul className="mt-6 space-y-3 text-sm leading-relaxed">
           <li>Confirmation comes first. Opening that link is what adds the address.</li>
-          <li>Every issue has an unsubscribe link filled in by the email provider.</li>
+          <li>Every sent issue has a signed unsubscribe link. It takes effect immediately, and mail clients can use one-click unsubscribe.</li>
           <li>
             Past issues stay on the site, with the numbers and the disclaimer.{" "}
             <Link href="/newsletter" className="text-primary underline-offset-2 hover:underline">

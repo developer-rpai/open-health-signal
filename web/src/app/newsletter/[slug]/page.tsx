@@ -98,7 +98,8 @@ export default async function NewsletterIssuePage({ params }: { params: Promise<
         <Link href="/unsubscribe" className="text-primary underline-offset-2 hover:underline">
           Unsubscribe
         </Link>
-        . Opt-outs are honored within ten business days. The one-click link in a sent email is filled in by the processor.
+        . The link in a sent issue is signed for that address and takes effect immediately. Mail clients can also POST
+        List-Unsubscribe=One-Click.
       </p>
     </article>
   );

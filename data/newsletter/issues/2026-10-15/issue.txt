@@ -123,5 +123,5 @@ Data provided by the U.S. Food and Drug Administration (https://open.fda.gov). T
 Postal address placeholder — set NEWSLETTER_POSTAL_ADDRESS
 
 Unsubscribe: http://127.0.0.1:43123/unsubscribe
-Opt-outs are honored within ten business days.
-One-click unsubscribe: {{ unsubscribe_url }}
+The link is signed for this address and takes effect immediately.
+One-click: POST List-Unsubscribe=One-Click to that address.

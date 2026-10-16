@@ -9,8 +9,8 @@ import pytest
 
 from inflammon.cli import main
 from inflammon.newsletter.compose import compose_issue, fingerprint, load_snapshot
-from inflammon.newsletter.publish import NewsletterSendError, build_and_save, send_buttondown
-from inflammon.newsletter.render import buttondown_payload, render_html, render_text
+from inflammon.newsletter.publish import NewsletterSendError, build_and_save, send_resend
+from inflammon.newsletter.render import render_html, render_text
 from newsletter.resend.handler import confirm_token, handle_confirm, handle_subscribe
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -213,12 +213,14 @@ def test_html_and_text_rendering():
         None,
         site_url="http://127.0.0.1:43123",
     )
-    html_body = render_html(issue, unsubscribe_href="{{ unsubscribe_url }}")
-    text_body = render_text(issue, unsubscribe_href="{{ unsubscribe_url }}")
+    html_body = render_html(issue, unsubscribe_href="http://127.0.0.1:43123/unsubscribe?token=signed")
+    text_body = render_text(issue, unsubscribe_href="http://127.0.0.1:43123/unsubscribe?token=signed")
     assert 'name="viewport"' in html_body
     assert issue["headline"] in html_body
     assert DISCLAIMER in html_body
-    assert "{{ unsubscribe_url }}" in html_body
+    assert "http://127.0.0.1:43123/unsubscribe?token=signed" in html_body
+    assert "takes effect immediately" in html_body
+    assert "List-Unsubscribe-Post" in html_body
     assert "<script>alert" not in html_body
     assert "&lt;script&gt;" in html_body
     assert "A &amp; B" in html_body
@@ -234,15 +236,9 @@ def test_html_and_text_rendering():
     assert "<table" not in text_body
     assert "<p" not in text_body
     assert "<html" not in text_body
-    assert '{{ unsubscribe_url }}' in text_body
+    assert "token=signed" in text_body
+    assert "takes effect immediately" in text_body
     assert '<script>alert("x")</script>' in text_body
-
-
-def test_buttondown_payload_uses_fancy_mode():
-    payload = buttondown_payload({"subject": "TNF inhibitors"}, "<html>body</html>")
-    assert payload["body"].startswith("<!-- buttondown-editor-mode: fancy -->\n")
-    assert payload["status"] == "about_to_send"
-    assert payload["subject"] == "TNF inhibitors"
 
 
 def test_dry_run_does_not_call_the_network(tmp_path, monkeypatch):
@@ -265,11 +261,10 @@ def test_dry_run_does_not_call_the_network(tmp_path, monkeypatch):
 
 
 def test_send_without_a_key_fails_after_the_files_exist(tmp_path, monkeypatch):
-    monkeypatch.delenv("BUTTONDOWN_API_KEY", raising=False)
+    monkeypatch.delenv("RESEND_API_KEY", raising=False)
     monkeypatch.delenv("NEWSLETTER_DRY_RUN", raising=False)
-    monkeypatch.setenv("NEWSLETTER_PROVIDER", "buttondown")
     snapshot_dir = _write_snapshot(tmp_path / "snapshot", _snapshot())
-    with pytest.raises(NewsletterSendError, match="BUTTONDOWN_API_KEY"):
+    with pytest.raises(NewsletterSendError, match="RESEND_API_KEY"):
         build_and_save(
             snapshot_dir=snapshot_dir,
             out_dir=tmp_path / "newsletter",
@@ -280,21 +275,60 @@ def test_send_without_a_key_fails_after_the_files_exist(tmp_path, monkeypatch):
     assert (tmp_path / "newsletter" / "issues" / "2026-10-22" / "issue.html").is_file()
 
 
-def test_buttondown_send_posts_the_fancy_payload(monkeypatch):
+def test_resend_send_checks_suppression_and_sets_idempotency(monkeypatch):
     captured = {}
+    rows = {
+        "sub_active": {"id": "sub_active", "email": "active@example.com", "status": "active"},
+        "sub_bounced": {"id": "sub_bounced", "email": "bounced@example.com", "status": "bounced"},
+    }
 
     def fake_post(url, *, headers, json):
         captured["url"] = url
         captured["headers"] = headers
         captured["json"] = json
+        rows["sub_active"]["status"] = "complained"
         return {"id": "em_123"}
 
-    result = send_buttondown({"subject": "Hello"}, "<p>Hi</p>", api_key="secret-token", post=fake_post)
+    def reload(subscriber_id):
+        row = rows[subscriber_id]
+        return dict(row)
+
+    result = send_resend(
+        {"slug": "2026-10-15", "subject": "Hello"},
+        "<p>__UNSUBSCRIBE_URL__</p>",
+        "__UNSUBSCRIBE_URL__",
+        api_key="re_test",
+        post=fake_post,
+        subscribers=list(rows.values()),
+        reload=reload,
+        secret="signing-secret",
+        functions_base="https://example.supabase.co/functions/v1",
+        from_address="Inflammation Signal Monitor <briefing@example.com>",
+    )
     assert result["sent"] is True
-    assert captured["url"] == "https://api.buttondown.com/v1/emails"
-    assert captured["headers"]["Authorization"] == "Token secret-token"
-    assert captured["json"]["body"].startswith("<!-- buttondown-editor-mode: fancy -->")
-    assert "secret-token" not in captured["json"]["body"]
+    assert result["provider"] == "resend"
+    assert result["recipient_count"] == 1
+    assert result["suppressed"] == 1
+    assert captured["url"] == "https://api.resend.com/emails"
+    assert captured["headers"]["Authorization"] == "Bearer re_test"
+    assert captured["headers"]["Idempotency-Key"] == "2026-10-15:sub_active"
+    assert captured["json"]["headers"]["List-Unsubscribe-Post"] == "List-Unsubscribe=One-Click"
+    assert "re_test" not in captured["json"]["html"]
+
+    again = send_resend(
+        {"slug": "2026-10-15", "subject": "Hello"},
+        "<p>__UNSUBSCRIBE_URL__</p>",
+        "__UNSUBSCRIBE_URL__",
+        api_key="re_test",
+        post=fake_post,
+        subscribers=[{"id": "sub_active", "email": "active@example.com", "status": "active"}],
+        reload=reload,
+        secret="signing-secret",
+        functions_base="https://example.supabase.co/functions/v1",
+        from_address="Inflammation Signal Monitor <briefing@example.com>",
+    )
+    assert again["recipient_count"] == 0
+    assert again["suppressed"] == 1
 
 
 def test_same_snapshot_stays_inaugural_until_a_newer_one_exists(tmp_path, monkeypatch):
@@ -388,7 +422,7 @@ def test_real_snapshot_mentions_tuberculosis_and_gastrointestinal_haemorrhage():
     assert "gastrointestinal haemorrhage" in blob
     assert "new this week" not in blob
     assert "no earlier snapshot" in issue["intro"]
-    html_body = render_html(issue, unsubscribe_href="{{ unsubscribe_url }}")
+    html_body = render_html(issue, unsubscribe_href="http://127.0.0.1:43123/unsubscribe")
     assert "viewport" in html_body
     assert "7.5" in issue["headline"]
 

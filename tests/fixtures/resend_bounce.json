@@ -1,0 +1,7 @@
+{
+  "secret": "whsec_c3VwZXJzZWNyZXQ=",
+  "svix_id": "msg_2Kc1nH",
+  "svix_timestamp": "1710000000",
+  "body": "{\"type\":\"email.bounced\",\"data\":{\"email_id\":\"em_123\",\"to\":[\"reader@example.com\"]}}",
+  "svix_signature": "v1,WbMVgPttPi6WcWMRIRN9cvM3lb8bCKjVJd8cjejPFQQ="
+}

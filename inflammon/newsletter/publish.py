@@ -6,8 +6,9 @@ import json
 import os
 from pathlib import Path
 
+from inflammon.mailing import UNSUBSCRIBE_PLACEHOLDER, deliver_issue
 from inflammon.newsletter.compose import compose_issue, fingerprint, load_snapshot
-from inflammon.newsletter.render import buttondown_payload, render_html, render_text, resend_broadcast_payload
+from inflammon.newsletter.render import render_html, render_text
 
 
 class NewsletterSendError(RuntimeError):
@@ -35,12 +36,13 @@ def build_and_save(
         baseline = previous
 
     site = (site_url or os.environ.get("SITE_URL") or os.environ.get("NEXT_PUBLIC_SITE_URL") or "http://127.0.0.1:43123").rstrip("/")
-    provider = _provider()
     issue = compose_issue(snapshot, baseline, site_url=site)
-    unsubscribe = _unsubscribe_href(provider)
-    html_body = render_html(issue, unsubscribe_href=unsubscribe)
-    text_body = render_text(issue, unsubscribe_href=unsubscribe)
-    issue["delivery"] = {"mode": "dry-run", "sent": False, "provider": provider}
+    archive_unsubscribe = issue.get("unsubscribe_page") or f"{site}/unsubscribe"
+    html_template = render_html(issue, unsubscribe_href=UNSUBSCRIBE_PLACEHOLDER)
+    text_template = render_text(issue, unsubscribe_href=UNSUBSCRIBE_PLACEHOLDER)
+    html_body = html_template.replace(UNSUBSCRIBE_PLACEHOLDER, archive_unsubscribe)
+    text_body = text_template.replace(UNSUBSCRIBE_PLACEHOLDER, archive_unsubscribe)
+    issue["delivery"] = {"mode": "dry-run", "sent": False, "provider": "resend"}
 
     slug = issue["slug"]
     issue_dir = out / "issues" / slug
@@ -49,16 +51,19 @@ def build_and_save(
     index = _write_index(out / "index.json", issue)
     _sync_web(Path(web_data_dir), Path(web_email_dir), index, issue, html_body)
     _update_fingerprints(state_dir, previous, snapshot, generated_at)
+    _upsert_draft(issue, html_body, text_body)
 
     if send and not _dry_run_forced():
         try:
-            delivery = _send(provider, issue, html_body, text_body)
+            delivery = send_resend(issue, html_template, text_template)
         except NewsletterSendError:
-            issue["delivery"] = {"mode": "send", "sent": False, "provider": provider, "error": "send_failed"}
+            issue["delivery"] = {"mode": "send", "sent": False, "provider": "resend", "error": "send_failed"}
             _write_issue_files(issue_dir, issue, html_body, text_body)
             _sync_web(Path(web_data_dir), Path(web_email_dir), index, issue, html_body)
             raise
         issue["delivery"] = delivery
+        if delivery.get("sent"):
+            _mark_issue(issue["slug"], "sent")
         _write_issue_files(issue_dir, issue, html_body, text_body)
         index = _write_index(out / "index.json", issue)
         _sync_web(Path(web_data_dir), Path(web_email_dir), index, issue, html_body)
@@ -67,7 +72,7 @@ def build_and_save(
         "slug": slug,
         "kind": issue["kind"],
         "headline": issue["headline"],
-        "provider": provider,
+        "provider": "resend",
         "delivery": issue["delivery"],
         "html": str(issue_dir / "issue.html"),
         "text": str(issue_dir / "issue.txt"),
@@ -75,55 +80,167 @@ def build_and_save(
     }
 
 
-def _send(provider: str, issue: dict, html_body: str, text_body: str) -> dict:
-    if provider == "resend":
-        return send_resend(issue, html_body, text_body)
-    if provider == "buttondown":
-        return send_buttondown(issue, html_body)
-    raise NewsletterSendError(
-        f"NEWSLETTER_PROVIDER={provider} is not supported. Use buttondown or resend. The issue was written; nothing was sent."
-    )
-
-
-def send_buttondown(issue: dict, html_body: str, *, api_key: str | None = None, post=None) -> dict:
-    key = api_key if api_key is not None else os.environ.get("BUTTONDOWN_API_KEY", "").strip()
-    if not key:
-        raise NewsletterSendError("BUTTONDOWN_API_KEY is not set. The issue was written; nothing was sent.")
-    payload = buttondown_payload(issue, html_body)
-    response = (post or _post)(
-        "https://api.buttondown.com/v1/emails",
-        headers={"Authorization": f"Token {key}", "Content-Type": "application/json"},
-        json=payload,
-    )
-    return {"mode": "send", "sent": True, "provider": "buttondown", "id": response.get("id")}
-
-
-def send_resend(issue: dict, html_body: str, text_body: str, *, api_key: str | None = None, post=None) -> dict:
+def send_resend(
+    issue: dict,
+    html_body: str,
+    text_body: str,
+    *,
+    api_key: str | None = None,
+    post=None,
+    subscribers: list[dict] | None = None,
+    reload=None,
+    secret: str | None = None,
+    functions_base: str | None = None,
+    from_address: str | None = None,
+) -> dict:
+    """Send one Resend email per active subscriber. The archive files are already written."""
     key = api_key if api_key is not None else os.environ.get("RESEND_API_KEY", "").strip()
-    audience = os.environ.get("RESEND_AUDIENCE_ID", "").strip()
-    sender = os.environ.get("NEWSLETTER_FROM", "").strip()
+    sender = from_address if from_address is not None else os.environ.get("NEWSLETTER_FROM", "").strip()
+    signing = secret if secret is not None else os.environ.get("UNSUBSCRIBE_HMAC_SECRET", "").strip()
+    base = (functions_base if functions_base is not None else os.environ.get("FUNCTIONS_BASE", "")).strip()
     if not key:
         raise NewsletterSendError("RESEND_API_KEY is not set. The issue was written; nothing was sent.")
-    if not audience:
-        raise NewsletterSendError("RESEND_AUDIENCE_ID is not set. The issue was written; nothing was sent.")
     if not sender:
         raise NewsletterSendError("NEWSLETTER_FROM is not set. The issue was written; nothing was sent.")
-    caller = post or _post
-    payload = resend_broadcast_payload(issue, html_body, text_body, audience_id=audience, from_address=sender)
-    created = caller(
-        "https://api.resend.com/broadcasts",
-        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-        json=payload,
+    if not signing:
+        raise NewsletterSendError("UNSUBSCRIBE_HMAC_SECRET is not set. The issue was written; nothing was sent.")
+    if not base:
+        raise NewsletterSendError("FUNCTIONS_BASE is not set. The issue was written; nothing was sent.")
+    if subscribers is None:
+        rows = _load_subscribers()
+        if reload is None:
+            reload = _reload_subscriber
+    else:
+        rows = subscribers
+        if reload is None:
+            by_id = {str(row["id"]): row for row in rows}
+
+            def reload(subscriber_id: str, _by_id=by_id):
+                current = _by_id.get(str(subscriber_id))
+                return dict(current) if current else None
+
+    results = deliver_issue(
+        issue_slug=issue["slug"],
+        subject=issue["subject"],
+        html_body=html_body,
+        text_body=text_body,
+        subscriber_ids=[str(row["id"]) for row in rows],
+        reload=reload,
+        secret=signing,
+        functions_base=base,
+        from_address=sender,
+        already_logged=set(),
+        dry_run=False,
+        site_url=issue.get("site_url") or os.environ.get("SITE_URL", ""),
+        post=post or _post,
+        api_key=key,
     )
-    broadcast_id = created.get("id")
-    if not broadcast_id:
-        raise NewsletterSendError("Resend did not return a broadcast id. The issue was written; sending stopped.")
-    caller(
-        f"https://api.resend.com/broadcasts/{broadcast_id}/send",
-        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-        json={},
+    sent = [item for item in results if item["action"] == "sent"]
+    return {
+        "mode": "send",
+        "sent": True,
+        "provider": "resend",
+        "recipient_count": len(sent),
+        "suppressed": sum(1 for item in results if item["action"] == "suppress"),
+        "ids": [item.get("provider_id") for item in sent],
+    }
+
+
+def _supabase() -> tuple[str, str]:
+    url = os.environ.get("SUPABASE_URL", "").strip().rstrip("/")
+    service = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "").strip()
+    if not url or not service:
+        raise NewsletterSendError(
+            "SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are not set. The issue was written; nothing was sent."
+        )
+    return url, service
+
+
+def _load_subscribers() -> list[dict]:
+    url, service = _supabase()
+    payload = _supabase_get(url, service, {"select": "id,email,status"})
+    if not isinstance(payload, list):
+        raise NewsletterSendError("Supabase did not return a subscriber list. The issue was written; nothing was sent.")
+    return payload
+
+
+def _reload_subscriber(subscriber_id: str) -> dict | None:
+    """Read one row at send time so a bounce that arrived after the list was built is honored."""
+    url, service = _supabase()
+    payload = _supabase_get(url, service, {"select": "id,email,status", "id": f"eq.{subscriber_id}"})
+    if isinstance(payload, list) and payload:
+        return payload[0]
+    return None
+
+
+def _supabase_get(url: str, service: str, params: dict) -> object:
+    import httpx
+
+    response = httpx.get(
+        f"{url}/rest/v1/subscribers",
+        params=params,
+        headers={"apikey": service, "Authorization": f"Bearer {service}"},
+        timeout=45.0,
     )
-    return {"mode": "send", "sent": True, "provider": "resend", "id": broadcast_id}
+    response.raise_for_status()
+    return response.json()
+
+
+def _upsert_draft(issue: dict, html_body: str, text_body: str) -> None:
+    """Store the Monday issue as a draft when Supabase is configured. Approved issues stay approved."""
+    url = os.environ.get("SUPABASE_URL", "").strip().rstrip("/")
+    service = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "").strip()
+    if not url or not service:
+        return
+    import httpx
+
+    headers = {"apikey": service, "Authorization": f"Bearer {service}"}
+    existing = httpx.get(
+        f"{url}/rest/v1/issues",
+        params={"select": "status", "slug": f"eq.{issue['slug']}"},
+        headers=headers,
+        timeout=45.0,
+    )
+    existing.raise_for_status()
+    rows = existing.json()
+    if isinstance(rows, list) and rows and rows[0].get("status") in {"approved", "sending", "sent"}:
+        return
+    saved = httpx.post(
+        f"{url}/rest/v1/issues",
+        params={"on_conflict": "slug"},
+        headers={**headers, "Content-Type": "application/json", "Prefer": "resolution=merge-duplicates"},
+        json={
+            "slug": issue["slug"],
+            "subject": issue["subject"],
+            "headline": issue["headline"],
+            "html": html_body,
+            "text_body": text_body,
+            "status": "draft",
+        },
+        timeout=45.0,
+    )
+    saved.raise_for_status()
+
+
+def _mark_issue(slug: str, status: str) -> None:
+    url = os.environ.get("SUPABASE_URL", "").strip().rstrip("/")
+    service = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "").strip()
+    if not url or not service:
+        return
+    import httpx
+
+    response = httpx.patch(
+        f"{url}/rest/v1/issues",
+        params={"slug": f"eq.{slug}"},
+        headers={
+            "apikey": service,
+            "Authorization": f"Bearer {service}",
+            "Content-Type": "application/json",
+        },
+        json={"status": status},
+        timeout=45.0,
+    )
+    response.raise_for_status()
 
 
 def _post(url: str, *, headers: dict, json: dict) -> dict:
@@ -136,18 +253,8 @@ def _post(url: str, *, headers: dict, json: dict) -> dict:
     return response.json()
 
 
-def _provider() -> str:
-    return (os.environ.get("NEWSLETTER_PROVIDER") or "buttondown").strip().lower() or "buttondown"
-
-
 def _dry_run_forced() -> bool:
     return os.environ.get("NEWSLETTER_DRY_RUN", "").strip().lower() in {"1", "true", "yes"}
-
-
-def _unsubscribe_href(provider: str) -> str:
-    if provider == "resend":
-        return "{{{RESEND_UNSUBSCRIBE_URL}}}"
-    return "{{ unsubscribe_url }}"
 
 
 def _update_fingerprints(state_dir: Path, previous: dict | None, snapshot: dict, generated_at: str | None) -> None:

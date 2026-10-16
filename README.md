@@ -15,7 +15,7 @@ Maintained by Rakesh Pai.
 
 ```mermaid
 flowchart TB
-  cron["Weekly schedule<br/>Monday 12:00 UTC<br/>cron, GitHub Actions, n8n"]
+  cron["Weekly schedule<br/>Monday 12:00 UTC<br/>GitHub Actions"]
   cron --> refresh["make refresh"]
   refresh --> py["inflammon"]
   faers["openFDA drug/event"] --> py
@@ -30,11 +30,13 @@ flowchart TB
   snap --> site["Next.js static dashboard"]
   snap --> letter["Weekly newsletter issue"]
   letter --> archive["/newsletter archive"]
-  letter --> provider["Buttondown or Resend<br/>dry-run unless NEWSLETTER_SEND=1"]
+  letter --> draft["Draft issue in Supabase"]
+  draft --> owner["Owner approves on /approve"]
+  owner --> resend["Resend, one email per active subscriber<br/>dry-run unless NEWSLETTER_DRY_RUN=0"]
   py --> hook["New high signals to a webhook"]
 ```
 
-The Python package normalizes counts into DuckDB, then writes the JSON snapshot the site is built from. The site has no backend. Spike detection runs on **weekly** counts of publications, trial starts, and dated FDA notices. The refresh itself is weekly, not daily.
+The Python package normalizes counts into DuckDB, then writes the JSON snapshot the site is built from. The dashboard is a static export. Subscribe, confirm, unsubscribe, contact, and issue approval call Supabase Edge Functions. GitHub Actions is the Monday path. The n8n workflow is an optional example and does not send mail. Spike detection runs on **weekly** counts of publications, trial starts, and dated FDA notices. The refresh itself is weekly, not daily.
 
 ## Quickstart
 
@@ -77,9 +79,12 @@ Weekly cron, from the repository root:
 | About | Purpose, maintainer, and citation |
 | Newsletter | Archive of weekly briefings |
 | Subscribe | Email signup with consent and double opt-in |
-| Privacy | Email-only list, Buttondown as the processor, deletion and GDPR rights |
+| Confirm | Opens the confirmation link and activates the address |
+| Contact | Collaboration, data, code, analysis, media, or sponsorship |
+| Approve issue | Owner-only draft preview. Magic link plus an allowlisted email |
+| Privacy | Supabase holds the list, Resend sends mail, signed opt-out is immediate |
 | Terms | No warranty, no medical advice, no re-identification |
-| Unsubscribe | Opt-out, honored within ten business days |
+| Unsubscribe | Signed link. POST is RFC 8058 one-click and takes effect immediately |
 
 ## Data sources and licenses
 
@@ -136,10 +141,11 @@ Pulled from the openFDA extract dated 2026-07-30 (20,692,690 reports). Full tabl
 
 The dashboard is a Next.js app with `output: "export"`.
 
-1. Push this repository to GitHub.
-2. In Vercel, import the repository and set **Root Directory** to `web`.
-3. Framework preset: Next.js. Build command: `npm run build`. Vercel serves the static `out` directory produced by `output: "export"`.
-4. The dashboard itself builds with no secrets. To connect the subscribe form, set the public variables below **before** the build. They are baked into the static pages.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FYOUR_GITHUB_OWNER%2Finflammation-signal-monitor&project-name=inflammation-signal-monitor&root-directory=web&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,NEXT_PUBLIC_FUNCTIONS_BASE,NEXT_PUBLIC_TURNSTILE_SITE_KEY,NEXT_PUBLIC_SITE_URL&envDescription=Public%20site%20values%20baked%20into%20the%20static%20build.%20Put%20service%20role%20and%20Resend%20keys%20in%20GitHub%20and%20Supabase%2C%20not%20here.)
+
+Replace `YOUR_GITHUB_OWNER` after the repository is on GitHub. Set **Root Directory** to `web` if the button does not. Framework preset: Next.js. Build command: `npm run build`. Vercel serves the static `out` directory produced by `output: "export"`.
+
+The dashboard itself builds with no secrets. Subscribe, confirm, contact, and approve need the public variables in the button **before** the build. They are baked into the static pages.
 
 Custom domain:
 
@@ -156,8 +162,8 @@ There is no public preview URL from this workspace. Run `make dashboard` locally
 | Piece | Schedule |
 | --- | --- |
 | `scripts/weekly_refresh.sh` and `make refresh` | Weekly. Example crontab: Monday 12:00 UTC. |
-| `.github/workflows/weekly-refresh.yml` | `0 12 * * 1` |
-| `n8n/ism-weekly-refresh.json` | Monday 12:00 UTC. After `make refresh`, one branch posts **new** high signals to `SIGNAL_WEBHOOK_URL` and another runs `make newsletter`. The newsletter runs even when there are no new high signals. The first snapshot is a baseline and does not call the webhook. Self-hosted n8n only. See `n8n/README.md`. |
+| `.github/workflows/weekly-refresh.yml` | `0 12 * * 1`. This is the orchestration. It builds a draft. The owner approves it on `/approve`, which dispatches the send job. `NEWSLETTER_AUTO_SEND=1` skips the wait. |
+| `n8n/ism-weekly-refresh.json` | Optional example, not the path that sends. Self-hosted only. See `n8n/README.md`. |
 | `apify/fda-safety-pages/` | Actor stub for the Drug Safety Communications page and state health-department pages that have no API. |
 
 ## Weekly newsletter
@@ -169,49 +175,59 @@ There is no public preview URL from this workspace. Run `make dashboard` locally
 - `web/data/newsletter/` — the same issue, read by the static site
 - `web/public/newsletter/email/<date>.html` — the email, served at `/newsletter/email/<date>.html`
 
-The default is a **dry run**: the issue is archived and nothing is emailed. Sending happens only with `--send` or `NEWSLETTER_SEND=1`. `NEWSLETTER_DRY_RUN=1` forces a dry run even then. Rebuilding the same snapshot does not treat it as new; the diff uses the fingerprint from the prior snapshot.
+Monday’s GitHub Action stores that issue as a **draft** in the `issues` table. The owner signs in at `/approve` with a Supabase magic link. Row level security shows the draft only when that email is in `owner_allowlist`. Approving the draft calls `dispatch-send`, which starts the send job. `NEWSLETTER_AUTO_SEND=1` sends on Monday without that wait.
+
+The send is still a **dry run** unless `NEWSLETTER_DRY_RUN` is exactly `0`. A dry run writes the archive and does not call Resend. Rebuilding the same snapshot does not treat it as new; the diff uses the fingerprint from the prior snapshot.
+
+Each real send re-reads the subscriber row, skips anything that is not `active` (pending, unsubscribed, bounced, complained), and posts one Resend email per remaining address. The request carries an `Idempotency-Key` of `issue:subscriber`, and `List-Unsubscribe` plus `List-Unsubscribe-Post: List-Unsubscribe=One-Click`. The result is logged in `sends`.
 
 The first issue has no earlier snapshot, so it lists the latest notices and the strongest prespecified signals. Later issues list what changed: new alerts and recalls, signals that newly meet the Evans or ROR screen, signals whose PRR rose by at least 25%, and trials and papers that were not in the previous extract.
 
-Headlines use “reported more often than expected (PRR …)” for a disproportionality signal. Each issue includes the openFDA caveat, the research-only line, the FDA attribution, a postal address from `NEWSLETTER_POSTAL_ADDRESS`, and an unsubscribe link. PubMed entries in an issue are titles and links, plus the NCBI disclaimer.
+Headlines use “reported more often than expected (PRR …)” for a disproportionality signal. Each issue includes the openFDA caveat, the research-only line, the FDA attribution, a postal address from `NEWSLETTER_POSTAL_ADDRESS`, and a signed unsubscribe link. PubMed entries in an issue are titles and links, plus the NCBI disclaimer.
 
-### Which key goes where
+### Accounts, and which key goes where
 
-Copy [`.env.example`](.env.example). The static site and the Monday job do not read the same variables.
+You need four accounts. Copy [`.env.example`](.env.example).
 
-| Variable | Who reads it | Secret? |
+| Account | What to create | Where the value goes |
 | --- | --- | --- |
-| `NEXT_PUBLIC_NEWSLETTER_PROVIDER` | Next.js build (`web/.env.local` or the Vercel project). `buttondown` or `resend`. | No. It is visible in the static pages. |
-| `NEXT_PUBLIC_BUTTONDOWN_USERNAME` | Next.js build. Buttondown username for the embed form. | No. |
-| `NEXT_PUBLIC_SUBSCRIBE_ENDPOINT` | Next.js build, only for the Resend alternative. URL of the separate subscribe function. | No. |
-| `BUTTONDOWN_API_KEY` | Monday job (`python -m inflammon newsletter`) and GitHub Actions secret `BUTTONDOWN_API_KEY`. | Yes. Never `NEXT_PUBLIC_`. |
-| `NEWSLETTER_PROVIDER` | Monday job. `buttondown` (default) or `resend`. | No. |
-| `SITE_URL` | Monday job. Absolute dashboard URL printed in the email. GitHub variable `SITE_URL`. | No. |
-| `NEWSLETTER_POSTAL_ADDRESS` | Monday job. Physical mailing address in the newsletter footer. GitHub variable `NEWSLETTER_POSTAL_ADDRESS`. | No. |
-| `OPENFDA_API_KEY` | Monday refresh. Query parameter on openFDA calls. GitHub secret `OPENFDA_API_KEY`. Omitted from the HTTP cache. | Yes. |
-| `NCBI_EMAIL` | Monday refresh. `email` parameter on every PubMed E-utilities call. GitHub variable `NCBI_EMAIL`. | No. |
-| `NCBI_TOOL` | Monday refresh. `tool` parameter. Defaults to `inflammon`. | No. |
-| `NEWSLETTER_SEND` | Monday job. `1` sends. Empty or anything else is a dry run. GitHub variable `NEWSLETTER_SEND`. A manual workflow run sends only if **send_newsletter** is checked. | No. |
-| `RESEND_API_KEY` | Monday job and the Resend function. GitHub secret `RESEND_API_KEY`. | Yes. |
-| `RESEND_AUDIENCE_ID` | Monday job and the Resend function. GitHub secret `RESEND_AUDIENCE_ID`. | Treat as a secret. |
-| `NEWSLETTER_FROM` | Monday job and the Resend function. Verified sender. GitHub variable `NEWSLETTER_FROM`. | No. |
-| `NEWSLETTER_CONFIRM_SECRET` | Resend function only. Signs the confirmation link. | Yes. |
-| `SUBSCRIBE_FUNCTION_URL` | Resend function only. Public origin of that deploy. | No. |
+| Supabase | Project, then `supabase db push` (or run `supabase/migrations` and `supabase/seed.sql` in the SQL editor). Add the owner email to `owner_allowlist`. Deploy `supabase/functions/*`. | `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` on Vercel, before the build. `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as GitHub secrets **and** as function secrets. `SUPABASE_ANON_KEY` as a function secret for `dispatch-send`. |
+| Resend | A verified domain and a webhook pointing at `https://<project-ref>.supabase.co/functions/v1/resend-webhook` for `email.bounced` and `email.complained`. | `RESEND_API_KEY` as a GitHub secret and a function secret. `NEWSLETTER_FROM` as a GitHub variable and a function secret. `RESEND_WEBHOOK_SECRET` (`whsec_…`) as a function secret only. |
+| Cloudflare Turnstile | A widget on the dashboard hostname. The test site key `1x00000000000000000000AA` and secret `1x0000000000000000000000000000000AA` always pass and are safe for a local dry run. | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` on Vercel. `TURNSTILE_SECRET_KEY` as a function secret. |
+| GitHub | Repository variables and secrets for the Monday workflow. A fine-grained token that can dispatch workflows, stored only as a function secret. | Listed below. |
 
-Buttondown is the path that works on a static export. The form is a normal HTML POST to `https://buttondown.com/api/emails/embed-subscribe/<username>` with `email` and `embed=1`. Buttondown does not activate the address until the person opens the confirmation email. The consent checkbox is `required`, so the browser blocks submit until it is checked. If the username is missing, the form stays on the page and says the list is not connected.
+GitHub **secrets** (Settings → Secrets and variables → Actions → Secrets):
 
-The Monday send is `POST https://api.buttondown.com/v1/emails` with `Authorization: Token <BUTTONDOWN_API_KEY>`, status `about_to_send`, and the HTML prefixed by `<!-- buttondown-editor-mode: fancy -->`. The unsubscribe link is Buttondown’s `{{ unsubscribe_url }}`.
+- `OPENFDA_API_KEY`
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `RESEND_API_KEY`
+- `UNSUBSCRIBE_HMAC_SECRET`
 
-Resend cannot collect subscribers from a static page by itself. `newsletter/resend/` is a separate two-route function: `POST /subscribe` emails a confirmation link, and `GET /confirm` adds the address to the audience. Deploy that directory on its own (see `newsletter/resend/README.md`). The Monday job then creates a broadcast and calls `/broadcasts/{id}/send`. The unsubscribe token is `{{{RESEND_UNSUBSCRIBE_URL}}}`.
+GitHub **variables**:
 
-Create `web/.env.local` for local dashboard builds (that file is gitignored):
+- `NCBI_EMAIL`, `SITE_URL`, `FUNCTIONS_BASE`, `NEWSLETTER_FROM`, `NEWSLETTER_POSTAL_ADDRESS`
+- `NEWSLETTER_AUTO_SEND` — `1` to send without approval, otherwise empty
+- `NEWSLETTER_DRY_RUN` — leave empty or `1` until a real send; set to `0` to allow Resend
+
+Function secrets (Supabase → Edge Functions → Secrets), same names: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_ANON_KEY`, `RESEND_API_KEY`, `NEWSLETTER_FROM`, `UNSUBSCRIBE_HMAC_SECRET`, `RESEND_WEBHOOK_SECRET`, `TURNSTILE_SECRET_KEY`, `OWNER_NOTIFY_EMAIL`, `SITE_URL`, `NEWSLETTER_DRY_RUN`, `GITHUB_DISPATCH_TOKEN`, `GITHUB_REPOSITORY`.
+
+Vercel, public, set before the build: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_FUNCTIONS_BASE`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `NEXT_PUBLIC_SITE_URL`.
+
+Local dry run, in `web/.env.local` (gitignored):
 
 ```bash
-NEXT_PUBLIC_NEWSLETTER_PROVIDER=buttondown
-NEXT_PUBLIC_BUTTONDOWN_USERNAME=your-buttondown-username
+NEXT_PUBLIC_FUNCTIONS_BASE=http://127.0.0.1:43124
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=1x00000000000000000000AA
+NEXT_PUBLIC_LOCAL_PREVIEW=1
+NEXT_PUBLIC_SITE_URL=http://127.0.0.1:43123
 ```
 
-Leave the API key out of that file. Export `BUTTONDOWN_API_KEY` only in the shell or the GitHub secret that runs `make newsletter`.
+Then `python -m inflammon.local_functions` and `make dashboard`. No Resend call is made. The confirmation link is shown on the page instead of being emailed.
+
+Studio, not a custom admin panel: open the SQL editor and select `subscriber_search`, `subscriber_export`, or `suppression_list`. Contact notes and status live on `contact_requests`.
+
+The case-level FAERS warehouse is not built. The design is in [`docs/warehouse.md`](docs/warehouse.md).
 
 ## Tests
 
@@ -219,7 +235,7 @@ Leave the API key out of that file. Export `BUTTONDOWN_API_KEY` only in the shel
 make test
 ```
 
-The tests check PRR, ROR, confidence intervals, chi-square, the Evans rule, the Haldane correction, and the weekly spike rule against hand-computed 2×2 tables. Newsletter tests check the snapshot diff, HTML escaping, the plain-text rendering, and that a dry run does not call the network.
+The tests check PRR, ROR, confidence intervals, chi-square, the Evans rule, the Haldane correction, and the weekly spike rule against hand-computed 2×2 tables. Newsletter tests check the snapshot diff, HTML escaping, the plain-text rendering, and that a dry run does not call the network. List tests check HMAC unsubscribe tokens, suppression re-read at send time, and Svix webhook verification against a fixture. `tests/mailing.test.mjs` checks that the edge-function helpers produce the same token and signature.
 
 ## Citation
 

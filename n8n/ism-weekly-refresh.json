@@ -40,7 +40,7 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [760, 520],
-      "notes": "Runs after the Monday refresh, including when there are no new high signals. Dry-run unless NEWSLETTER_SEND=1 on the n8n host. Buttondown needs BUTTONDOWN_API_KEY. Resend needs RESEND_API_KEY, RESEND_AUDIENCE_ID, and NEWSLETTER_FROM."
+      "notes": "Optional example. Archives the issue and does not send. GitHub Actions is the Monday path: draft, owner approval, then Resend."
     },
     {
       "parameters": {

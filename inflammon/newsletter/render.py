@@ -20,7 +20,6 @@ def render_html(issue: dict, *, unsubscribe_href: str) -> str:
     sections = "\n".join(_section_html(section) for section in issue["sections"])
     dashboard = _esc(issue["dashboard_url"], quote=True)
     archive = _esc(issue["site_url"].rstrip("/") + issue["archive_path"], quote=True)
-    unsubscribe_page = _esc(issue.get("unsubscribe_page") or issue["site_url"].rstrip("/") + "/unsubscribe", quote=True)
     provider_unsubscribe = _esc(unsubscribe_href, quote=True)
     disclaimer = _esc(issue["disclaimer"])
     caveat = _esc(issue.get("fda_caveat") or "")
@@ -89,10 +88,10 @@ def render_html(issue: dict, *, unsubscribe_href: str) -> str:
             <p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{postal}</p>
             <p style="margin:12px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">
               You received this after confirming a subscription to Inflammation Signal Monitor.
-              <a href="{unsubscribe_page}" style="color:{TEAL};">Unsubscribe</a>.
-              Opt-outs are honored within ten business days.
-              <a href="{provider_unsubscribe}" style="color:{TEAL};">One-click unsubscribe</a>
-              is filled in by the email processor when the issue is sent.
+              <a href="{provider_unsubscribe}" style="color:{TEAL};">Unsubscribe</a>.
+              The link is signed for this address and takes effect immediately.
+              A mail client can POST List-Unsubscribe=One-Click to the same address
+              (List-Unsubscribe-Post: List-Unsubscribe=One-Click).
             </p>
           </td>
         </tr>
@@ -154,31 +153,13 @@ def render_text(issue: dict, *, unsubscribe_href: str) -> str:
             "",
             issue.get("postal_address") or "",
             "",
-            f"Unsubscribe: {issue.get('unsubscribe_page') or ''}",
-            "Opt-outs are honored within ten business days.",
-            f"One-click unsubscribe: {unsubscribe_href}",
+            f"Unsubscribe: {unsubscribe_href}",
+            "The link is signed for this address and takes effect immediately.",
+            "One-click: POST List-Unsubscribe=One-Click to that address.",
             "",
         ]
     )
     return "\n".join(lines)
-
-
-def buttondown_payload(issue: dict, html_body: str) -> dict:
-    return {
-        "subject": issue["subject"],
-        "body": "<!-- buttondown-editor-mode: fancy -->\n" + html_body,
-        "status": "about_to_send",
-    }
-
-
-def resend_broadcast_payload(issue: dict, html_body: str, text_body: str, *, audience_id: str, from_address: str) -> dict:
-    return {
-        "audience_id": audience_id,
-        "from": from_address,
-        "subject": issue["subject"],
-        "html": html_body,
-        "text": text_body,
-    }
 
 
 def _section_html(section: dict) -> str:

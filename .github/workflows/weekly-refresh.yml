@@ -7,11 +7,13 @@ on:
     - cron: "0 12 * * 1"
   workflow_dispatch:
     inputs:
-      send_newsletter:
-        description: "Send this issue through the newsletter provider"
+      auto_send:
+        description: "Send this draft without waiting for owner approval"
         required: false
         default: false
         type: boolean
+  repository_dispatch:
+    types: [issue-approved]
 
 permissions:
   contents: write
@@ -27,31 +29,45 @@ jobs:
           cache: pip
       - name: Install
         run: pip install -e ".[dev]"
-      - name: Test signal math
-        run: pytest
+      - name: Test signal math, list tokens, and webhook verification
+        run: |
+          pytest
+          node --test tests/mailing.test.mjs
       - name: Refresh public sources
+        if: github.event_name != 'repository_dispatch'
         env:
           OPENFDA_API_KEY: ${{ secrets.OPENFDA_API_KEY }}
           NCBI_EMAIL: ${{ vars.NCBI_EMAIL }}
           NCBI_TOOL: inflammon
         run: python -m inflammon refresh
-      - name: Build the newsletter
+      - name: Build the newsletter draft
+        if: github.event_name != 'repository_dispatch' && vars.NEWSLETTER_AUTO_SEND != '1' && (github.event_name != 'workflow_dispatch' || inputs.auto_send == false)
         env:
-          NEWSLETTER_PROVIDER: ${{ vars.NEWSLETTER_PROVIDER }}
-          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
-          NEWSLETTER_FROM: ${{ vars.NEWSLETTER_FROM }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           NEWSLETTER_POSTAL_ADDRESS: ${{ vars.NEWSLETTER_POSTAL_ADDRESS }}
           SITE_URL: ${{ vars.SITE_URL }}
-          # Scheduled runs send only when the repository variable NEWSLETTER_SEND is 1.
-          # A manual run sends only when the send_newsletter input is checked.
-          NEWSLETTER_SEND: ${{ github.event_name == 'workflow_dispatch' && (inputs.send_newsletter && '1' || '0') || vars.NEWSLETTER_SEND }}
+          NEWSLETTER_DRY_RUN: "1"
         run: python -m inflammon newsletter
-      - name: Commit snapshot
+      - name: Commit snapshot and draft
+        if: github.event_name != 'repository_dispatch'
         run: |
           git config user.name "inflammon-refresh"
           git config user.email "inflammon-refresh@users.noreply.github.com"
           git add data/snapshot web/data data/newsletter web/public/newsletter
           git diff --staged --quiet || git commit -m "Refresh weekly public-data snapshot"
           git push
+      - name: Send the approved issue
+        if: github.event_name == 'repository_dispatch' || vars.NEWSLETTER_AUTO_SEND == '1' || (github.event_name == 'workflow_dispatch' && inputs.auto_send)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NEWSLETTER_FROM: ${{ vars.NEWSLETTER_FROM }}
+          UNSUBSCRIBE_HMAC_SECRET: ${{ secrets.UNSUBSCRIBE_HMAC_SECRET }}
+          FUNCTIONS_BASE: ${{ vars.FUNCTIONS_BASE }}
+          NEWSLETTER_POSTAL_ADDRESS: ${{ vars.NEWSLETTER_POSTAL_ADDRESS }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          # Dry-run unless the repository variable NEWSLETTER_DRY_RUN is exactly 0.
+          NEWSLETTER_DRY_RUN: ${{ vars.NEWSLETTER_DRY_RUN == '0' && '0' || '1' }}
+        run: python -m inflammon newsletter --send

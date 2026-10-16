@@ -1,8 +1,8 @@
-# Weekly n8n workflow
+# Optional n8n example
 
-`ism-weekly-refresh.json` is an export for self-hosted n8n.
+GitHub Actions (`.github/workflows/weekly-refresh.yml`) is the Monday path. It builds the draft, and the owner approves the send. This n8n workflow is an example you can import on a self-hosted instance. It is not required, and it is not what sends the briefing.
 
-It runs **once a week**, Monday at 12:00 in the workflow timezone. The file sets that timezone to UTC. Import it with the n8n workflow menu, then set two environment variables on the n8n host:
+`ism-weekly-refresh.json` runs **once a week**, Monday at 12:00 in the workflow timezone. The file sets that timezone to UTC. Import it with the n8n workflow menu, then set two environment variables on the n8n host:
 
 - `INFLAMMON_REPO` — absolute path of this repository
 - `SIGNAL_WEBHOOK_URL` — where new high signals should be posted
@@ -10,8 +10,8 @@ It runs **once a week**, Monday at 12:00 in the workflow timezone. The file sets
 The workflow runs `make refresh`, then splits.
 
 - One branch reads `data/snapshot/high_signals_new.json` and posts only when that file lists signals that were not in the previous baseline. The first successful snapshot establishes the baseline and does not call the webhook.
-- The other branch runs `make newsletter` even when there are no new high signals. That command archives the issue. It emails subscribers only when `NEWSLETTER_SEND=1` on the n8n host. Buttondown also needs `BUTTONDOWN_API_KEY`. The Resend alternative needs `NEWSLETTER_PROVIDER=resend`, `RESEND_API_KEY`, `RESEND_AUDIENCE_ID`, and `NEWSLETTER_FROM`. Set `NEWSLETTER_POSTAL_ADDRESS` for the issue footer. The refresh reads `OPENFDA_API_KEY` and `NCBI_EMAIL` when they are set on the host. See the repository README for which value is public and which is a secret.
+- The other branch runs `make newsletter`, which archives the issue and does not email anyone. Sending stays on GitHub Actions after the owner approves the draft, unless `NEWSLETTER_AUTO_SEND=1` and `NEWSLETTER_DRY_RUN=0`.
 
 Execute Command and local file reads require self-hosted n8n. n8n Cloud cannot see this repository’s disk.
 
-The workflow is imported inactive. Turn it on after the environment variables are set.
+The workflow is imported inactive. Leave it inactive unless you want a second copy of the weekly archive.

@@ -208,6 +208,6 @@
   "delivery": {
     "mode": "dry-run",
     "sent": false,
-    "provider": "buttondown"
+    "provider": "resend"
   }
 }
