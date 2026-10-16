@@ -14,7 +14,7 @@ from inflammon.pipeline import refresh
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         prog="inflammon",
-        description="Inflammation Signal Monitor. Refreshes public data and writes the weekly newsletter.",
+        description="Inflammation Signal Monitor. Refreshes public data and writes the newsletter.",
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -27,7 +27,7 @@ def main(argv: list[str] | None = None) -> None:
 
     newsletter = sub.add_parser(
         "newsletter",
-        help="Build the weekly issue from the snapshot. Dry-run unless --send or NEWSLETTER_SEND=1",
+        help="Build an issue from the snapshot diff. Weekly unless NEWSLETTER_CADENCE=daily. Dry-run unless --send or NEWSLETTER_SEND=1",
     )
     newsletter.add_argument("--snapshot", default="data/snapshot")
     newsletter.add_argument("--out", default="data/newsletter")

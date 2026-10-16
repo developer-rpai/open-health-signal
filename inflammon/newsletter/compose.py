@@ -15,6 +15,7 @@ from inflammon.compliance import (
     RESEARCH_LINE,
     postal_address,
 )
+from inflammon.newsletter.cadence import newsletter_cadence
 from inflammon.taxonomy import CONDITIONS, DISCLAIMER, DRUG_CLASSES, DRUG_TOPICS
 
 CLASS_SHORT = {item.key: item.short_label for item in DRUG_CLASSES}
@@ -93,14 +94,29 @@ def fingerprint(snapshot: dict) -> dict:
     }
 
 
-def compose_issue(snapshot: dict, previous: dict | None, *, site_url: str) -> dict:
+def compose_issue(
+    snapshot: dict,
+    previous: dict | None,
+    *,
+    site_url: str,
+    cadence: str | None = None,
+) -> dict:
     manifest = snapshot["manifest"]
     generated_at = manifest.get("generated_at") or datetime.now(timezone.utc).isoformat()
     slug = _slug(generated_at)
     site = site_url.rstrip("/") or "http://127.0.0.1:43123"
+    resolved = newsletter_cadence(cadence)
+    daily = resolved == "daily"
     inaugural = previous is None
-    kind = "inaugural" if inaugural else "weekly"
-    empty = "None in this snapshot." if inaugural else "None this week."
+    if daily:
+        kind = "daily"
+        empty = "None in this daily edition."
+    elif inaugural:
+        kind = "inaugural"
+        empty = "None in this snapshot."
+    else:
+        kind = "weekly"
+        empty = "None this week."
 
     alerts = _alerts(snapshot["alerts"], previous, inaugural)
     recalls = _recalls(snapshot["recalls"], previous, inaugural)
@@ -109,17 +125,24 @@ def compose_issue(snapshot: dict, previous: dict | None, *, site_url: str) -> di
     trials = _trials(snapshot["trials"], previous, inaugural)
     papers = _papers(snapshot["publications"], previous, inaugural)
 
-    headline = _headline(ranked_signals, generated_at, inaugural)
-    intro = _intro(snapshot, previous, inaugural, generated_at)
+    headline = _headline(ranked_signals, generated_at, inaugural, daily)
+    intro = _intro(snapshot, previous, inaugural, generated_at, daily)
     long_date = _long_date(generated_at)
-    kicker = (
-        f"Inaugural briefing · {long_date}" if inaugural else f"Week of {long_date}"
-    )
+    if daily:
+        kicker = f"Daily test edition · {long_date}"
+    elif inaugural:
+        kicker = f"Inaugural briefing · {long_date}"
+    else:
+        kicker = f"Week of {long_date}"
+    subject = headline
+    if daily and not headline.lower().startswith("daily test edition"):
+        subject = f"Daily test edition: {headline}"
     return {
         "product": "Inflammation Signal Monitor",
         "slug": slug,
+        "cadence": resolved,
         "kind": kind,
-        "subject": headline,
+        "subject": subject,
         "headline": headline,
         "kicker": kicker,
         "intro": intro,
@@ -347,7 +370,7 @@ def _papers(items: list[dict], previous: dict | None, inaugural: bool) -> list[d
     return rows
 
 
-def _headline(ranked: list[tuple], generated_at: str, inaugural: bool) -> str:
+def _headline(ranked: list[tuple], generated_at: str, inaugural: bool, daily: bool) -> str:
     source = None
     for row, _change, _previous in ranked:
         if row.get("evans_signal") and row.get("prr") is not None:
@@ -358,6 +381,8 @@ def _headline(ranked: list[tuple], generated_at: str, inaugural: bool) -> str:
     if source is not None:
         return _reporting_headline(source)
     long_date = _long_date(generated_at)
+    if daily:
+        return f"Daily test edition, {long_date}: no new or strengthened high signals"
     if inaugural:
         return f"Inflammation Signal Monitor briefing, {long_date}"
     return f"Week of {long_date}: no new or strengthened high signals"
@@ -370,11 +395,26 @@ def _reporting_headline(row: dict) -> str:
     return f"{name}: {reaction} reported more often than expected (PRR {times})"
 
 
-def _intro(snapshot: dict, previous: dict | None, inaugural: bool, generated_at: str) -> str:
+def _intro(snapshot: dict, previous: dict | None, inaugural: bool, generated_at: str, daily: bool) -> str:
     manifest = snapshot["manifest"]
     long_date = _long_date(generated_at)
     extract = manifest.get("openfda_last_updated") or "an undated extract"
-    if inaugural:
+    if daily and inaugural:
+        lead = (
+            f"This daily test edition is the first briefing, from the snapshot of {long_date}. "
+            "There is no earlier snapshot to compare, so the lists below are the latest notices "
+            "and the strongest prespecified signals in the current extract, not day-over-day changes. "
+            "The edition is still produced when little is new."
+        )
+    elif daily:
+        earlier = _long_date(str((previous or {}).get("snapshot_generated_at") or ""))
+        lead = (
+            f"This daily test edition compares the {long_date} snapshot with the one from {earlier}. "
+            "It is produced even when little is new. "
+            "It includes FDA notices, recalls, trials, and papers that were not in that extract, "
+            "and drug-safety signals that are newly high or whose PRR is at least 25% higher."
+        )
+    elif inaugural:
         lead = (
             f"This is the first briefing, from the snapshot of {long_date}. "
             "There is no earlier snapshot to compare, so the lists below are the latest notices "

@@ -15,7 +15,7 @@ Maintained by Rakesh Pai.
 
 ```mermaid
 flowchart TB
-  cron["Weekly schedule<br/>Monday 12:00 UTC<br/>GitHub Actions"]
+  cron["GitHub Actions<br/>Monday 12:00 UTC<br/>or daily 14:00 UTC when NEWSLETTER_CADENCE=daily"]
   cron --> refresh["make refresh"]
   refresh --> py["inflammon"]
   faers["openFDA drug/event"] --> py
@@ -36,7 +36,7 @@ flowchart TB
   py --> hook["New high signals to a webhook"]
 ```
 
-The Python package normalizes counts into DuckDB, then writes the JSON snapshot the site is built from. The dashboard is a static export. Subscribe, confirm, unsubscribe, contact, and issue approval call Supabase Edge Functions. GitHub Actions is the Monday path. The n8n workflow is an optional example and does not send mail. Spike detection runs on **weekly** counts of publications, trial starts, and dated FDA notices. The refresh itself is weekly, not daily.
+The Python package normalizes counts into DuckDB, then writes the JSON snapshot the site is built from. The dashboard is a static export. Subscribe, confirm, unsubscribe, contact, and issue approval call Supabase Edge Functions. GitHub Actions is the path that builds and sends. The default schedule is Monday. Set `NEWSLETTER_CADENCE=daily` for a temporary daily test; set it back to `weekly`, or delete it, to return to Monday only. The n8n workflow is an optional example and does not send mail. Spike detection runs on **weekly** counts of publications, trial starts, and dated FDA notices.
 
 ## Quickstart
 
@@ -153,7 +153,7 @@ Custom domain:
 2. At the DNS host, use the records Vercel shows. For a subdomain that is typically a `CNAME` to `cname.vercel-dns.com`. For an apex domain, Vercel shows an `A` record (currently `76.76.21.21`) or their nameservers.
 3. Wait until Vercel reports the domain as valid. The certificate is issued automatically.
 
-Any static host can serve `web/out/` the same way. GitHub Actions (`.github/workflows/weekly-refresh.yml`) reruns the pull every Monday at 12:00 UTC and commits the new snapshot; redeploy after that commit if the host does not rebuild on push.
+Any static host can serve `web/out/` the same way. GitHub Actions (`.github/workflows/weekly-refresh.yml`) reruns the pull on the newsletter cadence (Monday 12:00 UTC, or every day at 14:00 UTC while `NEWSLETTER_CADENCE=daily`) and commits the new snapshot; redeploy after that commit if the host does not rebuild on push.
 
 There is no public preview URL from this workspace. Run `make dashboard` locally, or deploy with the steps above.
 
@@ -162,7 +162,7 @@ There is no public preview URL from this workspace. Run `make dashboard` locally
 | Piece | Schedule |
 | --- | --- |
 | `scripts/weekly_refresh.sh` and `make refresh` | Weekly. Example crontab: Monday 12:00 UTC. |
-| `.github/workflows/weekly-refresh.yml` | `0 12 * * 1`. This is the orchestration. It builds a draft. The owner approves it on `/approve`, which dispatches the send job. `NEWSLETTER_AUTO_SEND=1` skips the wait. |
+| `.github/workflows/weekly-refresh.yml` | `0 12 * * 1` when `NEWSLETTER_CADENCE` is `weekly` or unset. `0 14 * * *` when it is `daily`. The job builds a draft. The owner approves it on `/approve`, which dispatches the send job. `NEWSLETTER_AUTO_SEND=1` skips the wait. Dry-run stays on unless `NEWSLETTER_DRY_RUN` is `0`. |
 | `n8n/ism-weekly-refresh.json` | Optional example, not the path that sends. Self-hosted only. See `n8n/README.md`. |
 | `apify/fda-safety-pages/` | Actor stub for the Drug Safety Communications page and state health-department pages that have no API. |
 
@@ -175,9 +175,25 @@ There is no public preview URL from this workspace. Run `make dashboard` locally
 - `web/data/newsletter/` — the same issue, read by the static site
 - `web/public/newsletter/email/<date>.html` — the email, served at `/newsletter/email/<date>.html`
 
-Monday’s GitHub Action stores that issue as a **draft** in the `issues` table. The owner signs in at `/approve` with a Supabase magic link. Row level security shows the draft only when that email is in `owner_allowlist`. Approving the draft calls `dispatch-send`, which starts the send job. `NEWSLETTER_AUTO_SEND=1` sends on Monday without that wait.
+The scheduled GitHub Action stores that issue as a **draft** in the `issues` table. The owner signs in at `/approve` with a Supabase magic link. Row level security shows the draft only when that email is in `owner_allowlist`. Approving the draft calls `dispatch-send`, which starts the send job. `NEWSLETTER_AUTO_SEND=1` sends on that run without that wait.
 
 The send is still a **dry run** unless `NEWSLETTER_DRY_RUN` is exactly `0`. A dry run writes the archive and does not call Resend. Rebuilding the same snapshot does not treat it as new; the diff uses the fingerprint from the prior snapshot.
+
+### Temporary daily testing
+
+`NEWSLETTER_CADENCE` is `weekly` when the variable is missing. Set the GitHub Actions variable to exactly `daily` to test more often:
+
+- The same workflow also runs every day at **14:00 UTC**. The Monday 12:00 UTC cron skips while the variable is `daily`, so the two schedules do not both publish.
+- The issue is still the diff against the previous fingerprint. A thin diff is still archived and still eligible to send. The kicker and subject say **Daily test edition**. Empty sections say “None in this daily edition.”
+- Approval, suppression, and dry-run are unchanged. Leave `NEWSLETTER_AUTO_SEND` empty so the draft waits on `/approve`. Leave `NEWSLETTER_DRY_RUN` empty or `1` so Resend is not called. A manual `workflow_dispatch` and an `issue-approved` dispatch still run, on either cadence.
+
+Switch back to weekly:
+
+1. GitHub → Settings → Secrets and variables → Actions → Variables.
+2. Set `NEWSLETTER_CADENCE` to `weekly`, or delete the variable.
+3. The next newsletter run is Monday at 12:00 UTC. The 14:00 UTC cron stays in the workflow and skips.
+
+Locally, `NEWSLETTER_CADENCE=daily python -m inflammon newsletter` writes a daily test edition. Unset the variable, or set it to `weekly`, before the next normal build so the archive label returns to the weekly issue.
 
 Each real send re-reads the subscriber row, skips anything that is not `active` (pending, unsubscribed, bounced, complained), and posts one Resend email per remaining address. The request carries an `Idempotency-Key` of `issue:subscriber`, and `List-Unsubscribe` plus `List-Unsubscribe-Post: List-Unsubscribe=One-Click`. The result is logged in `sends`.
 
@@ -207,6 +223,7 @@ GitHub **secrets** (Settings → Secrets and variables → Actions → Secrets):
 GitHub **variables**:
 
 - `NCBI_EMAIL`, `SITE_URL`, `FUNCTIONS_BASE`, `NEWSLETTER_FROM`, `NEWSLETTER_POSTAL_ADDRESS`
+- `NEWSLETTER_CADENCE` — `weekly` or empty for Monday 12:00 UTC. `daily` for a temporary test at 14:00 UTC every day. Set it back to `weekly`, or delete it, to leave daily testing.
 - `NEWSLETTER_AUTO_SEND` — `1` to send without approval, otherwise empty
 - `NEWSLETTER_DRY_RUN` — leave empty or `1` until a real send; set to `0` to allow Resend
 

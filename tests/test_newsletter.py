@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from inflammon.cli import main
+from inflammon.newsletter.cadence import DAILY_CRON, WEEKLY_CRON, newsletter_cadence, schedule_matches
 from inflammon.newsletter.compose import compose_issue, fingerprint, load_snapshot
 from inflammon.newsletter.publish import NewsletterSendError, build_and_save, send_resend
 from inflammon.newsletter.render import render_html, render_text
@@ -142,6 +143,109 @@ def test_weekly_diff_keeps_new_and_strengthened_only():
     fresh = next(item for item in _section(issue, "signals")["items"] if "Fresh Event" in item["title"])
     assert "Evans screen" in fresh["body"]
     assert issue["headline"].startswith("TNF inhibitors:")
+
+
+def test_cadence_defaults_to_weekly_and_rejects_other_values(monkeypatch):
+    monkeypatch.delenv("NEWSLETTER_CADENCE", raising=False)
+    assert newsletter_cadence() == "weekly"
+    assert newsletter_cadence("") == "weekly"
+    assert newsletter_cadence("WEEKLY") == "weekly"
+    monkeypatch.setenv("NEWSLETTER_CADENCE", "daily")
+    assert newsletter_cadence() == "daily"
+    with pytest.raises(ValueError, match="daily or weekly"):
+        newsletter_cadence("hourly")
+
+
+def test_schedule_matches_only_the_selected_cadence():
+    assert schedule_matches("schedule", WEEKLY_CRON, "weekly")
+    assert not schedule_matches("schedule", DAILY_CRON, "weekly")
+    assert schedule_matches("schedule", DAILY_CRON, "daily")
+    assert not schedule_matches("schedule", WEEKLY_CRON, "daily")
+    assert schedule_matches("schedule", WEEKLY_CRON, None)
+    assert schedule_matches("workflow_dispatch", "", "weekly")
+    assert schedule_matches("repository_dispatch", DAILY_CRON, "weekly")
+    assert schedule_matches("repository_dispatch", WEEKLY_CRON, "daily")
+    assert DAILY_CRON == "0 14 * * *"
+    assert WEEKLY_CRON == "0 12 * * 1"
+
+
+def test_workflow_keeps_both_crons_and_the_approval_gate():
+    text = (ROOT / ".github" / "workflows" / "weekly-refresh.yml").read_text(encoding="utf8")
+    assert 'cron: "0 12 * * 1"' in text
+    assert 'cron: "0 14 * * *"' in text
+    assert "vars.NEWSLETTER_CADENCE == 'daily'" in text
+    assert "github.event_name != 'schedule'" in text
+    assert "vars.NEWSLETTER_AUTO_SEND" in text
+    assert "NEWSLETTER_DRY_RUN" in text
+    assert "issue-approved" in text
+
+
+def test_daily_edition_is_built_when_little_is_new(monkeypatch):
+    monkeypatch.setenv("NEWSLETTER_CADENCE", "daily")
+    earlier = _snapshot()
+    issue = compose_issue(_snapshot(), fingerprint(earlier), site_url="http://127.0.0.1:43123")
+    blob = json.dumps(issue)
+    assert issue["cadence"] == "daily"
+    assert issue["kind"] == "daily"
+    assert issue["kicker"].startswith("Daily test edition")
+    assert issue["subject"].startswith("Daily test edition")
+    assert "no new or strengthened high signals" in issue["headline"]
+    assert "little is new" in issue["intro"]
+    assert _section(issue, "alerts")["items"] == []
+    assert _section(issue, "signals")["items"] == []
+    assert _section(issue, "alerts")["empty"] == "None in this daily edition."
+    assert "None this week." not in blob
+    assert "causes" not in blob.lower()
+
+
+def test_daily_diff_keeps_only_what_changed_and_stays_a_test_edition(monkeypatch):
+    monkeypatch.setenv("NEWSLETTER_CADENCE", "daily")
+    earlier = _snapshot(
+        alerts=[{"title": "Old notice", "link": "https://example.com/old", "source": "FDA", "tags": ["nsaid"]}],
+    )
+    current = _snapshot(
+        alerts=[
+            {"title": "Old notice", "link": "https://example.com/old", "source": "FDA", "tags": ["nsaid"]},
+            {"title": "Brand new notice", "link": "https://example.com/new", "source": "FDA", "tags": ["jak_inhibitor"]},
+        ],
+        signals=[_signal(reaction="FRESH EVENT", drug_class="tnf_inhibitor", prr=4.0)],
+    )
+    issue = compose_issue(current, fingerprint(earlier), site_url="http://127.0.0.1:43123")
+    assert issue["kind"] == "daily"
+    assert issue["headline"].startswith("TNF inhibitors:")
+    assert issue["subject"] == "Daily test edition: " + issue["headline"]
+    assert "Brand new notice" in _titles(issue, "alerts")
+    assert "Old notice" not in _titles(issue, "alerts")
+    weekly = compose_issue(current, fingerprint(earlier), site_url="http://127.0.0.1:43123", cadence="weekly")
+    assert weekly["kind"] == "weekly"
+    assert weekly["subject"] == weekly["headline"]
+    assert "None this week." == _section(weekly, "recalls")["empty"]
+
+
+def test_daily_dry_run_still_does_not_send(tmp_path, monkeypatch):
+    monkeypatch.setenv("NEWSLETTER_CADENCE", "daily")
+    monkeypatch.setenv("NEWSLETTER_DRY_RUN", "1")
+    monkeypatch.delenv("NEWSLETTER_SEND", raising=False)
+
+    def explode(*_args, **_kwargs):
+        raise AssertionError("network")
+
+    monkeypatch.setattr("inflammon.newsletter.publish._post", explode)
+    snapshot_dir = _write_snapshot(tmp_path / "snapshot", _snapshot())
+    summary = build_and_save(
+        snapshot_dir=snapshot_dir,
+        out_dir=tmp_path / "newsletter",
+        web_data_dir=tmp_path / "web-data",
+        web_email_dir=tmp_path / "email",
+        site_url="http://127.0.0.1:43123",
+        send=True,
+    )
+    issue = json.loads((tmp_path / "newsletter" / "issues" / "2026-10-22" / "issue.json").read_text())
+    assert summary["kind"] == "daily"
+    assert summary["delivery"]["sent"] is False
+    assert summary["delivery"]["mode"] == "dry-run"
+    assert "Daily test edition" in issue["kicker"]
+    assert "Daily test edition" in (tmp_path / "newsletter" / "issues" / "2026-10-22" / "issue.txt").read_text()
 
 
 def test_empty_weekly_section_says_none_this_week():

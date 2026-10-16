@@ -2,9 +2,11 @@ name: weekly-refresh
 
 on:
   schedule:
-    # Monday 12:00 UTC. Spike detection uses complete weeks, so the job
-    # runs once a week rather than every day.
+    # Monday 12:00 UTC. This is the weekly cadence (the default).
     - cron: "0 12 * * 1"
+    # Every day at 14:00 UTC. Runs only when the repository variable
+    # NEWSLETTER_CADENCE is exactly daily. Otherwise this schedule is skipped.
+    - cron: "0 14 * * *"
   workflow_dispatch:
     inputs:
       auto_send:
@@ -21,6 +23,13 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    # Manual runs and owner approval always proceed. A cron proceeds only when
+    # it matches NEWSLETTER_CADENCE (empty or weekly → Monday; daily → 14:00 UTC).
+    # Keep this expression in step with inflammon.newsletter.cadence.schedule_matches.
+    if: >-
+      github.event_name != 'schedule' ||
+      (github.event.schedule == '0 14 * * *' && vars.NEWSLETTER_CADENCE == 'daily') ||
+      (github.event.schedule == '0 12 * * 1' && (vars.NEWSLETTER_CADENCE == 'weekly' || vars.NEWSLETTER_CADENCE == ''))
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -46,6 +55,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           NEWSLETTER_POSTAL_ADDRESS: ${{ vars.NEWSLETTER_POSTAL_ADDRESS }}
+          NEWSLETTER_CADENCE: ${{ vars.NEWSLETTER_CADENCE }}
           SITE_URL: ${{ vars.SITE_URL }}
           NEWSLETTER_DRY_RUN: "1"
         run: python -m inflammon newsletter
@@ -55,7 +65,7 @@ jobs:
           git config user.name "inflammon-refresh"
           git config user.email "inflammon-refresh@users.noreply.github.com"
           git add data/snapshot web/data data/newsletter web/public/newsletter
-          git diff --staged --quiet || git commit -m "Refresh weekly public-data snapshot"
+          git diff --staged --quiet || git commit -m "Refresh public-data snapshot and newsletter draft"
           git push
       - name: Send the approved issue
         if: github.event_name == 'repository_dispatch' || vars.NEWSLETTER_AUTO_SEND == '1' || (github.event_name == 'workflow_dispatch' && inputs.auto_send)
@@ -67,6 +77,7 @@ jobs:
           UNSUBSCRIBE_HMAC_SECRET: ${{ secrets.UNSUBSCRIBE_HMAC_SECRET }}
           FUNCTIONS_BASE: ${{ vars.FUNCTIONS_BASE }}
           NEWSLETTER_POSTAL_ADDRESS: ${{ vars.NEWSLETTER_POSTAL_ADDRESS }}
+          NEWSLETTER_CADENCE: ${{ vars.NEWSLETTER_CADENCE }}
           SITE_URL: ${{ vars.SITE_URL }}
           # Dry-run unless the repository variable NEWSLETTER_DRY_RUN is exactly 0.
           NEWSLETTER_DRY_RUN: ${{ vars.NEWSLETTER_DRY_RUN == '0' && '0' || '1' }}
