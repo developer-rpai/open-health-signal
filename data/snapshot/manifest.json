@@ -4,7 +4,7 @@
   "generated_at": "2026-10-15T06:37:57+00:00",
   "refresh_cadence": "weekly",
   "spike_grain": "week",
-  "disclaimer": "Inflammation Signal Monitor is for research and public-health surveillance. It is not medical advice, and it does not estimate how often an adverse reaction occurs or prove that a drug caused it. FAERS is a spontaneous-report system with under-reporting, duplicate reports, and no exposure denominator. Do not start or stop a medicine based on this site. Talk with a clinician. Report adverse events to FDA MedWatch.",
+  "disclaimer": "For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor. FAERS is a spontaneous-report system with under-reporting, duplicate reports, and no exposure denominator. A disproportionality signal means a reaction was reported more often than expected. It is not an incidence rate. Report adverse events to FDA MedWatch.",
   "openfda_last_updated": "2026-07-30",
   "faers_report_total": 20692690,
   "signal_rows": 721,

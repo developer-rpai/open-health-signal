@@ -12,6 +12,7 @@ import asyncio
 import hashlib
 import json
 import logging
+import os
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +25,22 @@ CACHE_DIR = Path("data/raw/http")
 
 
 _SHARED: dict[str, "RateLimiter"] = {}
+
+
+def openfda_request_params(url: str, params: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Return ``(cache_params, request_params)``.
+
+    ``OPENFDA_API_KEY`` is added only to the outgoing request. It is not part of
+    the cache key and it is not written into the cache file.
+    """
+    cache_params = {key: value for key, value in params.items() if key != "api_key"}
+    request_params = dict(cache_params)
+    host = url.lower()
+    if "api.fda.gov" in host or "open.fda.gov" in host:
+        api_key = os.environ.get("OPENFDA_API_KEY", "").strip()
+        if api_key:
+            request_params["api_key"] = api_key
+    return cache_params, request_params
 
 
 def shared_limiter(name: str, min_interval: float) -> "RateLimiter":
@@ -74,7 +91,8 @@ class HttpCache:
         retries: int = 4,
     ) -> tuple[int, Any]:
         params = params or {}
-        path = self._path(url, params)
+        cache_params, request_params = openfda_request_params(url, params)
+        path = self._path(url, cache_params)
         if path.exists() and not self.force:
             self.cache_hits += 1
             cached = json.loads(path.read_text())
@@ -86,7 +104,7 @@ class HttpCache:
                 await limiter.wait()
             self.requests += 1
             try:
-                response = await client.get(url, params=params, headers={"User-Agent": USER_AGENT})
+                response = await client.get(url, params=request_params, headers={"User-Agent": USER_AGENT})
             except httpx.HTTPError as exc:
                 last_error = f"{url} {exc}"
                 await asyncio.sleep(min(2**attempt, 20))
@@ -105,7 +123,7 @@ class HttpCache:
                 await asyncio.sleep(delay)
                 continue
             if status < 400 or status == 404:
-                path.write_text(json.dumps({"status": status, "url": url, "params": params, "body": body}))
+                path.write_text(json.dumps({"status": status, "url": url, "params": cache_params, "body": body}))
             if status >= 400 and status != 404:
                 self.errors.append(f"HTTP {status} {url}")
                 log.warning("HTTP %s for %s", status, url)

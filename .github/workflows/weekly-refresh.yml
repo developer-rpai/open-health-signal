@@ -30,6 +30,10 @@ jobs:
       - name: Test signal math
         run: pytest
       - name: Refresh public sources
+        env:
+          OPENFDA_API_KEY: ${{ secrets.OPENFDA_API_KEY }}
+          NCBI_EMAIL: ${{ vars.NCBI_EMAIL }}
+          NCBI_TOOL: inflammon
         run: python -m inflammon refresh
       - name: Build the newsletter
         env:
@@ -38,6 +42,7 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
           NEWSLETTER_FROM: ${{ vars.NEWSLETTER_FROM }}
+          NEWSLETTER_POSTAL_ADDRESS: ${{ vars.NEWSLETTER_POSTAL_ADDRESS }}
           SITE_URL: ${{ vars.SITE_URL }}
           # Scheduled runs send only when the repository variable NEWSLETTER_SEND is 1.
           # A manual run sends only when the send_newsletter input is checked.

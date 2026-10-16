@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { SubscribeForm } from "@/components/subscribe-form";
+import { FDA_ATTRIBUTION, FDA_INDEPENDENCE, RESEARCH_LINE } from "@/lib/compliance";
 
 const LINKS = [
   { href: "/", label: "Overview" },
@@ -53,7 +54,7 @@ export function SiteHeader() {
 
 export function SiteFooter({ generated, version }: { generated: string; version: string }) {
   return (
-    <footer className="mt-16 border-t border-border">
+    <footer id="site-footer" className="mt-16 border-t border-border">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
           <h2 className="text-xl">Weekly briefing</h2>
@@ -69,9 +70,12 @@ export function SiteFooter({ generated, version }: { generated: string; version:
           </div>
         </div>
         <div className="flex flex-col gap-2 text-sm text-muted-foreground lg:pt-1">
+        <p>{RESEARCH_LINE}</p>
+        <p>
+          {FDA_ATTRIBUTION}. {FDA_INDEPENDENCE}
+        </p>
         <p>
           Snapshot {generated}. Version {version}. Refreshed weekly from public sources.
-          Not medical advice.
         </p>
         <p>
           Report adverse events to{" "}
@@ -83,6 +87,11 @@ export function SiteFooter({ generated, version }: { generated: string; version:
             methods page
           </Link>
           .
+        </p>
+        <p className="flex flex-wrap gap-x-3 gap-y-1">
+          <Link className="underline decoration-border underline-offset-2 hover:text-foreground" href="/privacy">Privacy</Link>
+          <Link className="underline decoration-border underline-offset-2 hover:text-foreground" href="/terms">Terms</Link>
+          <Link className="underline decoration-border underline-offset-2 hover:text-foreground" href="/unsubscribe">Unsubscribe</Link>
         </p>
         </div>
       </div>

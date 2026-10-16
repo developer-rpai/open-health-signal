@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { SignalNotice } from "@/components/signal-notice";
 import { SubscribeForm } from "@/components/subscribe-form";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -111,6 +112,9 @@ export default function OverviewPage() {
               </Card>
             );
           })}
+        </div>
+        <div className="mt-4">
+          <SignalNotice />
         </div>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
           Evans screen on this snapshot:{" "}

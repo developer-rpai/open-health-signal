@@ -374,10 +374,10 @@ VALIDATION_CHECKS: tuple[dict[str, str], ...] = (
 
 
 DISCLAIMER = (
-    "Inflammation Signal Monitor is for research and public-health surveillance. "
-    "It is not medical advice, and it does not estimate how often an adverse reaction "
-    "occurs or prove that a drug caused it. FAERS is a spontaneous-report system with "
-    "under-reporting, duplicate reports, and no exposure denominator. Do not start or "
-    "stop a medicine based on this site. Talk with a clinician. Report adverse events "
-    "to FDA MedWatch."
+    "For research and informational purposes only. Not medical advice. "
+    "Do not stop or change any medication without talking to your doctor. "
+    "FAERS is a spontaneous-report system with under-reporting, duplicate reports, "
+    "and no exposure denominator. A disproportionality signal means a reaction was "
+    "reported more often than expected. It is not an incidence rate. "
+    "Report adverse events to FDA MedWatch."
 )

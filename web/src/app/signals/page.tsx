@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { SignalNotice } from "@/components/signal-notice";
 import { SignalsExplorer } from "@/components/signals-explorer";
 import { getQuarterly, getSignals } from "@/lib/snapshot";
 
@@ -18,9 +19,11 @@ export default function SignalsPage() {
         <p className="mt-3 text-muted-foreground">
           Proportional reporting ratios and reporting odds ratios for prespecified MedDRA reactions,
           plus the leading reactions returned by openFDA. Filter by class or by drug. The JAK versus TNF
-          view is the active-comparator check for thrombosis and major cardiovascular events.
+          view is the active-comparator check for thrombosis and major cardiovascular events. A row that clears
+          the screen was reported more often than expected (PRR in the table). That is a disproportionality signal.
         </p>
       </header>
+      <SignalNotice />
       {rows.length === 0 ? (
         <p className="rounded-xl border border-dashed px-4 py-10 text-sm text-muted-foreground">
           The signal table is empty. openFDA drug/event did not return counts for this snapshot.

@@ -1,9 +1,13 @@
 INFLAMMATION SIGNAL MONITOR
 Inaugural briefing · 15 October 2026
 
-TNF inhibitors: tuberculosis reporting is 7.5× the rest of FAERS
+TNF inhibitors: tuberculosis reported more often than expected (PRR 7.5)
 
-This is the first briefing, from the snapshot of 15 October 2026. There is no earlier snapshot to compare, so the lists below are the latest notices and the strongest prespecified signals in the current extract, not week-over-week changes. openFDA extract dated 2026-07-30. Myocardial Infarction and Cerebrovascular Accident cleared a reporting-odds bound only. The PRR is below 2, so those comparisons are not Evans signals and they are not the headline. PRR and ROR describe how often a reaction is reported. They are not incidence and they are not proof a drug caused an event.
+This is the first briefing, from the snapshot of 15 October 2026. There is no earlier snapshot to compare, so the lists below are the latest notices and the strongest prespecified signals in the current extract, not week-over-week changes. openFDA extract dated 2026-07-30. Myocardial Infarction and Cerebrovascular Accident cleared a reporting-odds bound only. The PRR is below 2, so those comparisons are not Evans signals and they are not the headline. PRR and ROR describe reporting. A higher ratio is a disproportionality signal. It is not an incidence rate.
+
+There is no certainty that the reported event was actually due to the product. The information in these reports has not been scientifically or otherwise verified as to a cause and effect relationship and cannot be used to estimate the incidence of these events.
+
+For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor.
 
 LATEST FDA SAFETY NOTICES
 - FDA requires warnings about increased risk of serious heart-related events, cancer, blood clots, and death for JAK inhibitors that treat certain chronic inflammatory conditions
@@ -43,32 +47,32 @@ STRONGEST PRESPECIFIED SAFETY SIGNALS
 - TNF inhibitors · Tuberculosis
   Evans
   PRR 7.54 (95% CI 7.28–7.82) · ROR 7.56 (95% CI 7.29–7.84)
-  In this extract, tuberculosis is reported with TNF inhibitors 7.54 times as often as with all other FAERS reports (PRR 7.54, 95% CI 7.28–7.82). The reporting odds ratio is 7.56 (95% CI 7.29–7.84). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. A ratio like this is not proof the drug caused the event, and it is not an incidence rate.
+  Tuberculosis was reported more often than expected with TNF inhibitors than with all other FAERS reports (PRR 7.54, 95% CI 7.28–7.82). This is a disproportionality signal. The reporting odds ratio is 7.56 (95% CI 7.29–7.84). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. The ratio is not an incidence rate.
 
 - TNF inhibitors · Pulmonary Tuberculosis
   Evans
   PRR 6.89 (95% CI 6.46–7.34) · ROR 6.89 (95% CI 6.47–7.34)
-  In this extract, pulmonary tuberculosis is reported with TNF inhibitors 6.89 times as often as with all other FAERS reports (PRR 6.89, 95% CI 6.46–7.34). The reporting odds ratio is 6.89 (95% CI 6.47–7.34). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. A ratio like this is not proof the drug caused the event, and it is not an incidence rate.
+  Pulmonary tuberculosis was reported more often than expected with TNF inhibitors than with all other FAERS reports (PRR 6.89, 95% CI 6.46–7.34). This is a disproportionality signal. The reporting odds ratio is 6.89 (95% CI 6.47–7.34). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. The ratio is not an incidence rate.
 
 - NSAIDs · Gastric Ulcer
   Evans
   PRR 6.30 (95% CI 6.05–6.55) · ROR 6.33 (95% CI 6.08–6.58)
-  In this extract, gastric ulcer is reported with NSAIDs 6.30 times as often as with all other FAERS reports (PRR 6.30, 95% CI 6.05–6.55). The reporting odds ratio is 6.33 (95% CI 6.08–6.58). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. A ratio like this is not proof the drug caused the event, and it is not an incidence rate.
+  Gastric ulcer was reported more often than expected with NSAIDs than with all other FAERS reports (PRR 6.30, 95% CI 6.05–6.55). This is a disproportionality signal. The reporting odds ratio is 6.33 (95% CI 6.08–6.58). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. The ratio is not an incidence rate.
 
 - NSAIDs · Melaena
   Evans
   PRR 4.24 (95% CI 4.06–4.42) · ROR 4.25 (95% CI 4.07–4.44)
-  In this extract, melaena is reported with NSAIDs 4.24 times as often as with all other FAERS reports (PRR 4.24, 95% CI 4.06–4.42). The reporting odds ratio is 4.25 (95% CI 4.07–4.44). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. A ratio like this is not proof the drug caused the event, and it is not an incidence rate.
+  Melaena was reported more often than expected with NSAIDs than with all other FAERS reports (PRR 4.24, 95% CI 4.06–4.42). This is a disproportionality signal. The reporting odds ratio is 4.25 (95% CI 4.07–4.44). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. The ratio is not an incidence rate.
 
 - JAK inhibitors · Deep Vein Thrombosis
   Evans
   PRR 2.55 (95% CI 2.38–2.73) · ROR 2.55 (95% CI 2.38–2.74)
-  In this extract, deep vein thrombosis is reported with JAK inhibitors 2.55 times as often as with TNF inhibitors (PRR 2.55, 95% CI 2.38–2.73). The reporting odds ratio is 2.55 (95% CI 2.38–2.74). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. A ratio like this is not proof the drug caused the event, and it is not an incidence rate.
+  Deep vein thrombosis was reported more often than expected with JAK inhibitors than with TNF inhibitors (PRR 2.55, 95% CI 2.38–2.73). This is a disproportionality signal. The reporting odds ratio is 2.55 (95% CI 2.38–2.74). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. The ratio is not an incidence rate.
 
 - NSAIDs · Gastrointestinal Haemorrhage
   Evans
   PRR 2.52 (95% CI 2.46–2.59) · ROR 2.54 (95% CI 2.47–2.61)
-  In this extract, gastrointestinal haemorrhage is reported with NSAIDs 2.52 times as often as with all other FAERS reports (PRR 2.52, 95% CI 2.46–2.59). The reporting odds ratio is 2.54 (95% CI 2.47–2.61). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. A ratio like this is not proof the drug caused the event, and it is not an incidence rate.
+  Gastrointestinal haemorrhage was reported more often than expected with NSAIDs than with all other FAERS reports (PRR 2.52, 95% CI 2.46–2.59). This is a disproportionality signal. The reporting odds ratio is 2.54 (95% CI 2.47–2.61). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. The ratio is not an incidence rate.
 
 RECENT TRIALS
 - Longitudinal Immunophenotyping of Patients With Inflammatory Bowel Disease
@@ -92,25 +96,32 @@ RECENT TRIALS
   https://clinicaltrials.gov/study/NCT07621809
 
 RECENT PUBMED PAPERS
+Titles and links only. Abstracts are not shown. NCBI disclaimer: https://www.ncbi.nlm.nih.gov/home/about/policies/
 - Rapid fecal lipidome profiling in inflammatory bowel disease: A novel approach for exploratory disease molecular characterization and therapeutic monitoring
-  J Pharm Biomed Anal · 2027 Jan 1 · PMID 42580209 · Crohn's disease
   https://pubmed.ncbi.nlm.nih.gov/42580209/
 
 - Integrated DIA proteomics of tissue and exudate reveals screening markers for early detection of ulcerative colitis and colorectal cancer
-  Clin Chim Acta · 2027 Feb 15 · PMID 42556455 · Ulcerative colitis
   https://pubmed.ncbi.nlm.nih.gov/42556455/
 
 - Inflammation-triggered nanodrug delivery microneedles targeting pathogenic COX2(+) endothelial cell-mediated glycocalyx degradation to ameliorate psoriasis
-  Biomaterials · 2027 Feb · PMID 42546583 · Psoriasis
   https://pubmed.ncbi.nlm.nih.gov/42546583/
 
 - A novel urinary metabolic signature for the non-invasive screening of lupus nephritis in systemic lupus erythematosus
-  Clin Chim Acta · 2027 Feb 15 · PMID 42468728 · Systemic lupus erythematosus
   https://pubmed.ncbi.nlm.nih.gov/42468728/
 
 Open the dashboard: http://127.0.0.1:43123/
 Read this issue on the site: http://127.0.0.1:43123/newsletter/2026-10-15
 
-Inflammation Signal Monitor is for research and public-health surveillance. It is not medical advice, and it does not estimate how often an adverse reaction occurs or prove that a drug caused it. FAERS is a spontaneous-report system with under-reporting, duplicate reports, and no exposure denominator. Do not start or stop a medicine based on this site. Talk with a clinician. Report adverse events to FDA MedWatch.
+For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor. FAERS is a spontaneous-report system with under-reporting, duplicate reports, and no exposure denominator. A disproportionality signal means a reaction was reported more often than expected. It is not an incidence rate. Report adverse events to FDA MedWatch.
 
-Unsubscribe: {{ unsubscribe_url }}
+There is no certainty that the reported event was actually due to the product. The information in these reports has not been scientifically or otherwise verified as to a cause and effect relationship and cannot be used to estimate the incidence of these events.
+
+For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor.
+
+Data provided by the U.S. Food and Drug Administration (https://open.fda.gov). This site is not affiliated with or endorsed by the U.S. Food and Drug Administration.
+
+Postal address placeholder — set NEWSLETTER_POSTAL_ADDRESS
+
+Unsubscribe: http://127.0.0.1:43123/unsubscribe
+Opt-outs are honored within ten business days.
+One-click unsubscribe: {{ unsubscribe_url }}

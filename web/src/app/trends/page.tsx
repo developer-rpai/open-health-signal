@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { TrendCharts } from "@/components/trend-charts";
 import { Badge } from "@/components/ui/badge";
+import { NCBI_DISCLAIMER_URL } from "@/lib/compliance";
 import { getCdc, getRecent, getTrends } from "@/lib/snapshot";
 
 export const metadata: Metadata = {
@@ -48,14 +49,17 @@ export default function TrendsPage() {
                   <a href={item.link} className="font-medium hover:underline">
                     {item.title}
                   </a>
-                  <p className="text-muted-foreground">
-                    {item.journal} · {item.published} · PMID {item.pmid}
-                  </p>
                 </li>
               ))}
             </ul>
           )}
-          <p className="mt-3 text-xs text-muted-foreground">Titles and identifiers only. Abstracts are not stored.</p>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Titles and links only. Abstracts are not shown.{" "}
+            <a className="underline underline-offset-2 hover:text-foreground" href={NCBI_DISCLAIMER_URL}>
+              NCBI disclaimer
+            </a>
+            .
+          </p>
         </div>
         <div>
           <h2 className="mb-3 text-2xl">Recently updated trials</h2>

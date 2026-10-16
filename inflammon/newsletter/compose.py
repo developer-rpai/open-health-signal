@@ -7,6 +7,14 @@ from datetime import datetime, timezone
 from html import unescape
 from pathlib import Path
 
+from inflammon.compliance import (
+    FDA_ATTRIBUTION,
+    FDA_CAVEAT,
+    FDA_INDEPENDENCE,
+    NCBI_DISCLAIMER_URL,
+    RESEARCH_LINE,
+    postal_address,
+)
 from inflammon.taxonomy import CONDITIONS, DISCLAIMER, DRUG_CLASSES, DRUG_TOPICS
 
 CLASS_SHORT = {item.key: item.short_label for item in DRUG_CLASSES}
@@ -122,6 +130,13 @@ def compose_issue(snapshot: dict, previous: dict | None, *, site_url: str) -> di
         "dashboard_url": f"{site}/",
         "archive_path": f"/newsletter/{slug}",
         "disclaimer": manifest.get("disclaimer") or DISCLAIMER,
+        "fda_caveat": FDA_CAVEAT,
+        "research_line": RESEARCH_LINE,
+        "fda_attribution": FDA_ATTRIBUTION,
+        "fda_independence": FDA_INDEPENDENCE,
+        "ncbi_disclaimer_url": NCBI_DISCLAIMER_URL,
+        "postal_address": postal_address(),
+        "unsubscribe_page": f"{site}/unsubscribe",
         "sections": [
             {
                 "id": "alerts",
@@ -151,6 +166,7 @@ def compose_issue(snapshot: dict, previous: dict | None, *, site_url: str) -> di
                 "id": "papers",
                 "heading": "Recent PubMed papers" if inaugural else "Top new PubMed papers",
                 "empty": empty,
+                "note": f"Titles and links only. Abstracts are not shown. NCBI disclaimer: {NCBI_DISCLAIMER_URL}",
                 "items": papers[:PAPER_CAP],
             },
         ],
@@ -319,21 +335,10 @@ def _papers(items: list[dict], previous: dict | None, inaugural: bool) -> list[d
         title = _clean(item.get("title"))
         if not title:
             continue
-        topic = TOPIC_LABELS.get(item.get("topic") or "", "")
-        meta = " · ".join(
-            bit
-            for bit in (
-                _clean(item.get("journal")),
-                _clean(item.get("published")),
-                f"PMID {_clean(item.get('pmid'))}" if item.get("pmid") else "",
-                topic,
-            )
-            if bit
-        )
         rows.append(
             {
                 "title": title,
-                "meta": meta,
+                "meta": "",
                 "body": "",
                 "href": _http_url(item.get("link")),
                 "badge": "",
@@ -362,7 +367,7 @@ def _reporting_headline(row: dict) -> str:
     name = _display_name(row)
     reaction = _title_case(row.get("reaction") or "").lower()
     times = f"{float(row['prr']):.1f}"
-    return f"{name}: {reaction} reporting is {times}× {_compare_phrase(row)}"
+    return f"{name}: {reaction} reported more often than expected (PRR {times})"
 
 
 def _intro(snapshot: dict, previous: dict | None, inaugural: bool, generated_at: str) -> str:
@@ -395,7 +400,7 @@ def _intro(snapshot: dict, previous: dict | None, inaugural: bool, generated_at:
         )
     return (
         f"{lead} openFDA extract dated {extract}.{caveat} "
-        "PRR and ROR describe how often a reaction is reported. They are not incidence and they are not proof a drug caused an event."
+        "PRR and ROR describe reporting. A higher ratio is a disproportionality signal. It is not an incidence rate."
     )
 
 
@@ -413,8 +418,9 @@ def _plain_english(row: dict, change: str, previous_prr: float | None) -> str:
         )
     if prr is not None:
         sentences.append(
-            f"In this extract, {reaction} is reported with {name} {_fmt(prr)} times as often as with "
-            f"{_compare_sentence(row)} (PRR {_fmt(prr)}, 95% CI {_fmt(row.get('prr_ci_low'))}–{_fmt(row.get('prr_ci_high'))})."
+            f"{reaction[:1].upper() + reaction[1:]} was reported more often than expected with {name} than with "
+            f"{_compare_sentence(row)} (PRR {_fmt(prr)}, 95% CI {_fmt(row.get('prr_ci_low'))}–{_fmt(row.get('prr_ci_high'))}). "
+            "This is a disproportionality signal."
         )
     if ror is not None:
         sentences.append(
@@ -427,7 +433,7 @@ def _plain_english(row: dict, change: str, previous_prr: float | None) -> str:
             "The reporting odds ratio has a 95% lower bound above 1, with at least 3 reports. "
             "The PRR is below 2, so this is not an Evans signal."
         )
-    sentences.append("A ratio like this is not proof the drug caused the event, and it is not an incidence rate.")
+    sentences.append("The ratio is not an incidence rate.")
     return " ".join(sentences)
 
 

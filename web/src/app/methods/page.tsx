@@ -66,9 +66,10 @@ export default function MethodsPage() {
       <section className="rounded-xl border border-amber-800/20 bg-amber-100/70 px-4 py-4 text-amber-950">
         <h2 className="text-xl">Not medical advice</h2>
         <p className="mt-2">
-          Do not start, stop, or change a medicine because of a number on this site. Disproportionality does not
-          show how often a reaction happens in people taking a drug, and it does not prove the drug caused the
-          reaction. Decisions about treatment belong with a clinician. Adverse events can be reported to FDA MedWatch.
+          For research and informational purposes only. Not medical advice. Do not stop or change any medication
+          without talking to your doctor. A disproportionality signal means a reaction was reported more often than
+          expected (PRR on the drug signals page). It is not an incidence rate. Adverse events can be reported to FDA
+          MedWatch.
         </p>
       </section>
 
@@ -197,7 +198,13 @@ export default function MethodsPage() {
           <li>Indication confounding remains. People on these drugs are not the general population.</li>
           <li>Reports that mention both a JAK inhibitor and a TNF inhibitor stay in both sides of the active comparison.</li>
           <li>Product-use terms such as “drug ineffective” are computed when openFDA returns them and hidden in the default table.</li>
-          <li>PubMed stores citation metadata only. Abstracts remain with the publisher.</li>
+          <li>
+            PubMed lists show titles and links only. Abstracts are not stored or shown.{" "}
+            <a className="underline underline-offset-2" href="https://www.ncbi.nlm.nih.gov/home/about/policies/">
+              NCBI disclaimer
+            </a>
+            .
+          </li>
         </ul>
       </section>
     </article>

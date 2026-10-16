@@ -9,6 +9,7 @@ this module waits a third of a second between calls.
 from __future__ import annotations
 
 import logging
+import os
 from datetime import date
 from typing import Any
 
@@ -26,8 +27,22 @@ YEAR_START = 2016
 WEEKLY_WINDOW = 16
 
 
+def eutils_params() -> dict[str, str]:
+    """Identity parameters NCBI requires on every E-utilities call.
+
+    ``tool`` names this project. ``email`` comes from ``NCBI_EMAIL`` so NCBI
+    can reach the operator. Abstracts are never requested.
+    """
+    tool = (os.environ.get("NCBI_TOOL") or "inflammon").strip() or "inflammon"
+    params = {"tool": tool, "db": "pubmed", "retmode": "json"}
+    email = (os.environ.get("NCBI_EMAIL") or "").strip()
+    if email:
+        params["email"] = email
+    return params
+
+
 def _base_params() -> dict[str, str]:
-    return {"tool": "inflammon", "db": "pubmed", "retmode": "json"}
+    return eutils_params()
 
 
 async def _count(
@@ -74,6 +89,7 @@ async def _recent(
         title = item.get("title") or ""
         if not title:
             continue
+        # esummary can carry extra fields. Keep citation identity only.
         rows.append(
             {
                 "pmid": pmid,

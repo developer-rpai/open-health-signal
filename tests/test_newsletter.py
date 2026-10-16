@@ -136,7 +136,9 @@ def test_weekly_diff_keeps_new_and_strengthened_only():
     assert any("New lupus paper" in title for title in _titles(issue, "papers"))
     stronger = next(item for item in _section(issue, "signals")["items"] if "Stronger Event" in item["title"])
     assert "at least 25% higher" in stronger["body"]
-    assert "not proof the drug caused the event" in stronger["body"]
+    assert "reported more often than expected" in stronger["body"]
+    assert "disproportionality signal" in stronger["body"]
+    assert "causes" not in stronger["body"].lower()
     fresh = next(item for item in _section(issue, "signals")["items"] if "Fresh Event" in item["title"])
     assert "Evans screen" in fresh["body"]
     assert issue["headline"].startswith("TNF inhibitors:")
@@ -180,7 +182,7 @@ def test_inaugural_is_not_labeled_as_new_this_week():
     assert issue["kind"] == "inaugural"
     assert "no earlier snapshot" in issue["intro"]
     assert "new this week" not in blob
-    assert issue["headline"] == "TNF inhibitors: tuberculosis reporting is 7.5× the rest of FAERS"
+    assert issue["headline"] == "TNF inhibitors: tuberculosis reported more often than expected (PRR 7.5)"
     assert "not week-over-week changes" in issue["intro"]
 
 
@@ -221,6 +223,14 @@ def test_html_and_text_rendering():
     assert "&lt;script&gt;" in html_body
     assert "A &amp; B" in html_body
     assert issue["headline"] in text_body
+    assert "There is no certainty that the reported event was actually due to the product." in html_body
+    assert "For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor." in html_body
+    assert "Data provided by the U.S. Food and Drug Administration (https://open.fda.gov)" in html_body
+    assert "not affiliated with or endorsed by" in html_body
+    assert "http://127.0.0.1:43123/unsubscribe" in html_body
+    assert "Postal address placeholder" in html_body
+    assert "NCBI disclaimer" in html_body
+    assert "causes" not in html_body.lower()
     assert "<table" not in text_body
     assert "<p" not in text_body
     assert "<html" not in text_body

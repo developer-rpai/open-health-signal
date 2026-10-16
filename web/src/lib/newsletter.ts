@@ -15,6 +15,7 @@ export type NewsletterSection = {
   id: string;
   heading: string;
   empty: string;
+  note?: string;
   items: NewsletterItem[];
 };
 
@@ -27,6 +28,13 @@ export type NewsletterIssue = {
   intro: string;
   snapshot_generated_at: string;
   disclaimer: string;
+  fda_caveat?: string;
+  research_line?: string;
+  fda_attribution?: string;
+  fda_independence?: string;
+  ncbi_disclaimer_url?: string;
+  postal_address?: string;
+  unsubscribe_page?: string;
   sections: NewsletterSection[];
   delivery?: {
     mode: string;

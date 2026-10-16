@@ -20,8 +20,14 @@ def render_html(issue: dict, *, unsubscribe_href: str) -> str:
     sections = "\n".join(_section_html(section) for section in issue["sections"])
     dashboard = _esc(issue["dashboard_url"], quote=True)
     archive = _esc(issue["site_url"].rstrip("/") + issue["archive_path"], quote=True)
-    unsubscribe = _esc(unsubscribe_href, quote=True)
+    unsubscribe_page = _esc(issue.get("unsubscribe_page") or issue["site_url"].rstrip("/") + "/unsubscribe", quote=True)
+    provider_unsubscribe = _esc(unsubscribe_href, quote=True)
     disclaimer = _esc(issue["disclaimer"])
+    caveat = _esc(issue.get("fda_caveat") or "")
+    research = _esc(issue.get("research_line") or "")
+    attribution = _esc(issue.get("fda_attribution") or "")
+    independence = _esc(issue.get("fda_independence") or "")
+    postal = _esc(issue.get("postal_address") or "")
     kicker = _esc(issue["kicker"])
     intro = _esc(issue["intro"])
     return f"""<!DOCTYPE html>
@@ -55,6 +61,8 @@ def render_html(issue: dict, *, unsubscribe_href: str) -> str:
           <td class="px" style="padding:28px 32px 8px 32px;">
             <h1 class="headline" style="margin:0;font-family:Georgia,'Iowan Old Style',Palatino,serif;font-size:32px;line-height:1.2;font-weight:normal;color:{INK};">{headline}</h1>
             <p style="margin:16px 0 0 0;font-family:Georgia,'Iowan Old Style',Palatino,serif;font-size:16px;line-height:1.5;color:{INK};">{intro}</p>
+            <p style="margin:16px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:1.55;color:{INK};">{caveat}</p>
+            <p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:1.55;color:{INK};">{research}</p>
           </td>
         </tr>
         {sections}
@@ -75,10 +83,16 @@ def render_html(issue: dict, *, unsubscribe_href: str) -> str:
         <tr>
           <td class="px" style="padding:8px 32px 28px 32px;border-top:1px solid {RULE};">
             <p style="margin:16px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{disclaimer}</p>
+            <p style="margin:12px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{caveat}</p>
+            <p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{research}</p>
+            <p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{attribution}. {independence}</p>
+            <p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{postal}</p>
             <p style="margin:12px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">
-              You received this because you confirmed a subscription to Inflammation Signal Monitor.
-              <a href="{unsubscribe}" style="color:{TEAL};">Unsubscribe</a>.
-              The email provider fills in that link when the issue is sent.
+              You received this after confirming a subscription to Inflammation Signal Monitor.
+              <a href="{unsubscribe_page}" style="color:{TEAL};">Unsubscribe</a>.
+              Opt-outs are honored within ten business days.
+              <a href="{provider_unsubscribe}" style="color:{TEAL};">One-click unsubscribe</a>
+              is filled in by the email processor when the issue is sent.
             </p>
           </td>
         </tr>
@@ -100,9 +114,15 @@ def render_text(issue: dict, *, unsubscribe_href: str) -> str:
         "",
         issue["intro"],
         "",
+        issue.get("fda_caveat") or "",
+        "",
+        issue.get("research_line") or "",
+        "",
     ]
     for section in issue["sections"]:
         lines.append(section["heading"].upper())
+        if section.get("note"):
+            lines.append(section["note"])
         items = section["items"]
         if not items:
             lines.append(section["empty"])
@@ -126,7 +146,17 @@ def render_text(issue: dict, *, unsubscribe_href: str) -> str:
             "",
             issue["disclaimer"],
             "",
-            f"Unsubscribe: {unsubscribe_href}",
+            issue.get("fda_caveat") or "",
+            "",
+            issue.get("research_line") or "",
+            "",
+            f"{issue.get('fda_attribution') or ''}. {issue.get('fda_independence') or ''}",
+            "",
+            issue.get("postal_address") or "",
+            "",
+            f"Unsubscribe: {issue.get('unsubscribe_page') or ''}",
+            "Opt-outs are honored within ten business days.",
+            f"One-click unsubscribe: {unsubscribe_href}",
             "",
         ]
     )
@@ -153,6 +183,12 @@ def resend_broadcast_payload(issue: dict, html_body: str, text_body: str, *, aud
 
 def _section_html(section: dict) -> str:
     heading = _esc(section["heading"])
+    note = ""
+    if section.get("note"):
+        note = (
+            f'<p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.5;color:{MUTED};">'
+            f"{_esc(section['note'])}</p>"
+        )
     if not section["items"]:
         body = (
             f'<p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.5;color:{MUTED};">'
@@ -163,6 +199,8 @@ def _section_html(section: dict) -> str:
     return f"""<tr>
           <td class="px" style="padding:20px 32px 4px 32px;">
             <h2 style="margin:0;font-family:Georgia,'Iowan Old Style',Palatino,serif;font-size:22px;font-weight:normal;color:{TEAL};">{heading}</h2>
+            {note}
+            {"" if section.get("id") != "papers" else f'<p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.5;"><a href="https://www.ncbi.nlm.nih.gov/home/about/policies/" style="color:{TEAL};">NCBI disclaimer</a></p>'}
             {body}
           </td>
         </tr>"""

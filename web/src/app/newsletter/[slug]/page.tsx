@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
+import { NCBI_DISCLAIMER_URL } from "@/lib/compliance";
 import { getNewsletterIndex, getNewsletterIssue } from "@/lib/newsletter";
 
 export function generateStaticParams() {
@@ -29,6 +30,8 @@ export default async function NewsletterIssuePage({ params }: { params: Promise<
       <p className="font-mono text-[11px] tracking-[0.18em] text-primary uppercase">{issue.kicker}</p>
       <h1 className="mt-3 text-4xl leading-tight sm:text-5xl">{issue.headline}</h1>
       <p className="mt-5 text-lg leading-relaxed">{issue.intro}</p>
+      {issue.fda_caveat ? <p className="mt-4 text-sm leading-relaxed">{issue.fda_caveat}</p> : null}
+      {issue.research_line ? <p className="mt-2 text-sm leading-relaxed">{issue.research_line}</p> : null}
       <p className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
         <Link href="/" className="text-primary underline-offset-2 hover:underline">
           Open the dashboard
@@ -50,6 +53,14 @@ export default async function NewsletterIssuePage({ params }: { params: Promise<
         {issue.sections.map((section) => (
           <section key={section.id}>
             <h2 className="text-2xl text-primary">{section.heading}</h2>
+            {section.note ? <p className="mt-2 text-xs text-muted-foreground">{section.note}</p> : null}
+            {section.id === "papers" ? (
+              <p className="mt-1 text-xs">
+                <a className="text-primary underline-offset-2 hover:underline" href={issue.ncbi_disclaimer_url || NCBI_DISCLAIMER_URL}>
+                  NCBI disclaimer
+                </a>
+              </p>
+            ) : null}
             {section.items.length === 0 ? (
               <p className="mt-3 text-sm text-muted-foreground">{section.empty}</p>
             ) : (
@@ -75,8 +86,19 @@ export default async function NewsletterIssuePage({ params }: { params: Promise<
       </div>
 
       <p className="mt-10 text-sm leading-relaxed text-muted-foreground">{issue.disclaimer}</p>
+      {issue.fda_caveat ? <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{issue.fda_caveat}</p> : null}
+      {issue.research_line ? <p className="mt-2 text-sm leading-relaxed">{issue.research_line}</p> : null}
+      {issue.fda_attribution ? (
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          {issue.fda_attribution}. {issue.fda_independence}
+        </p>
+      ) : null}
+      {issue.postal_address ? <p className="mt-2 text-sm text-muted-foreground">{issue.postal_address}</p> : null}
       <p className="mt-3 text-sm text-muted-foreground">
-        Unsubscribe from the email you received. The provider replaces that link when an issue is sent.
+        <Link href="/unsubscribe" className="text-primary underline-offset-2 hover:underline">
+          Unsubscribe
+        </Link>
+        . Opt-outs are honored within ten business days. The one-click link in a sent email is filled in by the processor.
       </p>
     </article>
   );

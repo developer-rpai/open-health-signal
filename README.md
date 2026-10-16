@@ -77,6 +77,9 @@ Weekly cron, from the repository root:
 | About | Purpose, maintainer, and citation |
 | Newsletter | Archive of weekly briefings |
 | Subscribe | Email signup with consent and double opt-in |
+| Privacy | Email-only list, Buttondown as the processor, deletion and GDPR rights |
+| Terms | No warranty, no medical advice, no re-identification |
+| Unsubscribe | Opt-out, honored within ten business days |
 
 ## Data sources and licenses
 
@@ -116,7 +119,7 @@ JAK thrombosis and major cardiovascular events are compared with TNF inhibitors,
 
 The weekly spike rule needs four earlier complete weeks, a z-score of at least 2, and a count at least 1.5 times the baseline mean. The week that contains the refresh day is still open and is excluded.
 
-These statistics do not estimate risk and do not show that a drug caused an event.
+These statistics do not estimate risk. A higher ratio is a disproportionality signal: the reaction was reported more often than expected (PRR in the table). It is not an incidence rate.
 
 ### Known-signal check on the current snapshot
 
@@ -170,6 +173,8 @@ The default is a **dry run**: the issue is archived and nothing is emailed. Send
 
 The first issue has no earlier snapshot, so it lists the latest notices and the strongest prespecified signals. Later issues list what changed: new alerts and recalls, signals that newly meet the Evans or ROR screen, signals whose PRR rose by at least 25%, and trials and papers that were not in the previous extract.
 
+Headlines use “reported more often than expected (PRR …)” for a disproportionality signal. Each issue includes the openFDA caveat, the research-only line, the FDA attribution, a postal address from `NEWSLETTER_POSTAL_ADDRESS`, and an unsubscribe link. PubMed entries in an issue are titles and links, plus the NCBI disclaimer.
+
 ### Which key goes where
 
 Copy [`.env.example`](.env.example). The static site and the Monday job do not read the same variables.
@@ -182,6 +187,10 @@ Copy [`.env.example`](.env.example). The static site and the Monday job do not r
 | `BUTTONDOWN_API_KEY` | Monday job (`python -m inflammon newsletter`) and GitHub Actions secret `BUTTONDOWN_API_KEY`. | Yes. Never `NEXT_PUBLIC_`. |
 | `NEWSLETTER_PROVIDER` | Monday job. `buttondown` (default) or `resend`. | No. |
 | `SITE_URL` | Monday job. Absolute dashboard URL printed in the email. GitHub variable `SITE_URL`. | No. |
+| `NEWSLETTER_POSTAL_ADDRESS` | Monday job. Physical mailing address in the newsletter footer. GitHub variable `NEWSLETTER_POSTAL_ADDRESS`. | No. |
+| `OPENFDA_API_KEY` | Monday refresh. Query parameter on openFDA calls. GitHub secret `OPENFDA_API_KEY`. Omitted from the HTTP cache. | Yes. |
+| `NCBI_EMAIL` | Monday refresh. `email` parameter on every PubMed E-utilities call. GitHub variable `NCBI_EMAIL`. | No. |
+| `NCBI_TOOL` | Monday refresh. `tool` parameter. Defaults to `inflammon`. | No. |
 | `NEWSLETTER_SEND` | Monday job. `1` sends. Empty or anything else is a dry run. GitHub variable `NEWSLETTER_SEND`. A manual workflow run sends only if **send_newsletter** is checked. | No. |
 | `RESEND_API_KEY` | Monday job and the Resend function. GitHub secret `RESEND_API_KEY`. | Yes. |
 | `RESEND_AUDIENCE_ID` | Monday job and the Resend function. GitHub secret `RESEND_AUDIENCE_ID`. | Treat as a secret. |
