@@ -27,14 +27,13 @@ INTEREST_LABELS = {
 
 CONFIRM_INTRO = "Confirm this address for Open Health Signals."
 CONFIRM_NOTE = (
-    "The weekly digest is Inflammation Signal Monitor. "
+    "About once a week you'll get the Inflammation Signal Monitor, our digest of public signals on inflammatory conditions and drugs. "
     "You're added only after you open the link. If you didn't ask for this, ignore this message."
 )
 WELCOME_OPEN = "Welcome to Open Health Signals."
 WELCOME_BODY = (
-    "About once a week you'll get that digest, Inflammation Signal Monitor. "
-    "It covers public signals on inflammatory conditions and drugs: FDA adverse-event reports "
-    "and FAERS trends, research, and access news."
+    "About once a week you'll get the Inflammation Signal Monitor, our digest of public signals on inflammatory conditions and drugs: "
+    "FDA adverse-event reports and FAERS trends, research, and access news."
 )
 WELCOME_ADVICE = "This is informational, not medical advice."
 WELCOME_UNSUB = "The link is signed for this address and takes effect immediately."

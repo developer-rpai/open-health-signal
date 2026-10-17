@@ -15,10 +15,10 @@ export const INTEREST_LABELS = {
 
 const CONFIRM_INTRO = "Confirm this address for Open Health Signals.";
 const CONFIRM_NOTE =
-  "The weekly digest is Inflammation Signal Monitor. You're added only after you open the link. If you didn't ask for this, ignore this message.";
+  "About once a week you'll get the Inflammation Signal Monitor, our digest of public signals on inflammatory conditions and drugs. You're added only after you open the link. If you didn't ask for this, ignore this message.";
 const WELCOME_OPEN = "Welcome to Open Health Signals.";
 const WELCOME_BODY =
-  "About once a week you'll get that digest, Inflammation Signal Monitor. It covers public signals on inflammatory conditions and drugs: FDA adverse-event reports and FAERS trends, research, and access news.";
+  "About once a week you'll get the Inflammation Signal Monitor, our digest of public signals on inflammatory conditions and drugs: FDA adverse-event reports and FAERS trends, research, and access news.";
 const WELCOME_ADVICE = "This is informational, not medical advice.";
 const WELCOME_UNSUB = "The link is signed for this address and takes effect immediately.";
 const ACK = "Thanks, we got your message and will reply within a few days.";

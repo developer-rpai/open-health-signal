@@ -35,8 +35,8 @@ Deno.serve(async (req) => {
     if (updateError) return json(500, { ok: false, error: "store", message: updateError.message });
     await sendWelcome(data);
   }
-  const message = "You are confirmed. The next briefing goes out after the Monday draft is approved.";
-  return wantsJson ? json(200, { ok: true, status: "active", message }) : html(200, "You are confirmed", message);
+  const message = "You're subscribed. The next issue arrives in your inbox within the week.";
+  return wantsJson ? json(200, { ok: true, status: "active", message }) : html(200, "You're subscribed", message);
 });
 
 async function sendWelcome(row: { id: string; email: string }) {

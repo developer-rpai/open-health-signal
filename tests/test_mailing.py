@@ -457,7 +457,8 @@ def test_confirm_sends_one_welcome_with_unsubscribe_and_optional_postal():
     welcome = welcomes[0]
     assert welcome["reply_to"] == "contact@openhealthsignals.org"
     assert welcome["text"].lower().count("not medical advice") == 1
-    assert "about once a week" in welcome["text"].lower()
+    assert "you'll get the Inflammation Signal Monitor, our digest of public signals" in welcome["text"]
+    assert "that digest" not in welcome["text"]
     assert "FAERS" in welcome["text"]
     assert "PO Box 1, San Jose, CA 95113" in welcome["text"]
     assert "PO Box 1, San Jose, CA 95113" in welcome["html"]

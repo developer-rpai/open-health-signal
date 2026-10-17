@@ -33,7 +33,7 @@ export function ConfirmPanel() {
         if (cancelled) return;
         if (response.ok && payload.ok && payload.status === "active") {
           setPhase("success");
-          setMessage("You're confirmed. The next briefing will include this address.");
+          setMessage("You're subscribed. The next issue arrives in your inbox within the week.");
           return;
         }
         setPhase("error");

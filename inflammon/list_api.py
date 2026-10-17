@@ -281,7 +281,7 @@ def _confirm(token: str, **kwargs) -> tuple[int, str, str]:
         if kwargs["wants_json"]:
             return _json(409, {"ok": False, "error": "suppressed", "message": message})
         return _page(409, "Address suppressed", message)
-    message = "You are confirmed. The next briefing goes out after the Monday draft is approved."
+    message = "You're subscribed. The next issue arrives in your inbox within the week."
     became_active = row["status"] != "active"
     if became_active:
         row["status"] = "active"
@@ -293,7 +293,7 @@ def _confirm(token: str, **kwargs) -> tuple[int, str, str]:
         if kwargs["expose_preview"]:
             payload["unsubscribe_token"] = sign_unsubscribe_token(row["id"], row["email"], kwargs["secret"])
         return _json(200, payload)
-    return _page(200, "You are confirmed", message)
+    return _page(200, "You're subscribed", message)
 
 
 def _unsubscribe_get(token: str, *, secret: str, store: ListStore) -> tuple[int, str, str]:

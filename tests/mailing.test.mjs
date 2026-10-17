@@ -19,6 +19,8 @@ test("transactional templates stay short and plain", () => {
   const confirm = confirmationEmail({ confirmUrl: "https://openhealthsignals.org/confirm?token=abc" });
   assert.equal(confirm.subject, "Confirm your Open Health Signals email");
   assert.match(confirm.text, /^Confirm this address for Open Health Signals\./);
+  assert.match(confirm.text, /you'll get the Inflammation Signal Monitor, our digest of public signals/);
+  assert.equal(confirm.text.includes("that digest"), false);
   assert.match(confirm.text, /https:\/\/openhealthsignals.org\/confirm\?token=abc/);
   assert.equal(confirm.replyTo, "contact@openhealthsignals.org");
   assert.equal(confirm.text.toLowerCase().includes("causes"), false);
@@ -30,7 +32,8 @@ test("transactional templates stay short and plain", () => {
   });
   assert.equal(welcome.subject, "Welcome to Open Health Signals");
   assert.match(welcome.text, /^Welcome to Open Health Signals\./);
-  assert.match(welcome.text, /Inflammation Signal Monitor/);
+  assert.match(welcome.text, /you'll get the Inflammation Signal Monitor, our digest of public signals/);
+  assert.equal(welcome.text.includes("that digest"), false);
   assert.equal(welcome.text.toLowerCase().split("not medical advice").length - 1, 1);
   assert.match(welcome.text, /about once a week/i);
   assert.match(welcome.text, /FAERS/);
