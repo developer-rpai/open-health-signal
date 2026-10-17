@@ -47,7 +47,7 @@ Deno.serve(async (req) => {
   if (!dryRun()) {
     await sendResend({
       to: email,
-      subject: "Confirm your Inflammation Signal Monitor briefing",
+      subject: "Confirm your Open Health Signals briefing",
       text: `Confirm this address to receive the weekly briefing.\n\n${link}\n\nIf you did not ask for this, ignore the message. You will not be added until you open the link.`,
     });
   }

@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 
+from inflammon.compliance import postal_address
 from inflammon.mailing import UNSUBSCRIBE_PLACEHOLDER, deliver_issue
 from inflammon.newsletter.compose import compose_issue, fingerprint, load_snapshot
 from inflammon.newsletter.render import render_html, render_text
@@ -106,6 +107,10 @@ def send_resend(
         raise NewsletterSendError("UNSUBSCRIBE_HMAC_SECRET is not set. The issue was written; nothing was sent.")
     if not base:
         raise NewsletterSendError("FUNCTIONS_BASE is not set. The issue was written; nothing was sent.")
+    if not postal_address():
+        raise NewsletterSendError(
+            "NEWSLETTER_POSTAL_ADDRESS is not set. Live send refused. The issue was written; nothing was sent."
+        )
     if subscribers is None:
         rows = _load_subscribers()
         if reload is None:
@@ -271,7 +276,7 @@ def _write_issue_files(issue_dir: Path, issue: dict, html_body: str, text_body: 
 
 
 def _write_index(path: Path, issue: dict) -> dict:
-    current = _read_json(path) or {"product": "Inflammation Signal Monitor", "issues": []}
+    current = _read_json(path) or {"product": "Open Health Signals", "issues": []}
     issues = [item for item in current.get("issues") or [] if item.get("slug") != issue["slug"]]
     issues.append(
         {
@@ -284,7 +289,7 @@ def _write_index(path: Path, issue: dict) -> dict:
         }
     )
     issues.sort(key=lambda item: item.get("slug") or "", reverse=True)
-    current["product"] = "Inflammation Signal Monitor"
+    current["product"] = "Open Health Signals"
     current["issues"] = issues
     _write_json(path, current)
     return current

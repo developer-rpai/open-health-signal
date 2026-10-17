@@ -11,11 +11,14 @@ export default function ContactPage() {
   return (
     <article className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
       <div className="max-w-xl">
-        <p className="font-mono text-[11px] tracking-[0.18em] text-primary uppercase">Collaboration</p>
-        <h1 className="mt-2 text-4xl leading-tight">Write about the work, not a petition.</h1>
+        <h1 className="text-4xl leading-tight">Contact</h1>
         <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-          Use this for a research collaboration, a missing dataset, a code contribution, a custom analysis, press, or
-          sponsorship. The public dashboard stays readable without an account.
+          Research collaboration, a public dataset, a code change, a custom analysis, press, or sponsorship. You can
+          also write to{" "}
+          <a className="text-primary underline underline-offset-2" href="mailto:contact@openhealthsignals.org">
+            contact@openhealthsignals.org
+          </a>
+          .
         </p>
         <ul className="mt-6 space-y-3 text-sm leading-relaxed">
           <li>Research collaboration — methods, replication, or a joint analysis.</li>

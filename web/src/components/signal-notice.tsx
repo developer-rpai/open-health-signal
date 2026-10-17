@@ -1,13 +1,15 @@
-import { FDA_CAVEAT, RESEARCH_LINE } from "@/lib/compliance";
+import Link from "next/link";
+
+import { FDA_CAVEAT } from "@/lib/compliance";
 
 export function SignalNotice() {
   return (
-    <aside className="space-y-2 rounded-xl border border-amber-800/20 bg-amber-100/70 px-4 py-3 text-sm leading-relaxed text-amber-950">
+    <aside className="space-y-2 border-l-2 border-primary pl-4 text-sm leading-relaxed">
       <p>{FDA_CAVEAT}</p>
-      <p>{RESEARCH_LINE}</p>
       <p>
-        A highlighted row is a disproportionality signal: the reaction was reported more often than expected (PRR in
-        the table).
+        <Link href="/methods" className="text-primary underline underline-offset-2">
+          How these numbers are made
+        </Link>
       </p>
     </aside>
   );

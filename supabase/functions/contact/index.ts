@@ -16,8 +16,8 @@ Deno.serve(async (req) => {
   const interest = (fields.interest_type || "").trim();
   const message = (fields.message || "").trim();
   const link = (fields.link || "").trim();
-  if (!name || !validEmail(email) || !organization || !role || !message) {
-    return json(400, { ok: false, error: "missing_fields", message: "Name, email, organization, role, and a message are required." });
+  if (!name || !validEmail(email) || !message) {
+    return json(400, { ok: false, error: "missing_fields", message: "Name, email, and a message are required." });
   }
   if (!INTEREST_TYPES.includes(interest)) {
     return json(400, { ok: false, error: "interest_type", message: "Choose an interest type." });
@@ -47,10 +47,7 @@ Deno.serve(async (req) => {
       text: `${name} (${email}) · ${interest}\n${organization} · ${role}\n\n${message}\n${link}`,
     });
   }
-  const message = dryRun()
-    ? "Message received. This dry run did not email the owner."
-    : "Message received. The owner is notified by email.";
-  return json(200, { ok: true, id: data.id, message });
+  return json(200, { ok: true, id: data.id, message: "Message received." });
 });
 
 async function verifyTurnstile(token: string, ip: string) {

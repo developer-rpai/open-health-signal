@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { TrendCharts } from "@/components/trend-charts";
 import { Badge } from "@/components/ui/badge";
 import { NCBI_DISCLAIMER_URL } from "@/lib/compliance";
-import { getCdc, getRecent, getTrends } from "@/lib/snapshot";
+import { getCdc, getManifest, getRecent, getTrends } from "@/lib/snapshot";
 
 export const metadata: Metadata = {
   title: "Disease trends",
@@ -14,6 +15,7 @@ export default function TrendsPage() {
   const trends = getTrends();
   const recent = getRecent();
   const cdc = getCdc();
+  const manifest = getManifest();
   const publications = trends.publications.filter((row) => !row.topic_type || row.topic_type === "condition");
 
   return (
@@ -24,6 +26,12 @@ export default function TrendsPage() {
           Trial starts and publications for rheumatoid arthritis, Crohn’s disease, ulcerative colitis,
           psoriasis, and systemic lupus erythematosus. Arthritis prevalence comes from CDC Chronic Disease
           Indicators. IBD does not have a matching CDC dataset, so the literature and the trial registry are the trend.
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          FAERS data as of {manifest.openfda_last_updated ?? "an undated extract"}.{" "}
+          <Link href="/methods" className="text-primary underline underline-offset-2">
+            How these numbers are made
+          </Link>
         </p>
       </header>
 

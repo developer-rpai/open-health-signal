@@ -132,4 +132,13 @@
     font-family: var(--font-heading);
     letter-spacing: -0.02em;
   }
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
 }

@@ -1,13 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { functionsBase, localPreview } from "@/lib/functions";
-
-const CONSENT =
-  "I agree to receive the weekly Inflammation Signal Monitor briefing by email. A confirmation message comes first. I am added only after I open that link, and I can unsubscribe from any issue.";
 
 export function SubscribeForm({ id }: { id?: string }) {
   const base = functionsBase();
@@ -65,7 +63,14 @@ export function SubscribeForm({ id }: { id?: string }) {
           disabled={!configured || pending}
           className="mt-0.5 size-4 shrink-0 accent-primary"
         />
-        <span>{CONSENT}</span>
+        <span>
+          I agree to receive the Open Health Signals briefing by email. A confirmation message comes first. I am added
+          only after I open that link, and I can unsubscribe from any issue.{" "}
+          <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">
+            Privacy
+          </Link>
+          .
+        </span>
       </label>
       <Button type="submit" size="lg" disabled={!configured || pending}>
         {pending ? "Sending confirmation…" : "Subscribe"}
@@ -73,12 +78,12 @@ export function SubscribeForm({ id }: { id?: string }) {
       <p id={`${formId}-note`} className="text-xs leading-relaxed text-muted-foreground">
         {configured
           ? "A confirmation email comes first. The address stays pending until that link is opened."
-          : "This build has no functions URL. Set NEXT_PUBLIC_FUNCTIONS_BASE and rebuild. The list stays empty until you confirm."}
+          : "Subscriptions are not open on this copy of the site."}
       </p>
       {message ? <p className="text-sm leading-relaxed">{message}</p> : null}
       {confirmUrl ? (
         <p className="text-sm leading-relaxed">
-          Local preview: no confirmation email was sent.{" "}
+          Confirmation link for this local copy:{" "}
           <a className="text-primary underline underline-offset-2" href={confirmUrl}>
             Open the confirmation link
           </a>

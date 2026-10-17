@@ -334,6 +334,27 @@ def test_contact_requires_turnstile_and_rate_limits():
     assert "rate_limited" in blocked_body
 
 
+def test_contact_organization_and_role_are_optional():
+    store = ListStore()
+    status, _, body = _call(
+        store,
+        "POST",
+        "/contact",
+        body={
+            "name": "Ada",
+            "email": "ada@example.com",
+            "interest_type": "media",
+            "message": "Question about the extract date.",
+            "turnstile_token": "local-pass",
+        },
+    )
+    assert status == 200
+    saved = store.data["contact_requests"][-1]
+    assert saved["organization"] == ""
+    assert saved["role"] == ""
+    assert "Message received." in body
+
+
 def _capture_post(response: dict):
     def post(url, *, headers, json):
         post.captured = {"url": url, "headers": headers, "json": json}

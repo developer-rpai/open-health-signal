@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
 
 import { Disclaimer, SiteFooter, SiteHeader } from "@/components/site-header";
@@ -26,12 +26,18 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://openhealthsignals.org"),
   title: {
-    default: "Inflammation Signal Monitor",
-    template: "%s · Inflammation Signal Monitor",
+    default: "Open Health Signals",
+    template: "%s · Open Health Signals",
   },
   description:
-    "A free public dashboard of FAERS safety signals, FDA notices, recalls, trials, and publications for inflammatory disease and anti-inflammatory drugs.",
+    "Open Health Signals is an independent health-data project. Inflammation Signal Monitor publishes FAERS safety signals, FDA notices, trials, and papers.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -42,7 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteHeader />
         <Disclaimer text={RESEARCH_LINE} />
         <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">{children}</main>
-        <SiteFooter generated={formatGenerated(manifest.generated_at)} version={manifest.version} />
+        <SiteFooter generated={formatGenerated(manifest.generated_at)} />
       </body>
     </html>
   );

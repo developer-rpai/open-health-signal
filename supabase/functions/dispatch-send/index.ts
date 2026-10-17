@@ -29,6 +29,16 @@ Deno.serve(async (req) => {
 
   const { fields } = await readFields(req);
   const slug = (fields.slug || "").trim();
+  const live = (Deno.env.get("NEWSLETTER_DRY_RUN") || "") === "0";
+  const postal = (Deno.env.get("NEWSLETTER_POSTAL_ADDRESS") || "").trim();
+  if (live && !postal) {
+    return json(409, {
+      ok: false,
+      error: "postal_address",
+      dispatched: false,
+      message: "Set NEWSLETTER_POSTAL_ADDRESS before a live send.",
+    });
+  }
   const token = Deno.env.get("GITHUB_DISPATCH_TOKEN") || "";
   const repo = Deno.env.get("GITHUB_REPOSITORY") || "";
   if (!token || !repo) {

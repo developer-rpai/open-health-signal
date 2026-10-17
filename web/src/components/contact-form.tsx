@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MEDWATCH_URL } from "@/lib/compliance";
 import { functionsBase, turnstileSiteKey } from "@/lib/functions";
 
 const INTERESTS = [
@@ -102,8 +103,8 @@ export function ContactForm() {
     <form className="space-y-3" onSubmit={onSubmit}>
       <Field id="contact-name" name="name" label="Name" required disabled={!configured || pending} />
       <Field id="contact-email" name="email" label="Email" type="email" required disabled={!configured || pending} />
-      <Field id="contact-organization" name="organization" label="Organization" required disabled={!configured || pending} />
-      <Field id="contact-role" name="role" label="Role" required disabled={!configured || pending} />
+      <Field id="contact-organization" name="organization" label="Organization (optional)" disabled={!configured || pending} />
+      <Field id="contact-role" name="role" label="Role (optional)" disabled={!configured || pending} />
       <div className="space-y-1.5">
         <label htmlFor="contact-interest" className="text-sm font-medium">
           Interest
@@ -130,6 +131,13 @@ export function ContactForm() {
         <label htmlFor="contact-message" className="text-sm font-medium">
           Message
         </label>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Please do not include personal health information. To report a side effect to the FDA, use{" "}
+          <a className="underline underline-offset-2 hover:text-foreground" href={MEDWATCH_URL}>
+            MedWatch
+          </a>
+          .
+        </p>
         <textarea
           id="contact-message"
           name="message"
@@ -146,8 +154,8 @@ export function ContactForm() {
       </Button>
       <p className="text-xs leading-relaxed text-muted-foreground">
         {configured
-          ? "Cloudflare Turnstile checks the form. Messages are limited per network, stored with a status and notes, and the owner is emailed."
-          : "This build needs NEXT_PUBLIC_FUNCTIONS_BASE and NEXT_PUBLIC_TURNSTILE_SITE_KEY before the form can send."}
+          ? "Cloudflare Turnstile checks this form. Messages are stored for up to 12 months."
+          : "The contact form is not available on this copy of the site."}
       </p>
       {message ? <p className="text-sm leading-relaxed">{message}</p> : null}
     </form>

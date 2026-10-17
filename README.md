@@ -1,6 +1,6 @@
-# Inflammation Signal Monitor
+# Open Health Signals
 
-A free, open-source public-health monitor for immune-mediated inflammatory disease and the drugs used to treat it.
+Open Health Signals (https://openhealthsignals.org) is an independent health-data project. Inflammation Signal Monitor is its first project: a public record of FAERS safety signals, FDA notices, recalls, trials, and papers for inflammatory disease.
 
 It watches two problems that are usually split across different websites:
 
@@ -155,7 +155,7 @@ Custom domain:
 
 Any static host can serve `web/out/` the same way. GitHub Actions (`.github/workflows/weekly-refresh.yml`) reruns the pull on the newsletter cadence (Monday 12:00 UTC, or every day at 14:00 UTC while `NEWSLETTER_CADENCE=daily`) and commits the new snapshot; redeploy after that commit if the host does not rebuild on push.
 
-There is no public preview URL from this workspace. Run `make dashboard` locally, or deploy with the steps above.
+The live site is [openhealthsignals.org](https://openhealthsignals.org), a Cloudflare Pages deploy of the static export in `web/out`. Run `make dashboard` to work locally. A live newsletter send is refused until `NEWSLETTER_POSTAL_ADDRESS` is a real postal address.
 
 ## Automation
 
@@ -199,7 +199,7 @@ Each real send re-reads the subscriber row, skips anything that is not `active` 
 
 The first issue has no earlier snapshot, so it lists the latest notices and the strongest prespecified signals. Later issues list what changed: new alerts and recalls, signals that newly meet the Evans or ROR screen, signals whose PRR rose by at least 25%, and trials and papers that were not in the previous extract.
 
-Headlines use “reported more often than expected (PRR …)” for a disproportionality signal. Each issue includes the openFDA caveat, the research-only line, the FDA attribution, a postal address from `NEWSLETTER_POSTAL_ADDRESS`, and a signed unsubscribe link. PubMed entries in an issue are titles and links, plus the NCBI disclaimer.
+Headlines name the reports and say what the FAERS signal does and does not show. The preheader and the first screen carry one line: a reporting signal is not proof a drug caused an event. Each issue includes the openFDA caveat, the research-only line, the FDA attribution, the extract date, and a signed unsubscribe link. The postal line is printed only when `NEWSLETTER_POSTAL_ADDRESS` is set. PubMed entries are titles and links, plus the NCBI disclaimer.
 
 ### Accounts, and which key goes where
 
@@ -258,7 +258,7 @@ The tests check PRR, ROR, confidence intervals, chi-square, the Evans rule, the 
 
 See [`CITATION.cff`](CITATION.cff).
 
-> Pai R. Inflammation Signal Monitor (version 0.1.0). Open-source pharmacovigilance dashboard for inflammatory disease and anti-inflammatory drug safety. 2026.
+> Pai R. Open Health Signals: Inflammation Signal Monitor. Public FAERS dashboard for inflammatory disease and anti-inflammatory drug safety. 2026. https://openhealthsignals.org
 
 ## License
 

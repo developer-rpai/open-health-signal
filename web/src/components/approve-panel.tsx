@@ -122,7 +122,7 @@ export function ApprovePanel() {
       setMessage(
         payload.sent
           ? "Approved and sent."
-          : "Approved. Send recorded as a dry run. Nothing was emailed.",
+          : "Approved. Nothing was emailed.",
       );
       setIssues((current) => current.map((issue) => (issue.slug === slug ? { ...issue, status: payload.status || "approved" } : issue)));
     } catch {

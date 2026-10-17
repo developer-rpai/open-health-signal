@@ -26,9 +26,21 @@ def render_html(issue: dict, *, unsubscribe_href: str) -> str:
     research = _esc(issue.get("research_line") or "")
     attribution = _esc(issue.get("fda_attribution") or "")
     independence = _esc(issue.get("fda_independence") or "")
-    postal = _esc(issue.get("postal_address") or "")
+    postal_raw = str(issue.get("postal_address") or "").strip()
+    postal = (
+        f'<p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{_esc(postal_raw)}</p>'
+        if postal_raw
+        else ""
+    )
     kicker = _esc(issue["kicker"])
     intro = _esc(issue["intro"])
+    signal_caveat = _esc(issue.get("signal_caveat") or "")
+    faers_as_of = str(issue.get("openfda_last_updated") or "").strip()
+    faers_line = (
+        f'<p style="margin:12px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:1.5;color:{MUTED};">FAERS data as of {_esc(faers_as_of)}.</p>'
+        if faers_as_of
+        else ""
+    )
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,13 +64,15 @@ def render_html(issue: dict, *, unsubscribe_href: str) -> str:
       <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background:{WHITE};border:1px solid {RULE};">
         <tr>
           <td class="px" style="padding:28px 32px 8px 32px;background:{TEAL};">
-            <p style="margin:0;font-family:Georgia,'Iowan Old Style',Palatino,serif;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:#d7ebe8;">Inflammation Signal Monitor</p>
+            <p style="margin:0;font-family:Georgia,'Iowan Old Style',Palatino,serif;font-size:13px;letter-spacing:0.04em;color:#d7ebe8;">Open Health Signals</p>
             <p style="margin:8px 0 0 0;font-family:Georgia,'Iowan Old Style',Palatino,serif;font-size:16px;color:#f6f3ec;">{kicker}</p>
           </td>
         </tr>
         <tr>
           <td class="px" style="padding:28px 32px 8px 32px;">
             <h1 class="headline" style="margin:0;font-family:Georgia,'Iowan Old Style',Palatino,serif;font-size:32px;line-height:1.2;font-weight:normal;color:{INK};">{headline}</h1>
+            <p style="margin:16px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:14px;line-height:1.5;color:{INK};">{signal_caveat}</p>
+            {faers_line}
             <p style="margin:16px 0 0 0;font-family:Georgia,'Iowan Old Style',Palatino,serif;font-size:16px;line-height:1.5;color:{INK};">{intro}</p>
             <p style="margin:16px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:1.55;color:{INK};">{caveat}</p>
             <p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:1.55;color:{INK};">{research}</p>
@@ -85,9 +99,9 @@ def render_html(issue: dict, *, unsubscribe_href: str) -> str:
             <p style="margin:12px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{caveat}</p>
             <p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{research}</p>
             <p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{attribution}. {independence}</p>
-            <p style="margin:8px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">{postal}</p>
+            {postal}
             <p style="margin:12px 0 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.55;color:{MUTED};">
-              You received this after confirming a subscription to Inflammation Signal Monitor.
+              You received this after confirming a subscription to Open Health Signals.
               <a href="{provider_unsubscribe}" style="color:{TEAL};">Unsubscribe</a>.
               The link is signed for this address and takes effect immediately.
               A mail client can POST List-Unsubscribe=One-Click to the same address
@@ -106,10 +120,15 @@ def render_html(issue: dict, *, unsubscribe_href: str) -> str:
 
 def render_text(issue: dict, *, unsubscribe_href: str) -> str:
     lines = [
-        "INFLAMMATION SIGNAL MONITOR",
+        "OPEN HEALTH SIGNALS",
+        "Inflammation Signal Monitor",
         issue["kicker"],
         "",
         issue["headline"],
+        "",
+        issue.get("signal_caveat") or "",
+        "",
+        f"FAERS data as of {issue.get('openfda_last_updated')}." if issue.get("openfda_last_updated") else "",
         "",
         issue["intro"],
         "",
@@ -151,7 +170,7 @@ def render_text(issue: dict, *, unsubscribe_href: str) -> str:
             "",
             f"{issue.get('fda_attribution') or ''}. {issue.get('fda_independence') or ''}",
             "",
-            issue.get("postal_address") or "",
+            str(issue.get("postal_address") or "").strip(),
             "",
             f"Unsubscribe: {unsubscribe_href}",
             "The link is signed for this address and takes effect immediately.",

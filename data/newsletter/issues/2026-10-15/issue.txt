@@ -1,7 +1,12 @@
-INFLAMMATION SIGNAL MONITOR
+OPEN HEALTH SIGNALS
+Inflammation Signal Monitor
 Inaugural briefing · 15 October 2026
 
-TNF inhibitors: tuberculosis reported more often than expected (PRR 7.5)
+Reports of tuberculosis with TNF inhibitors: what the FAERS signal does and does not show
+
+A reporting signal is not proof a drug caused an event.
+
+FAERS data as of 2026-07-30.
 
 This is the first briefing, from the snapshot of 15 October 2026. There is no earlier snapshot to compare, so the lists below are the latest notices and the strongest prespecified signals in the current extract, not week-over-week changes. openFDA extract dated 2026-07-30. Myocardial Infarction and Cerebrovascular Accident cleared a reporting-odds bound only. The PRR is below 2, so those comparisons are not Evans signals and they are not the headline. PRR and ROR describe reporting. A higher ratio is a disproportionality signal. It is not an incidence rate.
 
@@ -109,8 +114,8 @@ Titles and links only. Abstracts are not shown. NCBI disclaimer: https://www.ncb
 - A novel urinary metabolic signature for the non-invasive screening of lupus nephritis in systemic lupus erythematosus
   https://pubmed.ncbi.nlm.nih.gov/42468728/
 
-Open the dashboard: http://127.0.0.1:43123/
-Read this issue on the site: http://127.0.0.1:43123/newsletter/2026-10-15
+Open the dashboard: https://openhealthsignals.org/
+Read this issue on the site: https://openhealthsignals.org/newsletter/2026-10-15
 
 For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor. FAERS is a spontaneous-report system with under-reporting, duplicate reports, and no exposure denominator. A disproportionality signal means a reaction was reported more often than expected. It is not an incidence rate. Report adverse events to FDA MedWatch.
 
@@ -120,8 +125,8 @@ For research and informational purposes only. Not medical advice. Do not stop or
 
 Data provided by the U.S. Food and Drug Administration (https://open.fda.gov). This site is not affiliated with or endorsed by the U.S. Food and Drug Administration.
 
-Postal address placeholder — set NEWSLETTER_POSTAL_ADDRESS
 
-Unsubscribe: http://127.0.0.1:43123/unsubscribe
+
+Unsubscribe: https://openhealthsignals.org/unsubscribe
 The link is signed for this address and takes effect immediately.
 One-click: POST List-Unsubscribe=One-Click to that address.

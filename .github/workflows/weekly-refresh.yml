@@ -81,4 +81,9 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
           # Dry-run unless the repository variable NEWSLETTER_DRY_RUN is exactly 0.
           NEWSLETTER_DRY_RUN: ${{ vars.NEWSLETTER_DRY_RUN == '0' && '0' || '1' }}
-        run: python -m inflammon newsletter --send
+        run: |
+          if [ "${NEWSLETTER_DRY_RUN}" = "0" ] && [ -z "${NEWSLETTER_POSTAL_ADDRESS}" ]; then
+            echo "NEWSLETTER_POSTAL_ADDRESS is required before a live send."
+            exit 1
+          fi
+          python -m inflammon newsletter --send

@@ -26,9 +26,14 @@ FDA_INDEPENDENCE = (
 
 NCBI_DISCLAIMER_URL = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
 
-POSTAL_PLACEHOLDER = "Postal address placeholder — set NEWSLETTER_POSTAL_ADDRESS"
+# Shown in the preheader and the first screen of every issue.
+SIGNAL_CAVEAT = "A reporting signal is not proof a drug caused an event."
 
 
 def postal_address() -> str:
-    value = os.environ.get("NEWSLETTER_POSTAL_ADDRESS", "").strip()
-    return value or POSTAL_PLACEHOLDER
+    """Physical address for a live email. Empty when the env var is unset.
+
+    A live send must refuse in that case. The template prints nothing rather
+    than a placeholder.
+    """
+    return os.environ.get("NEWSLETTER_POSTAL_ADDRESS", "").strip()

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
-import { NCBI_DISCLAIMER_URL } from "@/lib/compliance";
+import { NCBI_DISCLAIMER_URL, SIGNAL_CAVEAT } from "@/lib/compliance";
 import { getNewsletterIndex, getNewsletterIssue } from "@/lib/newsletter";
 
 export function generateStaticParams() {
@@ -23,30 +23,26 @@ export default async function NewsletterIssuePage({ params }: { params: Promise<
   const { slug } = await params;
   const issue = getNewsletterIssue(slug);
   if (!issue) notFound();
-  const emailed = issue.delivery?.sent === true;
-
   return (
     <article className="mx-auto max-w-3xl">
-      <p className="font-mono text-[11px] tracking-[0.18em] text-primary uppercase">{issue.kicker}</p>
+      <p className="text-sm text-muted-foreground">{issue.kicker}</p>
       <h1 className="mt-3 text-4xl leading-tight sm:text-5xl">{issue.headline}</h1>
+      <p className="mt-4 text-sm leading-relaxed">{issue.signal_caveat || SIGNAL_CAVEAT}</p>
+      {issue.openfda_last_updated ? (
+        <p className="mt-2 text-sm text-muted-foreground">FAERS data as of {issue.openfda_last_updated}.</p>
+      ) : null}
       <p className="mt-5 text-lg leading-relaxed">{issue.intro}</p>
       {issue.fda_caveat ? <p className="mt-4 text-sm leading-relaxed">{issue.fda_caveat}</p> : null}
-      {issue.research_line ? <p className="mt-2 text-sm leading-relaxed">{issue.research_line}</p> : null}
       <p className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-        <Link href="/" className="text-primary underline-offset-2 hover:underline">
-          Open the dashboard
+        <Link href="/methods" className="text-primary underline underline-offset-2">
+          How these numbers are made
         </Link>
-        <a href={`/newsletter/email/${issue.slug}.html`} className="text-primary underline-offset-2 hover:underline">
+        <a href={`/newsletter/email/${issue.slug}.html`} className="text-primary underline underline-offset-2">
           Email version
         </a>
-        <Link href="/subscribe" className="text-primary underline-offset-2 hover:underline">
+        <Link href="/subscribe" className="text-primary underline underline-offset-2">
           Subscribe
         </Link>
-      </p>
-      <p className="mt-3 text-sm text-muted-foreground">
-        {emailed
-          ? `Sent with ${issue.delivery?.provider}.`
-          : "Archived from a dry run. This copy was not emailed."}
       </p>
 
       <div className="mt-10 space-y-10">
@@ -86,8 +82,6 @@ export default async function NewsletterIssuePage({ params }: { params: Promise<
       </div>
 
       <p className="mt-10 text-sm leading-relaxed text-muted-foreground">{issue.disclaimer}</p>
-      {issue.fda_caveat ? <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{issue.fda_caveat}</p> : null}
-      {issue.research_line ? <p className="mt-2 text-sm leading-relaxed">{issue.research_line}</p> : null}
       {issue.fda_attribution ? (
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
           {issue.fda_attribution}. {issue.fda_independence}

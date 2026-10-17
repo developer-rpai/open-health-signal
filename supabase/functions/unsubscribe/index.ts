@@ -26,7 +26,7 @@ Deno.serve(async (req) => {
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Confirm unsubscribe</title></head>
 <body style="margin:0;background:#f4f1ea;color:#1c1917;font-family:Georgia,serif;">
 <main style="max-width:32rem;margin:4rem auto;padding:0 1.25rem;">
-<p style="letter-spacing:0.14em;text-transform:uppercase;font-size:0.75rem;color:#0f5c5c;">Inflammation Signal Monitor</p>
+<p style="font-size:0.95rem;color:#0f5c5c;">Open Health Signals</p>
 <h1 style="font-weight:normal;">Confirm unsubscribe</h1>
 <p style="line-height:1.5;">${escapeHtml(data.email)} is still ${escapeHtml(data.status)}. Submit to unsubscribe. It takes effect immediately.</p>
 <form method="post" action="${escapeHtml(url.pathname + url.search)}">

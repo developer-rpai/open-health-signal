@@ -13,6 +13,7 @@ from inflammon.compliance import (
     FDA_INDEPENDENCE,
     NCBI_DISCLAIMER_URL,
     RESEARCH_LINE,
+    SIGNAL_CAVEAT,
     postal_address,
 )
 from inflammon.newsletter.cadence import newsletter_cadence
@@ -138,7 +139,7 @@ def compose_issue(
     if daily and not headline.lower().startswith("daily test edition"):
         subject = f"Daily test edition: {headline}"
     return {
-        "product": "Inflammation Signal Monitor",
+        "product": "Open Health Signals",
         "slug": slug,
         "cadence": resolved,
         "kind": kind,
@@ -146,7 +147,8 @@ def compose_issue(
         "headline": headline,
         "kicker": kicker,
         "intro": intro,
-        "preheader": intro.split(". ")[0].rstrip(".") + ".",
+        "preheader": SIGNAL_CAVEAT,
+        "signal_caveat": SIGNAL_CAVEAT,
         "snapshot_generated_at": generated_at,
         "openfda_last_updated": manifest.get("openfda_last_updated"),
         "site_url": site,
@@ -391,8 +393,7 @@ def _headline(ranked: list[tuple], generated_at: str, inaugural: bool, daily: bo
 def _reporting_headline(row: dict) -> str:
     name = _display_name(row)
     reaction = _title_case(row.get("reaction") or "").lower()
-    times = f"{float(row['prr']):.1f}"
-    return f"{name}: {reaction} reported more often than expected (PRR {times})"
+    return f"Reports of {reaction} with {name}: what the FAERS signal does and does not show"
 
 
 def _intro(snapshot: dict, previous: dict | None, inaugural: bool, generated_at: str, daily: bool) -> str:

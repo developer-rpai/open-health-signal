@@ -2,13 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { SignalNotice } from "@/components/signal-notice";
-import { SubscribeForm } from "@/components/subscribe-form";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatGenerated, formatNumber, formatRatio, titleCaseReaction } from "@/lib/format";
 import { getAlerts, getManifest, getRecalls, getValidation } from "@/lib/snapshot";
 
-export const metadata: Metadata = { title: "Overview" };
+export const metadata: Metadata = {
+  title: { absolute: "Open Health Signals" },
+  description:
+    "Inflammation Signal Monitor, the first Open Health Signals project: public FAERS counts, FDA notices, recalls, trials, and papers.",
+};
 
 export default function OverviewPage() {
   const manifest = getManifest();
@@ -23,33 +26,25 @@ export default function OverviewPage() {
   return (
     <div className="space-y-10">
       <section className="max-w-3xl">
-        <h1 className="text-4xl leading-tight sm:text-5xl">
-          Safety signals for inflammatory disease, kept in one public record.
-        </h1>
+        <h1 className="text-4xl leading-tight sm:text-5xl">Open Health Signals</h1>
         <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-          FAERS disproportionality for NSAIDs, corticosteroids, TNF and interleukin inhibitors, and JAK inhibitors,
-          next to FDA notices, recalls, trial starts, and new publications. The snapshot is rebuilt weekly.
+          Inflammation Signal Monitor is the first project. It counts public FAERS reports for drugs used in
+          inflammatory disease, and lists FDA notices, recalls, trial starts, and new papers next to those counts.
         </p>
         <p className="mt-3 text-sm text-muted-foreground">
-          openFDA extract dated {manifest.openfda_last_updated ?? "unknown"}. Snapshot generated{" "}
+          FAERS data as of {manifest.openfda_last_updated ?? "an undated extract"}. Snapshot{" "}
           {formatGenerated(manifest.generated_at)}.
         </p>
-      </section>
-
-      <section className="grid gap-6 rounded-2xl bg-card p-6 ring-1 ring-foreground/10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center sm:p-8">
-        <div>
-          <p className="font-mono text-[11px] tracking-[0.18em] text-primary uppercase">Weekly briefing</p>
-          <h2 className="mt-2 text-3xl">One email after the Monday refresh.</h2>
-          <p className="mt-3 leading-relaxed text-muted-foreground">
-            New FDA safety alerts and recalls, drug-safety signals that are new or stronger, notable trials, and the
-            top new PubMed papers. Past issues stay in the{" "}
-            <Link href="/newsletter" className="text-primary underline-offset-2 hover:underline">
-              archive
-            </Link>
-            .
-          </p>
-        </div>
-        <SubscribeForm id="home-subscribe" />
+        <p className="mt-4 text-sm">
+          <Link href="/subscribe" className="text-primary underline underline-offset-2">
+            Subscribe
+          </Link>{" "}
+          to the briefing. Past issues are in the{" "}
+          <Link href="/newsletter" className="text-primary underline underline-offset-2">
+            archive
+          </Link>
+          .
+        </p>
       </section>
 
       {failedSources.length > 0 ? (
@@ -58,7 +53,7 @@ export default function OverviewPage() {
           <ul className="mt-2 space-y-1">
             {failedSources.map((source) => (
               <li key={source.id}>
-                <span className="font-medium">{source.label}</span> — {source.status}. {source.detail}
+                <span className="font-medium">{source.label}</span>: {source.status}. {source.detail}
               </li>
             ))}
           </ul>

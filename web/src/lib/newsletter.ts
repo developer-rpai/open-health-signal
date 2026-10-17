@@ -35,6 +35,8 @@ export type NewsletterIssue = {
   ncbi_disclaimer_url?: string;
   postal_address?: string;
   unsubscribe_page?: string;
+  signal_caveat?: string;
+  openfda_last_updated?: string;
   sections: NewsletterSection[];
   delivery?: {
     mode: string;

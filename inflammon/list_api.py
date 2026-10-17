@@ -334,8 +334,8 @@ def _contact(fields, **kwargs) -> tuple[int, str, str]:
     message = str(fields.get("message") or "").strip()
     link = str(fields.get("link") or "").strip()
     token = str(fields.get("turnstile_token") or "").strip()
-    if not name or not valid_email(email) or not organization or not role or not message:
-        return _json(400, {"ok": False, "error": "missing_fields", "message": "Name, email, organization, role, and a message are required."})
+    if not name or not valid_email(email) or not message:
+        return _json(400, {"ok": False, "error": "missing_fields", "message": "Name, email, and a message are required."})
     if interest not in INTEREST_TYPES:
         return _json(400, {"ok": False, "error": "interest_type", "message": "Choose an interest type."})
     if link and not (link.startswith("https://") or link.startswith("http://")):
@@ -369,11 +369,7 @@ def _contact(fields, **kwargs) -> tuple[int, str, str]:
         post=kwargs["post"],
         summary=f"{name} ({email}) · {interest}",
     )
-    message = (
-        "Message received. This dry run did not email the owner."
-        if kwargs["dry_run"]
-        else "Message received. The owner is notified by email."
-    )
+    message = "Message received."
     return _json(200, {"ok": True, "id": request_id, "message": message})
 
 
@@ -447,7 +443,7 @@ def _maybe_send_confirm(*, email: str, link: str, from_address: str, api_key: st
         json={
             "from": from_address,
             "to": [email],
-            "subject": "Confirm your Inflammation Signal Monitor briefing",
+            "subject": "Confirm your Open Health Signals briefing",
             "text": (
                 "Confirm this address to receive the weekly briefing.\n\n"
                 f"{link}\n\n"

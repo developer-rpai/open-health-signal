@@ -64,7 +64,7 @@ export function TrendCharts({
         <p className="mb-3 text-sm text-muted-foreground">
           PubMed records matching each condition’s MeSH term. The current calendar year is year-to-date.
         </p>
-        <div className="h-80 w-full">
+        <div className="h-80 w-full" role="img" aria-label="Line chart of publications per year. The table lists the same counts.">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={pub} margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(60,40,20,0.12)" />
@@ -87,6 +87,7 @@ export function TrendCharts({
             </LineChart>
           </ResponsiveContainer>
         </div>
+        <CountTable caption="Publications per year" rows={pub} series={publications} />
       </section>
 
       <section className="rounded-xl bg-card p-4 ring-1 ring-foreground/10">
@@ -94,7 +95,7 @@ export function TrendCharts({
         <p className="mb-3 text-sm text-muted-foreground">
           ClinicalTrials.gov studies whose start date falls in the year. This is not a count of status changes.
         </p>
-        <div className="h-80 w-full">
+        <div className="h-80 w-full" role="img" aria-label="Line chart of trials started per year. The table lists the same counts.">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={trial} margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(60,40,20,0.12)" />
@@ -117,6 +118,7 @@ export function TrendCharts({
             </LineChart>
           </ResponsiveContainer>
         </div>
+        <CountTable caption="Trials started per year" rows={trial} series={trials} />
       </section>
 
       <section className="rounded-xl bg-card p-4 ring-1 ring-foreground/10">
@@ -175,7 +177,8 @@ export function TrendCharts({
         {arthritis.length === 0 ? (
           <p className="text-sm text-muted-foreground">The CDC indicator did not load in this snapshot.</p>
         ) : (
-          <div className="h-64 w-full">
+          <>
+          <div className="h-64 w-full" role="img" aria-label="Line chart of arthritis prevalence. The table lists the same percentages.">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={arthritis} margin={{ left: 0, right: 8, top: 8, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(60,40,20,0.12)" />
@@ -186,8 +189,69 @@ export function TrendCharts({
               </LineChart>
             </ResponsiveContainer>
           </div>
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full text-sm">
+              <caption className="mb-2 text-left text-sm text-muted-foreground">Arthritis prevalence, percent of US adults</caption>
+              <thead className="text-left text-muted-foreground">
+                <tr>
+                  <th className="py-2 pr-3 font-medium">Year</th>
+                  <th className="py-2 text-right font-medium">Percent</th>
+                </tr>
+              </thead>
+              <tbody>
+                {arthritis.map((row) => (
+                  <tr key={row.year} className="border-t border-border">
+                    <td className="py-1.5 pr-3">{row.year}</td>
+                    <td className="py-1.5 text-right font-mono text-xs">{formatNumber(Number(row.data_value), 1)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          </>
         )}
       </section>
+    </div>
+  );
+}
+
+function CountTable({
+  caption,
+  rows,
+  series,
+}: {
+  caption: string;
+  rows: Record<string, string | number | null>[];
+  series: CountRow[];
+}) {
+  if (rows.length === 0) return null;
+  return (
+    <div className="mt-4 overflow-x-auto">
+      <table className="w-full text-sm">
+        <caption className="mb-2 text-left text-sm text-muted-foreground">{caption}</caption>
+        <thead className="text-left text-muted-foreground">
+          <tr>
+            <th className="py-2 pr-3 font-medium">Year</th>
+            {CONDITIONS.map((topic) => (
+              <th key={topic} className="py-2 pr-3 text-right font-medium">
+                {labelFor(series, topic)}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={String(row.year)} className="border-t border-border">
+              <td className="py-1.5 pr-3">{row.year}</td>
+              {CONDITIONS.map((topic) => (
+                <td key={topic} className="py-1.5 pr-3 text-right font-mono text-xs">
+                  {row[topic] == null ? "n/a" : formatNumber(Number(row[topic]))}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

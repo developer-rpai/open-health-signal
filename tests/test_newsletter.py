@@ -142,7 +142,8 @@ def test_weekly_diff_keeps_new_and_strengthened_only():
     assert "causes" not in stronger["body"].lower()
     fresh = next(item for item in _section(issue, "signals")["items"] if "Fresh Event" in item["title"])
     assert "Evans screen" in fresh["body"]
-    assert issue["headline"].startswith("TNF inhibitors:")
+    assert "TNF inhibitors" in issue["headline"]
+    assert issue["headline"].startswith("Reports of")
 
 
 def test_cadence_defaults_to_weekly_and_rejects_other_values(monkeypatch):
@@ -212,7 +213,7 @@ def test_daily_diff_keeps_only_what_changed_and_stays_a_test_edition(monkeypatch
     )
     issue = compose_issue(current, fingerprint(earlier), site_url="http://127.0.0.1:43123")
     assert issue["kind"] == "daily"
-    assert issue["headline"].startswith("TNF inhibitors:")
+    assert "TNF inhibitors" in issue["headline"]
     assert issue["subject"] == "Daily test edition: " + issue["headline"]
     assert "Brand new notice" in _titles(issue, "alerts")
     assert "Old notice" not in _titles(issue, "alerts")
@@ -286,7 +287,9 @@ def test_inaugural_is_not_labeled_as_new_this_week():
     assert issue["kind"] == "inaugural"
     assert "no earlier snapshot" in issue["intro"]
     assert "new this week" not in blob
-    assert issue["headline"] == "TNF inhibitors: tuberculosis reported more often than expected (PRR 7.5)"
+    assert issue["headline"] == "Reports of tuberculosis with TNF inhibitors: what the FAERS signal does and does not show"
+    assert issue["preheader"] == "A reporting signal is not proof a drug caused an event."
+    assert issue["signal_caveat"] == issue["preheader"]
     assert "not week-over-week changes" in issue["intro"]
 
 
@@ -334,7 +337,10 @@ def test_html_and_text_rendering():
     assert "Data provided by the U.S. Food and Drug Administration (https://open.fda.gov)" in html_body
     assert "not affiliated with or endorsed by" in html_body
     assert "http://127.0.0.1:43123/unsubscribe" in html_body
-    assert "Postal address placeholder" in html_body
+    assert "Postal address placeholder" not in html_body
+    assert "A reporting signal is not proof a drug caused an event." in html_body
+    assert "FAERS data as of" in html_body
+    assert "Open Health Signals" in html_body
     assert "NCBI disclaimer" in html_body
     assert "causes" not in html_body.lower()
     assert "<table" not in text_body
@@ -364,6 +370,26 @@ def test_dry_run_does_not_call_the_network(tmp_path, monkeypatch):
     assert (tmp_path / "newsletter" / "issues" / "2026-10-22" / "issue.html").is_file()
 
 
+def test_live_send_refuses_without_a_postal_address(monkeypatch):
+    monkeypatch.delenv("NEWSLETTER_POSTAL_ADDRESS", raising=False)
+
+    def explode(*_args, **_kwargs):
+        raise AssertionError("network")
+
+    with pytest.raises(NewsletterSendError, match="NEWSLETTER_POSTAL_ADDRESS"):
+        send_resend(
+            {"slug": "2026-10-15", "subject": "Hello"},
+            "<p>x</p>",
+            "x",
+            api_key="re_test",
+            post=explode,
+            subscribers=[{"id": "sub_active", "email": "a@example.com", "status": "active"}],
+            secret="signing-secret",
+            functions_base="https://example.supabase.co/functions/v1",
+            from_address="Open Health Signals <briefing@example.com>",
+        )
+
+
 def test_send_without_a_key_fails_after_the_files_exist(tmp_path, monkeypatch):
     monkeypatch.delenv("RESEND_API_KEY", raising=False)
     monkeypatch.delenv("NEWSLETTER_DRY_RUN", raising=False)
@@ -380,6 +406,7 @@ def test_send_without_a_key_fails_after_the_files_exist(tmp_path, monkeypatch):
 
 
 def test_resend_send_checks_suppression_and_sets_idempotency(monkeypatch):
+    monkeypatch.setenv("NEWSLETTER_POSTAL_ADDRESS", "PO Box 1, San Jose, CA 95113")
     captured = {}
     rows = {
         "sub_active": {"id": "sub_active", "email": "active@example.com", "status": "active"},
@@ -528,7 +555,8 @@ def test_real_snapshot_mentions_tuberculosis_and_gastrointestinal_haemorrhage():
     assert "no earlier snapshot" in issue["intro"]
     html_body = render_html(issue, unsubscribe_href="http://127.0.0.1:43123/unsubscribe")
     assert "viewport" in html_body
-    assert "7.5" in issue["headline"]
+    assert "7.5" in json.dumps(issue)
+    assert "what the FAERS signal does and does not show" in issue["headline"]
 
 
 def test_cli_dry_run(tmp_path, monkeypatch):

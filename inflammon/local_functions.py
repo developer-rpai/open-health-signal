@@ -55,8 +55,8 @@ def seed_store() -> ListStore:
             "issues": [
                 {
                     "slug": "2026-10-15",
-                    "subject": "TNF inhibitors: tuberculosis reported more often than expected (PRR 7.5)",
-                    "headline": "TNF inhibitors: tuberculosis reported more often than expected (PRR 7.5)",
+                    "subject": "Reports of tuberculosis with TNF inhibitors: what the FAERS signal does and does not show",
+                    "headline": "Reports of tuberculosis with TNF inhibitors: what the FAERS signal does and does not show",
                     "html": html_body,
                     "text_body": text_body,
                     "status": "draft",
