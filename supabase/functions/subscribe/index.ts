@@ -25,6 +25,7 @@ Deno.serve(async (req) => {
   if (existing?.status === "active") {
     return json(200, { ok: true, status: "active", message: "This address is already confirmed." });
   }
+  const alreadyPending = existing?.status === "pending";
 
   const token = newConfirmToken();
   const confirmTokenHash = await sha256Hex(token);
@@ -53,7 +54,7 @@ Deno.serve(async (req) => {
   }
   return json(200, {
     ok: true,
-    status: "pending",
-    message: "Check your inbox. The briefing starts after you open the confirmation link.",
+    status: alreadyPending ? "already_pending" : "pending",
+    message: "Check your inbox. We sent a confirmation link. You're added once you click it.",
   });
 });

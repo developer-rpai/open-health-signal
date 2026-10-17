@@ -241,12 +241,19 @@ def test_double_opt_in_and_one_click_unsubscribe_are_immediate():
     assert denied == 400
     created, _, created_body = _call(store, "POST", "/subscribe", body={"email": "person@example.com", "consent": "yes"})
     assert created == 200
+    assert json.loads(created_body)["status"] == "pending"
+    again, _, again_body = _call(store, "POST", "/subscribe", body={"email": "person@example.com", "consent": "yes"})
+    assert again == 200
+    resent = json.loads(again_body)
+    assert resent["status"] == "already_pending"
     pending = store.by_email("person@example.com")
     assert pending["status"] == "pending"
     assert pending["consent_ip"] == "203.0.113.8"
     assert pending["confirm_token_hash"]
-    confirm_url = json.loads(created_body)["confirm_url"]
-    token = confirm_url.split("token=", 1)[1]
+    # A second request while still pending rotates the confirm token. Confirm with the latest link.
+    first_token = json.loads(created_body)["confirm_url"].split("token=", 1)[1]
+    token = resent["confirm_url"].split("token=", 1)[1]
+    assert token != first_token
 
     preview, _, _ = _call(store, "GET", "/unsubscribe", query={"token": "not-a-token"})
     assert preview == 400
@@ -260,6 +267,10 @@ def test_double_opt_in_and_one_click_unsubscribe_are_immediate():
     )
     assert confirmed == 200
     assert store.by_email("person@example.com")["status"] == "active"
+    active, _, active_body = _call(store, "POST", "/subscribe", body={"email": "person@example.com", "consent": "yes"})
+    assert active == 200
+    assert json.loads(active_body)["status"] == "active"
+    assert "confirm_url" not in json.loads(active_body)
     unsub_token = json.loads(confirmed_body)["unsubscribe_token"]
 
     peeked, _, peek_body = _call(store, "GET", "/unsubscribe", query={"token": unsub_token})

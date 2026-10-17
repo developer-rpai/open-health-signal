@@ -2,21 +2,24 @@
 
 import { useEffect, useState } from "react";
 
+import { FormStatus, messageForError, readApi } from "@/components/form-status";
 import { functionsBase } from "@/lib/functions";
 
 export function ConfirmPanel() {
+  const [phase, setPhase] = useState<"loading" | "success" | "error">("loading");
   const [message, setMessage] = useState("Checking the confirmation link…");
-  const [ok, setOk] = useState(false);
 
   useEffect(() => {
     const token = new URLSearchParams(window.location.search).get("token") || "";
     const base = functionsBase();
     if (!token) {
-      setMessage("This page needs the token from the confirmation email.");
+      setPhase("error");
+      setMessage("This confirmation link has expired or does not match. Subscribe again to get a new one.");
       return;
     }
     if (!base) {
-      setMessage("This build has no functions URL, so the confirmation cannot be recorded.");
+      setPhase("error");
+      setMessage(messageForError("unavailable"));
       return;
     }
     let cancelled = false;
@@ -26,18 +29,38 @@ export function ConfirmPanel() {
       body: JSON.stringify({ token }),
     })
       .then(async (response) => {
-        const payload = (await response.json()) as { message?: string };
+        const payload = await readApi(response);
         if (cancelled) return;
-        setOk(response.ok);
-        setMessage(payload.message || "The confirmation link could not be checked.");
+        if (response.ok && payload.ok && payload.status === "active") {
+          setPhase("success");
+          setMessage("You're confirmed. The next briefing will include this address.");
+          return;
+        }
+        setPhase("error");
+        setMessage(
+          payload.error === "invalid_token" || !payload.error
+            ? "This confirmation link has expired or does not match. Subscribe again to get a new one."
+            : messageForError(payload.error),
+        );
       })
       .catch(() => {
-        if (!cancelled) setMessage("The confirmation service did not respond.");
+        if (!cancelled) {
+          setPhase("error");
+          setMessage(messageForError("network"));
+        }
       });
     return () => {
       cancelled = true;
     };
   }, []);
 
-  return <p className={`text-sm leading-relaxed ${ok ? "" : "text-muted-foreground"}`}>{message}</p>;
+  if (phase === "loading") {
+    return (
+      <p className="text-lg leading-relaxed text-muted-foreground" role="status" aria-live="polite">
+        {message}
+      </p>
+    );
+  }
+
+  return <FormStatus tone={phase === "success" ? "success" : "error"} message={message} />;
 }

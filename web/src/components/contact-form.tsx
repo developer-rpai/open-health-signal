@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { FormStatus, messageForError, readApi } from "@/components/form-status";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MEDWATCH_URL } from "@/lib/compliance";
@@ -25,9 +26,9 @@ export function ContactForm() {
   const siteKey = turnstileSiteKey();
   const widget = useRef<HTMLDivElement>(null);
   const [token, setToken] = useState("");
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [pending, setPending] = useState(false);
-  const [done, setDone] = useState(false);
   const configured = Boolean(base) && Boolean(siteKey);
 
   useEffect(() => {
@@ -68,8 +69,12 @@ export function ContactForm() {
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    setError("");
+    if (!configured) {
+      setError(messageForError("unavailable"));
+      return;
+    }
     setPending(true);
-    setMessage("");
     try {
       const response = await fetch(`${base}/contact`, {
         method: "POST",
@@ -85,22 +90,26 @@ export function ContactForm() {
           turnstile_token: token,
         }),
       });
-      const payload = (await response.json()) as { message?: string };
-      setDone(response.ok);
-      setMessage(payload.message || "The message was not saved.");
+      const payload = await readApi(response);
+      if (response.ok && payload.ok) {
+        setSuccess("Thanks, your message was sent. We'll reply by email.");
+        return;
+      }
+      setError(messageForError(payload.error));
     } catch {
-      setMessage("The contact service did not respond.");
+      setError(messageForError("network"));
     } finally {
       setPending(false);
     }
   }
 
-  if (done) {
-    return <p className="text-sm leading-relaxed">{message}</p>;
+  if (success) {
+    return <FormStatus tone="success" message={success} />;
   }
 
   return (
-    <form className="space-y-3" onSubmit={onSubmit}>
+    <form className="space-y-3" onSubmit={onSubmit} aria-busy={pending}>
+      {error ? <FormStatus tone="error" message={error} /> : null}
       <Field id="contact-name" name="name" label="Name" required disabled={!configured || pending} />
       <Field id="contact-email" name="email" label="Email" type="email" required disabled={!configured || pending} />
       <Field id="contact-organization" name="organization" label="Organization (optional)" disabled={!configured || pending} />
@@ -150,14 +159,13 @@ export function ContactForm() {
       <Field id="contact-link" name="link" label="Link (optional)" type="url" disabled={!configured || pending} />
       <div ref={widget} className="min-h-16" />
       <Button type="submit" size="lg" disabled={!configured || pending || !token}>
-        {pending ? "Sending…" : "Send message"}
+        {pending ? "Sending..." : "Send message"}
       </Button>
       <p className="text-xs leading-relaxed text-muted-foreground">
         {configured
           ? "Cloudflare Turnstile checks this form. Messages are stored for up to 12 months."
           : "The contact form is not available on this copy of the site."}
       </p>
-      {message ? <p className="text-sm leading-relaxed">{message}</p> : null}
     </form>
   );
 }

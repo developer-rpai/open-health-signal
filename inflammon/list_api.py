@@ -190,6 +190,7 @@ def _subscribe(fields, **kwargs) -> tuple[int, str, str]:
         )
     if existing and existing["status"] == "active":
         return _json(200, {"ok": True, "status": "active", "message": "This address is already confirmed."})
+    already_pending = bool(existing and existing["status"] == "pending")
     token = new_confirm_token()
     now_iso = _iso(kwargs["now"])
     if existing:
@@ -223,8 +224,8 @@ def _subscribe(fields, **kwargs) -> tuple[int, str, str]:
     )
     payload: dict[str, Any] = {
         "ok": True,
-        "status": "pending",
-        "message": "Check your inbox. The briefing starts after you open the confirmation link.",
+        "status": "already_pending" if already_pending else "pending",
+        "message": "Check your inbox. We sent a confirmation link. You're added once you click it.",
     }
     if kwargs["expose_preview"]:
         payload["confirm_url"] = confirm_link

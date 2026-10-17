@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { FormStatus, messageForError, readApi } from "@/components/form-status";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { functionsBase, localPreview } from "@/lib/functions";
@@ -10,35 +11,66 @@ import { functionsBase, localPreview } from "@/lib/functions";
 export function SubscribeForm({ id }: { id?: string }) {
   const base = functionsBase();
   const formId = id ?? "subscribe";
-  const [message, setMessage] = useState("");
-  const [confirmUrl, setConfirmUrl] = useState("");
   const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [confirmUrl, setConfirmUrl] = useState("");
   const configured = base.startsWith("http://") || base.startsWith("https://");
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    setPending(true);
-    setMessage("");
+    const email = String(data.get("email") || "").trim();
+    setError("");
+    setSuccess("");
     setConfirmUrl("");
+    if (!configured) {
+      setError(messageForError("unavailable"));
+      return;
+    }
+    setPending(true);
     try {
       const response = await fetch(`${base}/subscribe`, {
         method: "POST",
         headers: { "content-type": "application/json", accept: "application/json" },
-        body: JSON.stringify({ email: String(data.get("email") || ""), consent: data.get("consent") ? "yes" : "no" }),
+        body: JSON.stringify({ email, consent: data.get("consent") ? "yes" : "no" }),
       });
-      const payload = (await response.json()) as { message?: string; confirm_url?: string; ok?: boolean };
-      setMessage(payload.message || (response.ok ? "Check your inbox." : "The list did not accept that address."));
-      if (payload.confirm_url && localPreview()) setConfirmUrl(payload.confirm_url);
+      const payload = await readApi(response);
+      if (response.ok && payload.ok && (payload.status === "pending" || payload.status === "already_pending")) {
+        setSuccess(`Check your inbox. We sent a confirmation link to ${email}. You're added once you click it.`);
+        if (payload.confirm_url && localPreview()) setConfirmUrl(payload.confirm_url);
+        return;
+      }
+      if (response.ok && payload.ok && payload.status === "active") {
+        setSuccess(`${email} is already confirmed. No new confirmation was sent.`);
+        return;
+      }
+      setError(messageForError(payload.error));
     } catch {
-      setMessage("The subscribe service did not respond.");
+      setError(messageForError("network"));
     } finally {
       setPending(false);
     }
   }
 
+  if (success) {
+    return (
+      <div className="space-y-3">
+        <FormStatus tone="success" message={success} />
+        {confirmUrl ? (
+          <p className="text-sm leading-relaxed">
+            <a className="text-primary underline underline-offset-2" href={confirmUrl}>
+              Open the confirmation link
+            </a>
+          </p>
+        ) : null}
+      </div>
+    );
+  }
+
   return (
-    <form id={formId} className="space-y-3" onSubmit={onSubmit} aria-describedby={`${formId}-note`}>
+    <form id={formId} className="space-y-3" onSubmit={onSubmit} aria-busy={pending}>
+      {error ? <FormStatus tone="error" message={error} /> : null}
       <div className="space-y-1.5">
         <label htmlFor={`${formId}-email`} className="text-sm font-medium">
           Email
@@ -73,23 +105,9 @@ export function SubscribeForm({ id }: { id?: string }) {
         </span>
       </label>
       <Button type="submit" size="lg" disabled={!configured || pending}>
-        {pending ? "Sending confirmation…" : "Subscribe"}
+        {pending ? "Sending..." : "Subscribe"}
       </Button>
-      <p id={`${formId}-note`} className="text-xs leading-relaxed text-muted-foreground">
-        {configured
-          ? "A confirmation email comes first. The address stays pending until that link is opened."
-          : "Subscriptions are not open on this copy of the site."}
-      </p>
-      {message ? <p className="text-sm leading-relaxed">{message}</p> : null}
-      {confirmUrl ? (
-        <p className="text-sm leading-relaxed">
-          Confirmation link for this local copy:{" "}
-          <a className="text-primary underline underline-offset-2" href={confirmUrl}>
-            Open the confirmation link
-          </a>
-          .
-        </p>
-      ) : null}
+      {!configured ? <FormStatus tone="error" message={messageForError("unavailable")} /> : null}
     </form>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { FormStatus, messageForError, readApi } from "@/components/form-status";
 import { Button } from "@/components/ui/button";
 import { functionsBase, localPreview, siteUrl, supabasePublic } from "@/lib/functions";
 
@@ -19,7 +20,7 @@ export function ApprovePanel() {
   const [email, setEmail] = useState("");
   const [session, setSession] = useState<Session | null>(null);
   const [issues, setIssues] = useState<Issue[]>([]);
-  const [message, setMessage] = useState("");
+  const [notice, setNotice] = useState<{ tone: "success" | "error"; message: string } | null>(null);
   const [pending, setPending] = useState(false);
   const supabase = supabasePublic();
   const preview = localPreview() && !supabase.url;
@@ -39,7 +40,7 @@ export function ApprovePanel() {
         .eq("status", "draft");
       if (cancelled) return;
       if (error) {
-        setMessage("This email is not on the owner allowlist.");
+        setNotice({ tone: "error", message: messageForError("not_allowlisted") });
         return;
       }
       setIssues((rows || []) as Issue[]);
@@ -51,38 +52,46 @@ export function ApprovePanel() {
 
   async function requestLink(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const address = email.trim();
+    setNotice(null);
     setPending(true);
-    setMessage("");
     try {
       if (supabase.url && supabase.anonKey) {
         const { createClient } = await import("@supabase/supabase-js");
         const client = createClient(supabase.url, supabase.anonKey);
         const redirect = `${siteUrl() || window.location.origin}/approve`;
-        const { error } = await client.auth.signInWithOtp({ email, options: { emailRedirectTo: redirect } });
-        setMessage(error ? error.message : "Check your inbox for the sign-in link.");
+        const { error } = await client.auth.signInWithOtp({ email: address, options: { emailRedirectTo: redirect } });
+        if (error) {
+          setNotice({ tone: "error", message: messageForError("invalid_email") });
+          return;
+        }
+        setNotice({
+          tone: "success",
+          message: `Check your inbox. We sent a sign-in link to ${address}.`,
+        });
         return;
       }
       if (!preview) {
-        setMessage("Approval is not configured. Set the Supabase URL and anon key, and the owner allowlist.");
+        setNotice({ tone: "error", message: messageForError("unavailable") });
         return;
       }
       const response = await fetch(`${functionsBase()}/auth/magic-link`, {
         method: "POST",
         headers: { "content-type": "application/json", accept: "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: address }),
       });
-      const payload = (await response.json()) as { message?: string };
-      if (!response.ok) {
-        setMessage(payload.message || "This email is not on the owner allowlist.");
+      const payload = await readApi(response);
+      if (!response.ok || !payload.ok) {
+        setNotice({ tone: "error", message: messageForError(payload.error || "not_allowlisted") });
         return;
       }
-      setSession({ email });
+      setSession({ email: address });
       const issuesResponse = await fetch(`${functionsBase()}/issues`, { headers: { accept: "application/json" } });
       const body = (await issuesResponse.json()) as { issues?: Issue[] };
       setIssues((body.issues || []).filter((issue) => issue.status === "draft"));
-      setMessage(payload.message || "");
+      setNotice(null);
     } catch {
-      setMessage("The approval service did not respond.");
+      setNotice({ tone: "error", message: messageForError("network") });
     } finally {
       setPending(false);
     }
@@ -90,14 +99,14 @@ export function ApprovePanel() {
 
   async function approve(slug: string) {
     setPending(true);
-    setMessage("");
+    setNotice(null);
     try {
       if (supabase.url && session?.accessToken) {
         const { createClient } = await import("@supabase/supabase-js");
         const client = createClient(supabase.url, supabase.anonKey);
         const { error } = await client.from("issues").update({ status: "approved", approved_at: new Date().toISOString() }).eq("slug", slug);
         if (error) {
-          setMessage("This email is not on the owner allowlist.");
+          setNotice({ tone: "error", message: messageForError("not_allowlisted") });
           return;
         }
         const response = await fetch(`${functionsBase()}/dispatch-send`, {
@@ -109,8 +118,12 @@ export function ApprovePanel() {
           },
           body: JSON.stringify({ slug }),
         });
-        const payload = (await response.json()) as { message?: string };
-        setMessage(payload.message || "Approved.");
+        const payload = await readApi(response);
+        if (!response.ok || payload.ok === false) {
+          setNotice({ tone: "error", message: messageForError(payload.error) });
+          return;
+        }
+        setNotice({ tone: "success", message: "Approved. The send has been requested." });
         setIssues((current) => current.filter((issue) => issue.slug !== slug));
         return;
       }
@@ -118,23 +131,30 @@ export function ApprovePanel() {
         method: "POST",
         headers: { accept: "application/json" },
       });
-      const payload = (await response.json()) as { message?: string; sent?: boolean; status?: string };
-      setMessage(
-        payload.sent
-          ? "Approved and sent."
-          : "Approved. Nothing was emailed.",
-      );
+      const payload = await readApi(response);
+      if (!response.ok || payload.ok === false) {
+        setNotice({ tone: "error", message: messageForError(payload.error) });
+        return;
+      }
+      setNotice({
+        tone: "success",
+        message: payload.sent ? "Approved. The issue was sent." : "Approved. Nothing was emailed.",
+      });
       setIssues((current) => current.map((issue) => (issue.slug === slug ? { ...issue, status: payload.status || "approved" } : issue)));
     } catch {
-      setMessage("Approval did not complete.");
+      setNotice({ tone: "error", message: messageForError("network") });
     } finally {
       setPending(false);
     }
   }
 
   if (!session) {
+    if (notice?.tone === "success") {
+      return <FormStatus tone="success" message={notice.message} />;
+    }
     return (
       <form onSubmit={requestLink} className="max-w-md space-y-3 rounded-2xl bg-card p-6 ring-1 ring-foreground/10">
+        {notice ? <FormStatus tone={notice.tone} message={notice.message} /> : null}
         <label htmlFor="owner-email" className="text-sm font-medium">
           Owner email
         </label>
@@ -146,17 +166,12 @@ export function ApprovePanel() {
           onChange={(event) => setEmail(event.target.value)}
           placeholder="owner@example.com"
           autoComplete="email"
+          disabled={pending}
           className="h-9 w-full rounded-lg border border-input bg-transparent px-3 text-sm"
         />
         <Button type="submit" size="lg" disabled={pending}>
-          {pending ? "Sending link…" : "Email me a sign-in link"}
+          {pending ? "Sending..." : "Email me a sign-in link"}
         </Button>
-        <p className="text-xs leading-relaxed text-muted-foreground">
-          {preview
-            ? "Local preview: the magic link is not emailed. An allowlisted address can continue on this machine."
-            : "Supabase emails a magic link. Row level security hides drafts from every other address."}
-        </p>
-        {message ? <p className="text-sm leading-relaxed">{message}</p> : null}
       </form>
     );
   }
@@ -165,7 +180,7 @@ export function ApprovePanel() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-muted-foreground">Signed in as {session.email}.</p>
-      {message ? <p className="text-sm leading-relaxed">{message}</p> : null}
+      {notice ? <FormStatus tone={notice.tone} message={notice.message} /> : null}
       {drafts.length === 0 ? (
         <p className="rounded-xl border border-dashed px-4 py-10 text-sm text-muted-foreground">No draft is waiting.</p>
       ) : (
@@ -177,7 +192,7 @@ export function ApprovePanel() {
                 <h2 className="text-2xl">{issue.headline || issue.subject}</h2>
               </div>
               <Button type="button" size="lg" disabled={pending} onClick={() => approve(issue.slug)}>
-                Approve and send
+                {pending ? "Sending..." : "Approve and send"}
               </Button>
             </div>
             <iframe title={`Preview ${issue.slug}`} sandbox="" srcDoc={issue.html} className="h-[32rem] w-full rounded-xl bg-white" />

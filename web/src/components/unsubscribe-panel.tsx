@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from "react";
 
+import { FormStatus, messageForError, readApi } from "@/components/form-status";
 import { Button } from "@/components/ui/button";
 import { functionsBase } from "@/lib/functions";
 
 export function UnsubscribePanel() {
   const [token, setToken] = useState("");
   const [ready, setReady] = useState(false);
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [pending, setPending] = useState(false);
-  const [done, setDone] = useState(false);
 
   useEffect(() => {
     setToken(new URLSearchParams(window.location.search).get("token") || "");
@@ -19,7 +20,12 @@ export function UnsubscribePanel() {
 
   async function unsubscribe() {
     const base = functionsBase();
-    if (!token || !base) return;
+    setError("");
+    if (!token) return;
+    if (!base) {
+      setError(messageForError("unavailable"));
+      return;
+    }
     setPending(true);
     try {
       const response = await fetch(`${base}/unsubscribe?token=${encodeURIComponent(token)}`, {
@@ -27,46 +33,43 @@ export function UnsubscribePanel() {
         headers: { "content-type": "application/x-www-form-urlencoded", accept: "application/json" },
         body: "List-Unsubscribe=One-Click",
       });
-      const payload = (await response.json()) as { message?: string };
-      setDone(response.ok);
-      setMessage(payload.message || "The unsubscribe service did not accept that link.");
+      const payload = await readApi(response);
+      if (response.ok && payload.ok) {
+        setSuccess("You're unsubscribed.");
+        return;
+      }
+      setError(messageForError(payload.error || "invalid_token"));
     } catch {
-      setMessage("The unsubscribe service did not respond.");
+      setError(messageForError("network"));
     } finally {
       setPending(false);
     }
   }
 
   if (!ready) {
-    return <p className="text-sm text-muted-foreground">Reading the link…</p>;
+    return <p className="text-lg text-muted-foreground">Reading the link…</p>;
   }
 
   if (!token) {
     return (
-      <p className="text-sm leading-relaxed text-muted-foreground">
-        Use the unsubscribe link in a briefing. It is signed for one address. This page does not take a typed email,
-        because an unsigned request cannot change the list.
-      </p>
+      <FormStatus
+        tone="error"
+        message="Use the unsubscribe link in a briefing. This page does not take a typed email."
+      />
     );
   }
 
-  if (done) {
-    return <p className="text-sm leading-relaxed">{message}</p>;
+  if (success) {
+    return <FormStatus tone="success" message={success} />;
   }
 
   return (
     <div className="space-y-3">
-      <p className="text-sm leading-relaxed">
-        This link is signed. Unsubscribe takes effect immediately, including for the one-click header a mail client
-        sends.
-      </p>
-      <Button type="button" size="lg" onClick={unsubscribe} disabled={pending || !functionsBase()}>
-        {pending ? "Unsubscribing…" : "Unsubscribe"}
+      {error ? <FormStatus tone="error" message={error} /> : null}
+      <p className="text-sm leading-relaxed">This link is signed. Unsubscribe takes effect immediately.</p>
+      <Button type="button" size="lg" onClick={unsubscribe} disabled={pending}>
+        {pending ? "Sending..." : "Unsubscribe"}
       </Button>
-      {!functionsBase() ? (
-        <p className="text-xs text-muted-foreground">This build has no functions URL, so the list cannot be changed.</p>
-      ) : null}
-      {message ? <p className="text-sm leading-relaxed">{message}</p> : null}
     </div>
   );
 }
