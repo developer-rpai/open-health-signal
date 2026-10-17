@@ -12,8 +12,10 @@ from inflammon.transactional import (
     confirmation_email,
     contact_ack_email,
     contact_from,
+    env_is_dry_run,
     excerpt as py_excerpt,
     list_from,
+    mask_recipient,
     owner_notify_email,
     welcome_email,
 )
@@ -569,7 +571,26 @@ def test_contact_mail_is_best_effort_and_dry_run_only_logs(caplog):
         )
     assert dry == 200
     assert called == []
-    assert any("dry_run" in record.message and "Confirm your Open Health Signals briefing" in record.message for record in caplog.records)
+    assert any(
+        "dry_run" in record.message
+        and "d***@example.com" in record.message
+        and "dry@example.com" not in record.message
+        and "Confirm your Open Health Signals briefing" in record.message
+        for record in caplog.records
+    )
+
+
+def test_dry_run_is_live_only_for_exact_zero(monkeypatch):
+    monkeypatch.setenv("NEWSLETTER_DRY_RUN", "0")
+    assert env_is_dry_run() is False
+    for value in ("", "1", "false", "no", "0 ", "00", "true"):
+        monkeypatch.setenv("NEWSLETTER_DRY_RUN", value)
+        assert env_is_dry_run() is True
+    monkeypatch.delenv("NEWSLETTER_DRY_RUN", raising=False)
+    assert env_is_dry_run() is True
+    assert mask_recipient("jane@example.com") == "j***@example.com"
+    assert mask_recipient("J@domain.test") == "J***@domain.test"
+    assert mask_recipient("not-an-email") == "***"
 
 
 def test_transactional_copy_matches_the_edge_module():

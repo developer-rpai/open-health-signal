@@ -259,7 +259,9 @@ def _post(url: str, *, headers: dict, json: dict) -> dict:
 
 
 def _dry_run_forced() -> bool:
-    return os.environ.get("NEWSLETTER_DRY_RUN", "").strip().lower() in {"1", "true", "yes"}
+    from inflammon.transactional import env_is_dry_run
+
+    return env_is_dry_run()
 
 
 def _update_fingerprints(state_dir: Path, previous: dict | None, snapshot: dict, generated_at: str | None) -> None:

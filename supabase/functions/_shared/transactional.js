@@ -58,6 +58,13 @@ function domainOf(from) {
   return address.slice(at + 1).toLowerCase();
 }
 
+export function maskRecipient(email) {
+  const raw = String(email || "").trim();
+  const at = raw.lastIndexOf("@");
+  if (at <= 0 || at === raw.length - 1) return "***";
+  return `${raw.slice(0, 1)}***@${raw.slice(at + 1)}`;
+}
+
 export function listFrom(newsletterFrom) {
   const raw = String(newsletterFrom || "").trim();
   return raw || `Open Health Signals <${CONTACT_EMAIL}>`;

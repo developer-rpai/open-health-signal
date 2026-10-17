@@ -1,13 +1,15 @@
 """Transactional mail for subscribe, confirm, and contact.
 
 The wording matches ``supabase/functions/_shared/transactional.js``.
-``NEWSLETTER_DRY_RUN=1`` (and the local default) logs the message and does
-not call Resend. A send error is recorded and does not raise.
+A live Resend call happens only when ``NEWSLETTER_DRY_RUN`` is exactly ``0``.
+Anything else logs the message and does not call Resend. A send error is
+recorded and does not raise.
 """
 
 from __future__ import annotations
 
 import logging
+import os
 import re
 from typing import Any
 
@@ -64,6 +66,19 @@ def _domain_of(sender: str) -> str:
     if "@" not in address:
         return ""
     return address.rsplit("@", 1)[1].lower()
+
+
+def env_is_dry_run() -> bool:
+    """True unless NEWSLETTER_DRY_RUN is exactly the string 0."""
+    return os.environ.get("NEWSLETTER_DRY_RUN", "") != "0"
+
+
+def mask_recipient(email: str) -> str:
+    raw = str(email or "").strip()
+    at = raw.rfind("@")
+    if at <= 0 or at == len(raw) - 1:
+        return "***"
+    return f"{raw[0]}***@{raw[at + 1 :]}"
 
 
 def list_from(newsletter_from: str) -> str:
@@ -263,7 +278,7 @@ def send_message(
     if dry_run or not api_key or not sender or post is None:
         logger.info(
             "transactional dry_run to=%s subject=%s reply_to=%s",
-            record["to"],
+            mask_recipient(record["to"]),
             record["subject"],
             record["reply_to"],
         )

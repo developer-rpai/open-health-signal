@@ -351,6 +351,26 @@ def test_html_and_text_rendering():
     assert '<script>alert("x")</script>' in text_body
 
 
+def test_only_exact_zero_leaves_dry_run(tmp_path, monkeypatch):
+    def explode(*_args, **_kwargs):
+        raise AssertionError("network")
+
+    monkeypatch.setattr("inflammon.newsletter.publish._post", explode)
+    snapshot_dir = _write_snapshot(tmp_path / "snapshot", _snapshot())
+    for value in ("", "1", "false", "no", "0 ", "00"):
+        monkeypatch.setenv("NEWSLETTER_DRY_RUN", value)
+        summary = build_and_save(
+            snapshot_dir=snapshot_dir,
+            out_dir=tmp_path / "newsletter",
+            web_data_dir=tmp_path / "web-data",
+            web_email_dir=tmp_path / "email",
+            site_url="http://127.0.0.1:43123",
+            send=True,
+        )
+        assert summary["delivery"]["mode"] == "dry-run"
+        assert summary["delivery"]["sent"] is False
+
+
 def test_dry_run_does_not_call_the_network(tmp_path, monkeypatch):
     def explode(*_args, **_kwargs):
         raise AssertionError("network")
@@ -392,7 +412,7 @@ def test_live_send_refuses_without_a_postal_address(monkeypatch):
 
 def test_send_without_a_key_fails_after_the_files_exist(tmp_path, monkeypatch):
     monkeypatch.delenv("RESEND_API_KEY", raising=False)
-    monkeypatch.delenv("NEWSLETTER_DRY_RUN", raising=False)
+    monkeypatch.setenv("NEWSLETTER_DRY_RUN", "0")
     snapshot_dir = _write_snapshot(tmp_path / "snapshot", _snapshot())
     with pytest.raises(NewsletterSendError, match="RESEND_API_KEY"):
         build_and_save(

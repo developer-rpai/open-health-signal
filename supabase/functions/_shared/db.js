@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { maskRecipient } from "./transactional.js";
 
 export function serviceClient() {
   const url = Deno.env.get("SUPABASE_URL") || "";
@@ -8,8 +9,7 @@ export function serviceClient() {
 }
 
 export function dryRun() {
-  const value = (Deno.env.get("NEWSLETTER_DRY_RUN") || "").trim().toLowerCase();
-  return value === "" || value === "1" || value === "true" || value === "yes";
+  return (Deno.env.get("NEWSLETTER_DRY_RUN") || "") !== "0";
 }
 
 export async function sendResend({ to, subject, text, html, replyTo, headers, from }) {
@@ -18,7 +18,7 @@ export async function sendResend({ to, subject, text, html, replyTo, headers, fr
   const note = { transactional: "dry_run", to, subject, from: sender, reply_to: replyTo || null };
   try {
     if (dryRun()) {
-      console.log(JSON.stringify(note));
+      console.log(JSON.stringify({ ...note, to: maskRecipient(to) }));
       return { id: null, dry_run: true };
     }
     if (!apiKey || !sender) {

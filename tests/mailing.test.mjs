@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { signSvix, signUnsubscribeToken, verifySvix, verifyUnsubscribeToken } from "../supabase/functions/_shared/mailing.js";
-import { confirmationEmail, contactAckEmail, contactFrom, welcomeEmail } from "../supabase/functions/_shared/transactional.js";
+import { confirmationEmail, contactAckEmail, contactFrom, maskRecipient, welcomeEmail } from "../supabase/functions/_shared/transactional.js";
 
 const SECRET = "test-unsubscribe-secret";
 const TOKEN = "eyJlbWFpbCI6InJlYWRlckBleGFtcGxlLmNvbSIsInNpZCI6InN1Yl8xIn0.hrcb_1Yw__ILl9FHRZ4uXh6YCLAz8IL5TEWyKlMXSmk";
@@ -48,6 +48,9 @@ test("transactional templates stay short and plain", () => {
   assert.match(ack.text, /The first lines/);
   assert.equal(contactFrom("Open Health Signals <briefing@openhealthsignals.org>"), "Open Health Signals <contact@openhealthsignals.org>");
   assert.equal(contactFrom("Ops <onboarding@resend.dev>"), "Ops <onboarding@resend.dev>");
+  assert.equal(maskRecipient("jane@example.com"), "j***@example.com");
+  assert.equal(maskRecipient("J@domain.test"), "J***@domain.test");
+  assert.equal(maskRecipient("not-an-email"), "***");
 });
 
 test("Svix fixture matches the Python signature", async () => {
