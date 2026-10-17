@@ -3,9 +3,20 @@
 from __future__ import annotations
 
 import json
+import logging
+import subprocess
 from pathlib import Path
 
-from inflammon.list_api import ListStore, handle_request
+from inflammon.list_api import CONFIRM_EMAIL_LIMIT, ListStore, handle_request
+from inflammon.transactional import (
+    confirmation_email,
+    contact_ack_email,
+    contact_from,
+    excerpt as py_excerpt,
+    list_from,
+    owner_notify_email,
+    welcome_email,
+)
 from inflammon.mailing import (
     confirm_token_matches,
     deliver_issue,
@@ -290,6 +301,13 @@ def test_double_opt_in_and_one_click_unsubscribe_are_immediate():
     assert json.loads(done_body)["status"] == "unsubscribed"
     assert store.by_email("person@example.com")["status"] == "unsubscribed"
     assert store.by_email("person@example.com")["unsubscribed_at"]
+    confirms = [item for item in store.data["mail"] if item["kind"] == "confirm"]
+    welcomes = [item for item in store.data["mail"] if item["kind"] == "welcome"]
+    assert len(confirms) == 2
+    assert token in confirms[1]["text"]
+    assert len(welcomes) == 1
+    assert welcomes[0]["text"].lower().count("not medical advice") == 1
+    assert welcomes[0]["reply_to"] == "contact@openhealthsignals.org"
 
 
 def test_contact_requires_turnstile_and_rate_limits():
@@ -364,6 +382,303 @@ def test_contact_organization_and_role_are_optional():
     assert saved["organization"] == ""
     assert saved["role"] == ""
     assert "Message received." in body
+
+
+def test_pending_confirmation_resends_until_the_hourly_cap():
+    store = ListStore()
+    sent: list[dict] = []
+
+    def post(url, *, headers, json):
+        sent.append(json)
+        return {"id": "email_1"}
+
+    hashes = []
+    for _ in range(CONFIRM_EMAIL_LIMIT):
+        status, _, body = _live(store, "POST", "/subscribe", body={"email": "again@example.com", "consent": "yes"}, post=post)
+        assert status == 200
+        hashes.append(store.by_email("again@example.com")["confirm_token_hash"])
+    assert len(sent) == CONFIRM_EMAIL_LIMIT
+    assert len(set(hashes)) == CONFIRM_EMAIL_LIMIT
+    assert sent[0]["subject"] == "Confirm your Open Health Signals briefing"
+    assert sent[0]["reply_to"] == "contact@openhealthsignals.org"
+    assert "<html" in sent[0]["html"].lower() or "<!DOCTYPE html>" in sent[0]["html"]
+    capped, _, capped_body = _live(
+        store, "POST", "/subscribe", body={"email": "again@example.com", "consent": "yes"}, post=post
+    )
+    assert capped == 200
+    assert json.loads(capped_body)["status"] == "already_pending"
+    assert "Check your inbox" in capped_body
+    assert len(sent) == CONFIRM_EMAIL_LIMIT
+    assert store.by_email("again@example.com")["confirm_token_hash"] == hashes[-1]
+
+
+def test_confirm_sends_one_welcome_with_unsubscribe_and_optional_postal():
+    store = ListStore()
+    sent: list[dict] = []
+
+    def post(url, *, headers, json):
+        sent.append(json)
+        return {"id": "email_1"}
+
+    created, _, created_body = _live(
+        store,
+        "POST",
+        "/subscribe",
+        body={"email": "reader@example.com", "consent": "yes"},
+        post=post,
+        postal="PO Box 1, San Jose, CA 95113",
+    )
+    assert created == 200
+    token = json.loads(created_body)["confirm_url"].split("token=", 1)[1]
+    confirmed, _, _ = _live(
+        store,
+        "POST",
+        "/confirm",
+        query={"token": token},
+        headers={"accept": "application/json"},
+        post=post,
+        postal="PO Box 1, San Jose, CA 95113",
+    )
+    assert confirmed == 200
+    again, _, _ = _live(
+        store,
+        "POST",
+        "/confirm",
+        query={"token": token},
+        headers={"accept": "application/json"},
+        post=post,
+        postal="PO Box 1, San Jose, CA 95113",
+    )
+    assert again == 200
+    welcomes = [item for item in sent if item["subject"].startswith("You're on the")]
+    assert len(welcomes) == 1
+    welcome = welcomes[0]
+    assert welcome["reply_to"] == "contact@openhealthsignals.org"
+    assert welcome["text"].lower().count("not medical advice") == 1
+    assert "about once a week" in welcome["text"].lower()
+    assert "FAERS" in welcome["text"]
+    assert "PO Box 1, San Jose, CA 95113" in welcome["text"]
+    assert "PO Box 1, San Jose, CA 95113" in welcome["html"]
+    assert "causes" not in welcome["text"].lower()
+    assert welcome["headers"]["List-Unsubscribe-Post"] == "List-Unsubscribe=One-Click"
+    assert welcome["headers"]["List-Unsubscribe"].startswith(f"<{BASE}/unsubscribe?token=")
+    assert f"{BASE.replace('43124', '43123')}/unsubscribe?token=" in welcome["text"]
+
+    bare = ListStore()
+    bare_sent: list[dict] = []
+
+    def bare_post(url, *, headers, json):
+        bare_sent.append(json)
+        return {"id": "email_2"}
+
+    _, _, bare_body = _live(bare, "POST", "/subscribe", body={"email": "bare@example.com", "consent": "yes"}, post=bare_post, postal="")
+    bare_token = json.loads(bare_body)["confirm_url"].split("token=", 1)[1]
+    _live(
+        bare,
+        "POST",
+        "/confirm",
+        query={"token": bare_token},
+        headers={"accept": "application/json"},
+        post=bare_post,
+        postal="",
+    )
+    bare_welcome = next(item for item in bare_sent if "not medical advice" in item["text"])
+    assert "San Jose" not in bare_welcome["text"]
+    assert "#5c564c" not in bare_welcome["html"]
+
+
+def test_contact_mail_is_best_effort_and_dry_run_only_logs(caplog):
+    store = ListStore()
+    sent: list[dict] = []
+
+    def post(url, *, headers, json):
+        sent.append(json)
+        return {"id": "email_1"}
+
+    status, _, body = _live(
+        store,
+        "POST",
+        "/contact",
+        body={
+            "name": "Ada",
+            "email": "ada@example.com",
+            "organization": "Clinic",
+            "role": "Researcher",
+            "interest_type": "media",
+            "message": "First line of the note\nSecond line\nThird\nFourth should stay in the owner copy only",
+            "link": "https://example.com/paper",
+            "turnstile_token": "local-pass",
+        },
+        post=post,
+        from_address="Open Health Signals <briefing@openhealthsignals.org>",
+    )
+    assert status == 200
+    assert "Message received." in body
+    assert len(sent) == 2
+    ack, owner = sent
+    assert ack["to"] == ["ada@example.com"]
+    assert ack["from"] == "Open Health Signals <contact@openhealthsignals.org>"
+    assert ack["reply_to"] == "contact@openhealthsignals.org"
+    assert ack["text"].startswith("Thanks, we got your message and will reply within a few days.")
+    assert "First line of the note" in ack["text"]
+    assert "Fourth should stay" not in ack["text"]
+    assert owner["to"] == ["rakeshpai@openhealthsignals.org"]
+    assert owner["reply_to"] == "ada@example.com"
+    assert "Fourth should stay in the owner copy only" in owner["text"]
+    assert "https://example.com/paper" in owner["text"]
+    assert owner["from"] == ack["from"]
+
+    broken = ListStore()
+
+    def explode(url, *, headers, json):
+        raise RuntimeError("resend down")
+
+    failed, _, failed_body = _live(
+        broken,
+        "POST",
+        "/contact",
+        body={
+            "name": "Ada",
+            "email": "ada@example.com",
+            "interest_type": "media",
+            "message": "Still store this.",
+            "turnstile_token": "local-pass",
+        },
+        post=explode,
+    )
+    assert failed == 200
+    assert "Message received." in failed_body
+    assert broken.data["contact_requests"][0]["message"] == "Still store this."
+    assert all(item.get("error") == "send_failed" for item in broken.data["mail"])
+
+    quiet = ListStore()
+    called = []
+
+    def unexpected(url, *, headers, json):
+        called.append(url)
+        return {}
+
+    with caplog.at_level(logging.INFO, logger="inflammon.transactional"):
+        dry, _, _ = _live(
+            quiet,
+            "POST",
+            "/subscribe",
+            body={"email": "dry@example.com", "consent": "yes"},
+            post=unexpected,
+            dry_run=True,
+        )
+    assert dry == 200
+    assert called == []
+    assert any("dry_run" in record.message and "Confirm your Open Health Signals briefing" in record.message for record in caplog.records)
+
+
+def test_transactional_copy_matches_the_edge_module():
+    script = r"""
+import { confirmationEmail, welcomeEmail, contactAckEmail, ownerNotifyEmail, contactFrom, listFrom, excerpt } from "./supabase/functions/_shared/transactional.js";
+const pick = (mail) => ({ subject: mail.subject, text: mail.text, html: mail.html, replyTo: mail.replyTo, headers: mail.headers });
+const long = "word ".repeat(80);
+console.log(JSON.stringify({
+  confirm: pick(confirmationEmail({ confirmUrl: "https://openhealthsignals.org/confirm?token=abc" })),
+  welcome: pick(welcomeEmail({
+    unsubscribeUrl: "https://openhealthsignals.org/unsubscribe?token=abc",
+    listUnsubscribeUrl: "https://fn.example/unsubscribe?token=abc",
+    postalAddress: "PO Box 1, San Jose, CA",
+  })),
+  welcomeBare: pick(welcomeEmail({
+    unsubscribeUrl: "https://openhealthsignals.org/unsubscribe?token=abc",
+    listUnsubscribeUrl: "https://fn.example/unsubscribe?token=abc",
+    postalAddress: "  ",
+  })),
+  ack: pick(contactAckEmail({ interestLabel: "Media", excerpt: "First line\nSecond line" })),
+  owner: pick(ownerNotifyEmail({
+    name: "Ada Lovelace",
+    email: "ada@example.com",
+    organization: "Clinic",
+    role: "Researcher",
+    interestLabel: "Media",
+    message: "Full <note>",
+    link: "https://example.com/paper",
+  })),
+  fromSame: contactFrom("Open Health Signals <briefing@openhealthsignals.org>"),
+  fromOther: contactFrom("Ops <onboarding@resend.dev>"),
+  fromEmpty: listFrom(""),
+  excerpt: excerpt(long),
+}));
+"""
+    completed = subprocess.run(
+        ["node", "--input-type=module", "-e", script],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    edge = json.loads(completed.stdout)
+    pairs = {
+        "confirm": confirmation_email(confirm_url="https://openhealthsignals.org/confirm?token=abc"),
+        "welcome": welcome_email(
+            unsubscribe_url="https://openhealthsignals.org/unsubscribe?token=abc",
+            list_unsubscribe_url="https://fn.example/unsubscribe?token=abc",
+            postal_address="PO Box 1, San Jose, CA",
+        ),
+        "welcomeBare": welcome_email(
+            unsubscribe_url="https://openhealthsignals.org/unsubscribe?token=abc",
+            list_unsubscribe_url="https://fn.example/unsubscribe?token=abc",
+            postal_address="  ",
+        ),
+        "ack": contact_ack_email(interest_label="Media", excerpt_text="First line\nSecond line"),
+        "owner": owner_notify_email(
+            name="Ada Lovelace",
+            email="ada@example.com",
+            organization="Clinic",
+            role="Researcher",
+            interest_label="Media",
+            message="Full <note>",
+            link="https://example.com/paper",
+        ),
+    }
+    for key, local in pairs.items():
+        assert edge[key]["subject"] == local["subject"]
+        assert edge[key]["text"] == local["text"]
+        assert edge[key]["html"] == local["html"]
+        assert edge[key]["replyTo"] == local["reply_to"]
+        assert edge[key]["headers"] == local["headers"]
+    assert edge["fromSame"] == contact_from("Open Health Signals <briefing@openhealthsignals.org>")
+    assert edge["fromOther"] == contact_from("Ops <onboarding@resend.dev>")
+    assert edge["fromEmpty"] == list_from("")
+    assert edge["excerpt"] == py_excerpt("word " * 80)
+    assert "&lt;note&gt;" in pairs["owner"]["html"]
+    assert "<note>" not in pairs["owner"]["html"]
+
+
+def _live(store, method, path, *, post, body=None, query=None, headers=None, postal="", dry_run=False, from_address="Open Health Signals <briefing@openhealthsignals.org>"):
+    raw = b""
+    hdrs = dict(headers or {})
+    if isinstance(body, dict):
+        raw = json.dumps(body).encode()
+        hdrs.setdefault("content-type", "application/json")
+    elif isinstance(body, str):
+        raw = body.encode()
+    return handle_request(
+        method,
+        path,
+        query=query,
+        headers=hdrs,
+        body=raw,
+        store=store,
+        secret=SECRET,
+        functions_base=BASE,
+        site_url="http://127.0.0.1:43123",
+        from_address=from_address,
+        api_key="re_test",
+        turnstile_secret="1x0000000000000000000000000000000AA",
+        dry_run=dry_run,
+        expose_preview=True,
+        now=NOW,
+        client_ip="203.0.113.8",
+        post=post,
+        postal=postal,
+        verify_turnstile=lambda token, secret, post: bool(token),
+    )
 
 
 def _capture_post(response: dict):

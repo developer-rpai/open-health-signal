@@ -4,7 +4,7 @@ These are operating notes, not legal advice.
 
 ## Postal address before a live send
 
-`NEWSLETTER_POSTAL_ADDRESS` must be a real postal address before any live send. If it is unset, `dispatch-send` refuses a live dispatch and `python -m inflammon newsletter --send` refuses to call Resend. The email template prints no address line when the variable is empty. The public footer uses `NEXT_PUBLIC_POSTAL_ADDRESS` and omits the line when that is unset. Set both to the same deliverable address (a PO Box is acceptable) before the first real mailing.
+`NEWSLETTER_POSTAL_ADDRESS` must be a real postal address before any live newsletter send. If it is unset, `dispatch-send` refuses a live dispatch and `python -m inflammon newsletter --send` refuses to call Resend. The newsletter template and the welcome email print no address line when the variable is empty. Confirmation and contact mail still go out without it. The public footer uses `NEXT_PUBLIC_POSTAL_ADDRESS` and omits the line when that is unset. Set both to the same deliverable address (a PO Box is acceptable) before the first real mailing.
 
 ## Retention job
 

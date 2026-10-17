@@ -12,16 +12,34 @@ export function dryRun() {
   return value === "" || value === "1" || value === "true" || value === "yes";
 }
 
-export async function sendResend({ to, subject, text, html }) {
-  if (dryRun()) return { id: null, dry_run: true };
+export async function sendResend({ to, subject, text, html, replyTo, headers, from }) {
   const apiKey = Deno.env.get("RESEND_API_KEY") || "";
-  const from = Deno.env.get("NEWSLETTER_FROM") || "";
-  if (!apiKey || !from) throw new Error("Resend is not configured");
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
-    body: JSON.stringify({ from, to: [to], subject, text, html }),
-  });
-  if (!response.ok) throw new Error(`Resend returned ${response.status}`);
-  return response.json();
+  const sender = (from || Deno.env.get("NEWSLETTER_FROM") || "").trim();
+  const note = { transactional: "dry_run", to, subject, from: sender, reply_to: replyTo || null };
+  try {
+    if (dryRun()) {
+      console.log(JSON.stringify(note));
+      return { id: null, dry_run: true };
+    }
+    if (!apiKey || !sender) {
+      console.error(JSON.stringify({ ...note, transactional: "skipped", reason: "not_configured" }));
+      return { id: null, error: "not_configured" };
+    }
+    const body = { from: sender, to: [to], subject, text, html };
+    if (replyTo) body.reply_to = replyTo;
+    if (headers && Object.keys(headers).length) body.headers = headers;
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      console.error(JSON.stringify({ transactional: "failed", to, subject, status: response.status }));
+      return { id: null, error: "send_failed" };
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(JSON.stringify({ transactional: "failed", to, subject, error: String(error) }));
+    return { id: null, error: "send_failed" };
+  }
 }

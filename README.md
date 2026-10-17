@@ -179,6 +179,8 @@ The scheduled GitHub Action stores that issue as a **draft** in the `issues` tab
 
 The send is still a **dry run** unless `NEWSLETTER_DRY_RUN` is exactly `0`. A dry run writes the archive and does not call Resend. Rebuilding the same snapshot does not treat it as new; the diff uses the fingerprint from the prior snapshot.
 
+Subscribe, confirm, and contact send their own short messages through the same Resend key (`RESEND_API_KEY`, `NEWSLETTER_FROM`). A new address gets a confirmation link. Asking again while it is still pending sends a fresh link, up to three confirmation emails an hour for that address. Opening the link sends a welcome note: what the weekly digest covers, that it is informational and not medical advice, and a one-click unsubscribe link. A contact request stores the row, then emails an acknowledgement to the sender and the full message to `OWNER_NOTIFY_EMAIL` (default `rakeshpai@openhealthsignals.org`). The reply-to on the acknowledgement is `contact@openhealthsignals.org`. The owner copy replies to the sender. If those sends fail, the request still succeeds. `NEWSLETTER_DRY_RUN=1`, or an empty value, logs the message and does not call Resend. The postal line is included only when `NEWSLETTER_POSTAL_ADDRESS` is set.
+
 ### Temporary daily testing
 
 `NEWSLETTER_CADENCE` is `weekly` when the variable is missing. Set the GitHub Actions variable to exactly `daily` to test more often:
@@ -240,7 +242,7 @@ NEXT_PUBLIC_LOCAL_PREVIEW=1
 NEXT_PUBLIC_SITE_URL=http://127.0.0.1:43123
 ```
 
-Then `python -m inflammon.local_functions` and `make dashboard`. No Resend call is made. The confirmation link is shown on the page instead of being emailed.
+Then `python -m inflammon.local_functions` and `make dashboard`. No Resend call is made. The confirmation link is shown on the page, and the message that would have been sent is logged.
 
 Studio, not a custom admin panel: open the SQL editor and select `subscriber_search`, `subscriber_export`, or `suppression_list`. Contact notes and status live on `contact_requests`.
 
@@ -252,7 +254,7 @@ The case-level FAERS warehouse is not built. The design is in [`docs/warehouse.m
 make test
 ```
 
-The tests check PRR, ROR, confidence intervals, chi-square, the Evans rule, the Haldane correction, and the weekly spike rule against hand-computed 2×2 tables. Newsletter tests check the snapshot diff, HTML escaping, the plain-text rendering, and that a dry run does not call the network. List tests check HMAC unsubscribe tokens, suppression re-read at send time, and Svix webhook verification against a fixture. `tests/mailing.test.mjs` checks that the edge-function helpers produce the same token and signature.
+The tests check PRR, ROR, confidence intervals, chi-square, the Evans rule, the Haldane correction, and the weekly spike rule against hand-computed 2×2 tables. Newsletter tests check the snapshot diff, HTML escaping, the plain-text rendering, and that a dry run does not call the network. List tests check HMAC unsubscribe tokens, suppression re-read at send time, and Svix webhook verification against a fixture. `tests/mailing.test.mjs` checks that the edge-function helpers produce the same token, signature, and transactional copy.
 
 ## Citation
 

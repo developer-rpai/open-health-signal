@@ -1,6 +1,12 @@
 import { newConfirmToken, normalizeEmail, sha256Hex, validEmail } from "../_shared/mailing.js";
 import { clientIp, empty, json, readFields } from "../_shared/http.js";
-import { dryRun, sendResend, serviceClient } from "../_shared/db.js";
+import { sendResend, serviceClient } from "../_shared/db.js";
+import { takeRate } from "../_shared/rate.js";
+import { confirmationEmail, listFrom } from "../_shared/transactional.js";
+
+const CONFIRM_EMAIL_LIMIT = 3;
+const CONFIRM_WINDOW_MS = 60 * 60 * 1000;
+const PENDING_MESSAGE = "Check your inbox. We sent a confirmation link. You're added once you click it.";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return empty();
@@ -26,6 +32,10 @@ Deno.serve(async (req) => {
     return json(200, { ok: true, status: "active", message: "This address is already confirmed." });
   }
   const alreadyPending = existing?.status === "pending";
+  if (alreadyPending && !(await takeRate(db, `confirm:${email}`, CONFIRM_EMAIL_LIMIT, CONFIRM_WINDOW_MS))) {
+    return json(200, { ok: true, status: "already_pending", message: PENDING_MESSAGE });
+  }
+  if (!alreadyPending) await takeRate(db, `confirm:${email}`, CONFIRM_EMAIL_LIMIT, CONFIRM_WINDOW_MS);
 
   const token = newConfirmToken();
   const confirmTokenHash = await sha256Hex(token);
@@ -45,16 +55,18 @@ Deno.serve(async (req) => {
 
   const site = (Deno.env.get("SITE_URL") || "").replace(/\/$/, "");
   const link = `${site}/confirm?token=${encodeURIComponent(token)}`;
-  if (!dryRun()) {
-    await sendResend({
-      to: email,
-      subject: "Confirm your Open Health Signals briefing",
-      text: `Confirm this address to receive the weekly briefing.\n\n${link}\n\nIf you did not ask for this, ignore the message. You will not be added until you open the link.`,
-    });
-  }
+  const mail = confirmationEmail({ confirmUrl: link });
+  await sendResend({
+    to: email,
+    from: listFrom(Deno.env.get("NEWSLETTER_FROM") || ""),
+    subject: mail.subject,
+    text: mail.text,
+    html: mail.html,
+    replyTo: mail.replyTo,
+  });
   return json(200, {
     ok: true,
     status: alreadyPending ? "already_pending" : "pending",
-    message: "Check your inbox. We sent a confirmation link. You're added once you click it.",
+    message: PENDING_MESSAGE,
   });
 });

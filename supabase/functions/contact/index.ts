@@ -1,6 +1,15 @@
 import { INTEREST_TYPES, normalizeEmail, validEmail } from "../_shared/mailing.js";
 import { clientIp, empty, json, readFields } from "../_shared/http.js";
-import { dryRun, sendResend, serviceClient } from "../_shared/db.js";
+import { sendResend, serviceClient } from "../_shared/db.js";
+import { takeRate } from "../_shared/rate.js";
+import {
+  DEFAULT_OWNER_NOTIFY_EMAIL,
+  contactAckEmail,
+  contactFrom,
+  excerpt,
+  interestLabel,
+  ownerNotifyEmail,
+} from "../_shared/transactional.js";
 
 const LIMIT = 5;
 const WINDOW_MS = 60 * 60 * 1000;
@@ -29,7 +38,7 @@ Deno.serve(async (req) => {
   if (!turnstileOk) return json(400, { ok: false, error: "turnstile", message: "The Turnstile check did not pass." });
 
   const db = serviceClient();
-  const allowed = await allowRate(db, `contact:${clientIp(req)}`);
+  const allowed = await takeRate(db, `contact:${clientIp(req)}`, LIMIT, WINDOW_MS);
   if (!allowed) return json(429, { ok: false, error: "rate_limited", message: "Too many messages from this network. Try again later." });
 
   const { data, error } = await db
@@ -39,14 +48,36 @@ Deno.serve(async (req) => {
     .single();
   if (error) return json(500, { ok: false, error: "store", message: error.message });
 
-  const owner = Deno.env.get("OWNER_NOTIFY_EMAIL") || "";
-  if (owner && !dryRun()) {
-    await sendResend({
-      to: owner,
-      subject: "New collaboration message",
-      text: `${name} (${email}) · ${interest}\n${organization} · ${role}\n\n${message}\n${link}`,
-    });
-  }
+  const label = interestLabel(interest);
+  const quote = excerpt(message);
+  const from = contactFrom(Deno.env.get("NEWSLETTER_FROM") || "");
+  const ack = contactAckEmail({ interestLabel: label, excerpt: quote });
+  await sendResend({
+    to: email,
+    from,
+    subject: ack.subject,
+    text: ack.text,
+    html: ack.html,
+    replyTo: ack.replyTo,
+  });
+  const ownerAddress = (Deno.env.get("OWNER_NOTIFY_EMAIL") || DEFAULT_OWNER_NOTIFY_EMAIL).trim();
+  const owner = ownerNotifyEmail({
+    name,
+    email,
+    organization,
+    role,
+    interestLabel: label,
+    message,
+    link,
+  });
+  await sendResend({
+    to: ownerAddress,
+    from,
+    subject: owner.subject,
+    text: owner.text,
+    html: owner.html,
+    replyTo: owner.replyTo,
+  });
   return json(200, { ok: true, id: data.id, message: "Message received." });
 });
 
@@ -61,16 +92,4 @@ async function verifyTurnstile(token: string, ip: string) {
   if (!response.ok) return false;
   const payload = await response.json();
   return Boolean(payload.success);
-}
-
-async function allowRate(db: ReturnType<typeof serviceClient>, bucket: string) {
-  const now = Date.now();
-  const { data } = await db.from("rate_limits").select("hits,window_start").eq("bucket", bucket).maybeSingle();
-  if (!data || now - new Date(data.window_start).getTime() >= WINDOW_MS) {
-    await db.from("rate_limits").upsert({ bucket, hits: 1, window_start: new Date(now).toISOString() });
-    return true;
-  }
-  if (data.hits >= LIMIT) return false;
-  await db.from("rate_limits").update({ hits: data.hits + 1 }).eq("bucket", bucket);
-  return true;
 }

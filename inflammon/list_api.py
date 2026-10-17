@@ -13,6 +13,7 @@ from copy import deepcopy
 from typing import Any
 from urllib.parse import parse_qs
 
+from inflammon.compliance import postal_address
 from inflammon.mailing import (
     INTEREST_TYPES,
     confirm_token_matches,
@@ -27,9 +28,24 @@ from inflammon.mailing import (
     verify_svix,
     verify_unsubscribe_token,
 )
+from inflammon.transactional import (
+    DEFAULT_OWNER_NOTIFY_EMAIL,
+    confirmation_email,
+    contact_ack_email,
+    contact_from,
+    excerpt,
+    interest_label,
+    list_from,
+    owner_notify_email,
+    send_message,
+    welcome_email,
+)
 
 CONTACT_LIMIT = 5
 CONTACT_WINDOW_SECONDS = 3600
+CONFIRM_EMAIL_LIMIT = 3
+CONFIRM_EMAIL_WINDOW_SECONDS = 3600
+PENDING_MESSAGE = "Check your inbox. We sent a confirmation link. You're added once you click it."
 
 
 class ListStore:
@@ -83,16 +99,21 @@ def handle_request(
     api_key: str = "",
     webhook_secret: str = "",
     turnstile_secret: str = "",
-    owner_email: str = "owner@example.com",
+    owner_email: str = "",
     dry_run: bool = True,
     expose_preview: bool = False,
     now: float | None = None,
     client_ip: str = "127.0.0.1",
     post=None,
     verify_turnstile=None,
+    postal: str | None = None,
 ) -> tuple[int, str, str]:
     """Return status, content type, and body."""
     query = query or {}
+    if not owner_email:
+        owner_email = DEFAULT_OWNER_NOTIFY_EMAIL
+    if postal is None:
+        postal = postal_address()
     headers = {key.lower(): value for key, value in (headers or {}).items()}
     method = method.upper()
     path = path.rstrip("/") or "/"
@@ -123,6 +144,13 @@ def handle_request(
             expose_preview=expose_preview,
             wants_json=wants_json,
             now=now,
+            site_url=site_url,
+            functions_base=functions_base,
+            from_address=from_address,
+            api_key=api_key,
+            dry_run=dry_run,
+            post=post,
+            postal=postal,
         )
     if path == "/unsubscribe" and method == "GET":
         return _unsubscribe_get(query.get("token") or "", secret=secret, store=store)
@@ -191,6 +219,12 @@ def _subscribe(fields, **kwargs) -> tuple[int, str, str]:
     if existing and existing["status"] == "active":
         return _json(200, {"ok": True, "status": "active", "message": "This address is already confirmed."})
     already_pending = bool(existing and existing["status"] == "pending")
+    if already_pending and not _rate_take(
+        store, f"confirm:{email}", kwargs["now"], CONFIRM_EMAIL_LIMIT, CONFIRM_EMAIL_WINDOW_SECONDS
+    ):
+        return _json(200, {"ok": True, "status": "already_pending", "message": PENDING_MESSAGE})
+    if not already_pending:
+        _rate_take(store, f"confirm:{email}", kwargs["now"], CONFIRM_EMAIL_LIMIT, CONFIRM_EMAIL_WINDOW_SECONDS)
     token = new_confirm_token()
     now_iso = _iso(kwargs["now"])
     if existing:
@@ -214,18 +248,20 @@ def _subscribe(fields, **kwargs) -> tuple[int, str, str]:
             }
         )
     confirm_link = f"{kwargs['site_url'].rstrip('/')}/confirm?token={token}"
-    _maybe_send_confirm(
-        email=email,
-        link=confirm_link,
-        from_address=kwargs["from_address"],
-        api_key=kwargs["api_key"],
+    mail = confirmation_email(confirm_url=confirm_link)
+    mail["to"] = email
+    send_message(
+        mail,
         dry_run=kwargs["dry_run"],
+        api_key=kwargs["api_key"],
+        sender=list_from(kwargs["from_address"]),
         post=kwargs["post"],
+        mail_log=store.data.setdefault("mail", []),
     )
     payload: dict[str, Any] = {
         "ok": True,
         "status": "already_pending" if already_pending else "pending",
-        "message": "Check your inbox. We sent a confirmation link. You're added once you click it.",
+        "message": PENDING_MESSAGE,
     }
     if kwargs["expose_preview"]:
         payload["confirm_url"] = confirm_link
@@ -246,9 +282,11 @@ def _confirm(token: str, **kwargs) -> tuple[int, str, str]:
             return _json(409, {"ok": False, "error": "suppressed", "message": message})
         return _page(409, "Address suppressed", message)
     message = "You are confirmed. The next briefing goes out after the Monday draft is approved."
-    if row["status"] != "active":
+    became_active = row["status"] != "active"
+    if became_active:
         row["status"] = "active"
         row["confirmed_at"] = _iso(kwargs["now"])
+        _send_welcome(row, **kwargs)
     # The hash stays until unsubscribe so a duplicate confirm (strict-mode double fetch) still matches.
     if kwargs["wants_json"]:
         payload: dict[str, Any] = {"ok": True, "status": "active", "message": message}
@@ -362,14 +400,31 @@ def _contact(fields, **kwargs) -> tuple[int, str, str]:
             "created_at": _iso(kwargs["now"]),
         }
     )
-    _notify_owner(
-        owner_email=kwargs["owner_email"],
-        from_address=kwargs["from_address"],
-        api_key=kwargs["api_key"],
-        dry_run=kwargs["dry_run"],
-        post=kwargs["post"],
-        summary=f"{name} ({email}) · {interest}",
+    label = interest_label(interest)
+    quote = excerpt(message)
+    sender = contact_from(kwargs["from_address"])
+    ack = contact_ack_email(interest_label=label, excerpt_text=quote)
+    ack["to"] = email
+    owner = owner_notify_email(
+        name=name,
+        email=email,
+        organization=organization,
+        role=role,
+        interest_label=label,
+        message=message,
+        link=link,
     )
+    owner["to"] = kwargs["owner_email"]
+    mail_log = store.data.setdefault("mail", [])
+    for item in (ack, owner):
+        send_message(
+            item,
+            dry_run=kwargs["dry_run"],
+            api_key=kwargs["api_key"],
+            sender=sender,
+            post=kwargs["post"],
+            mail_log=mail_log,
+        )
     message = "Message received."
     return _json(200, {"ok": True, "id": request_id, "message": message})
 
@@ -435,37 +490,26 @@ def _approve(slug: str, **kwargs) -> tuple[int, str, str]:
     return _json(200, {"ok": True, "status": issue["status"], "delivery": results, "sent": any(item["action"] == "sent" for item in results)})
 
 
-def _maybe_send_confirm(*, email: str, link: str, from_address: str, api_key: str, dry_run: bool, post) -> None:
-    if dry_run or not api_key or not from_address or post is None:
-        return
-    post(
-        "https://api.resend.com/emails",
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-        json={
-            "from": from_address,
-            "to": [email],
-            "subject": "Confirm your Open Health Signals briefing",
-            "text": (
-                "Confirm this address to receive the weekly briefing.\n\n"
-                f"{link}\n\n"
-                "If you did not ask for this, ignore the message. You will not be added until you open the link."
-            ),
-        },
+def _send_welcome(row: dict[str, Any], **kwargs) -> None:
+    token = sign_unsubscribe_token(row["id"], row["email"], kwargs["secret"])
+    site = str(kwargs.get("site_url") or "").rstrip("/")
+    functions_base = str(kwargs.get("functions_base") or site).rstrip("/")
+    page_base = site or functions_base
+    page_url = f"{page_base}/unsubscribe?token={token}"
+    header_url = f"{functions_base or page_base}/unsubscribe?token={token}"
+    mail = welcome_email(
+        unsubscribe_url=page_url,
+        list_unsubscribe_url=header_url,
+        postal_address=kwargs.get("postal") or "",
     )
-
-
-def _notify_owner(*, owner_email: str, from_address: str, api_key: str, dry_run: bool, post, summary: str) -> None:
-    if dry_run or not api_key or not from_address or not owner_email or post is None:
-        return
-    post(
-        "https://api.resend.com/emails",
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-        json={
-            "from": from_address,
-            "to": [owner_email],
-            "subject": "New collaboration message",
-            "text": summary,
-        },
+    mail["to"] = row["email"]
+    send_message(
+        mail,
+        dry_run=kwargs["dry_run"],
+        api_key=kwargs["api_key"],
+        sender=list_from(kwargs["from_address"]),
+        post=kwargs["post"],
+        mail_log=kwargs["store"].data.setdefault("mail", []),
     )
 
 
@@ -487,14 +531,18 @@ def _default_turnstile(token: str, secret: str, post) -> bool:
 
 
 def _rate_allow(store: ListStore, ip: str, now: float | None) -> bool:
+    return _rate_take(store, ip, now, CONTACT_LIMIT, CONTACT_WINDOW_SECONDS)
+
+
+def _rate_take(store: ListStore, bucket: str, now: float | None, limit: int, window: int) -> bool:
     current = time.time() if now is None else now
-    bucket = store.data["rate"].get(ip)
-    if bucket is None or current - bucket["start"] >= CONTACT_WINDOW_SECONDS:
-        store.data["rate"][ip] = {"start": current, "hits": 1}
+    slot = store.data["rate"].get(bucket)
+    if slot is None or current - slot["start"] >= window:
+        store.data["rate"][bucket] = {"start": current, "hits": 1}
         return True
-    if bucket["hits"] >= CONTACT_LIMIT:
+    if slot["hits"] >= limit:
         return False
-    bucket["hits"] += 1
+    slot["hits"] += 1
     return True
 
 
