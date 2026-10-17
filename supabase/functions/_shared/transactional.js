@@ -13,10 +13,12 @@ export const INTEREST_LABELS = {
   sponsorship: "Sponsorship",
 };
 
-const CONFIRM_INTRO = "Confirm this address to get the Inflammation Signal Monitor briefing.";
-const CONFIRM_NOTE = "You're added only after you open that link. If you didn't ask for this, ignore this message.";
+const CONFIRM_INTRO = "Confirm this address for Open Health Signals.";
+const CONFIRM_NOTE =
+  "The weekly digest is Inflammation Signal Monitor. You're added only after you open the link. If you didn't ask for this, ignore this message.";
+const WELCOME_OPEN = "Welcome to Open Health Signals.";
 const WELCOME_BODY =
-  "About once a week you'll get the Inflammation Signal Monitor digest. It covers public signals on inflammatory conditions and drugs: FDA adverse-event reports and FAERS trends, research, and access news.";
+  "About once a week you'll get that digest, Inflammation Signal Monitor. It covers public signals on inflammatory conditions and drugs: FDA adverse-event reports and FAERS trends, research, and access news.";
 const WELCOME_ADVICE = "This is informational, not medical advice.";
 const WELCOME_UNSUB = "The link is signed for this address and takes effect immediately.";
 const ACK = "Thanks, we got your message and will reply within a few days.";
@@ -128,10 +130,10 @@ function layout({ preheader, blocks, quote, actionHref, actionLabel, postal }) {
 export function confirmationEmail({ confirmUrl }) {
   return {
     kind: "confirm",
-    subject: "Confirm your Open Health Signals briefing",
+    subject: "Confirm your Open Health Signals email",
     text: `${CONFIRM_INTRO}\n\n${confirmUrl}\n\n${CONFIRM_NOTE}\n`,
     html: layout({
-      preheader: "Confirm this address to get the briefing.",
+      preheader: "Confirm this address for Open Health Signals.",
       blocks: [CONFIRM_INTRO, CONFIRM_NOTE],
       actionHref: confirmUrl,
       actionLabel: "Confirm this address",
@@ -144,7 +146,7 @@ export function confirmationEmail({ confirmUrl }) {
 export function welcomeEmail({ unsubscribeUrl, listUnsubscribeUrl, postalAddress }) {
   const postal = String(postalAddress || "").trim();
   const lines = [
-    "You're confirmed.",
+    WELCOME_OPEN,
     "",
     WELCOME_BODY,
     "",
@@ -159,11 +161,11 @@ export function welcomeEmail({ unsubscribeUrl, listUnsubscribeUrl, postalAddress
   lines.push("");
   return {
     kind: "welcome",
-    subject: "You're on the Inflammation Signal Monitor list",
+    subject: "Welcome to Open Health Signals",
     text: lines.join("\n"),
     html: layout({
-      preheader: "You're confirmed. The digest is about once a week.",
-      blocks: ["You're confirmed.", WELCOME_BODY, WELCOME_ADVICE, WELCOME_UNSUB, `Questions: ${CONTACT_EMAIL}`],
+      preheader: "Welcome to Open Health Signals.",
+      blocks: [WELCOME_OPEN, WELCOME_BODY, WELCOME_ADVICE, WELCOME_UNSUB, `Questions: ${CONTACT_EMAIL}`],
       actionHref: unsubscribeUrl,
       actionLabel: "Unsubscribe",
       postal,

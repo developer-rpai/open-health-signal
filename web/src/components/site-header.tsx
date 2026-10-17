@@ -85,9 +85,6 @@ export function SiteFooter({ generated }: { generated: string }) {
           .
         </p>
         <p className="flex flex-wrap gap-x-4 gap-y-1">
-          <Link className="underline underline-offset-2 hover:text-foreground" href="/subscribe">
-            Subscribe
-          </Link>
           <Link className="underline underline-offset-2 hover:text-foreground" href="/privacy">
             Privacy
           </Link>

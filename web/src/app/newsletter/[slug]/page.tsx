@@ -40,9 +40,6 @@ export default async function NewsletterIssuePage({ params }: { params: Promise<
         <a href={`/newsletter/email/${issue.slug}.html`} className="text-primary underline underline-offset-2">
           Email version
         </a>
-        <Link href="/subscribe" className="text-primary underline underline-offset-2">
-          Subscribe
-        </Link>
       </p>
 
       <div className="mt-10 space-y-10">

@@ -36,10 +36,7 @@ export default function OverviewPage() {
           {formatGenerated(manifest.generated_at)}.
         </p>
         <p className="mt-4 text-sm">
-          <Link href="/subscribe" className="text-primary underline underline-offset-2">
-            Subscribe
-          </Link>{" "}
-          to the briefing. Past issues are in the{" "}
+          Past issues are in the{" "}
           <Link href="/newsletter" className="text-primary underline underline-offset-2">
             archive
           </Link>

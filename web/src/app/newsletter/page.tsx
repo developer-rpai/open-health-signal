@@ -16,11 +16,6 @@ export default function NewsletterIndexPage() {
       <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
         Each issue is the difference from the previous snapshot. The pages here are the public record.
       </p>
-      <p className="mt-3 text-sm">
-        <Link href="/subscribe" className="text-primary underline underline-offset-2">
-          Subscribe
-        </Link>
-      </p>
       {issues.length === 0 ? (
         <p className="mt-8 text-sm text-muted-foreground">No issues in this archive yet.</p>
       ) : (

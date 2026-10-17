@@ -170,8 +170,13 @@ def render_text(issue: dict, *, unsubscribe_href: str) -> str:
             "",
             f"{issue.get('fda_attribution') or ''}. {issue.get('fda_independence') or ''}",
             "",
-            str(issue.get("postal_address") or "").strip(),
-            "",
+        ]
+    )
+    postal = str(issue.get("postal_address") or "").strip()
+    if postal:
+        lines.extend([postal, ""])
+    lines.extend(
+        [
             f"Unsubscribe: {unsubscribe_href}",
             "The link is signed for this address and takes effect immediately.",
             "One-click: POST List-Unsubscribe=One-Click to that address.",

@@ -25,10 +25,14 @@ INTEREST_LABELS = {
     "sponsorship": "Sponsorship",
 }
 
-CONFIRM_INTRO = "Confirm this address to get the Inflammation Signal Monitor briefing."
-CONFIRM_NOTE = "You're added only after you open that link. If you didn't ask for this, ignore this message."
+CONFIRM_INTRO = "Confirm this address for Open Health Signals."
+CONFIRM_NOTE = (
+    "The weekly digest is Inflammation Signal Monitor. "
+    "You're added only after you open the link. If you didn't ask for this, ignore this message."
+)
+WELCOME_OPEN = "Welcome to Open Health Signals."
 WELCOME_BODY = (
-    "About once a week you'll get the Inflammation Signal Monitor digest. "
+    "About once a week you'll get that digest, Inflammation Signal Monitor. "
     "It covers public signals on inflammatory conditions and drugs: FDA adverse-event reports "
     "and FAERS trends, research, and access news."
 )
@@ -154,10 +158,10 @@ def _layout(
 def confirmation_email(*, confirm_url: str) -> dict[str, Any]:
     return {
         "kind": "confirm",
-        "subject": "Confirm your Open Health Signals briefing",
+        "subject": "Confirm your Open Health Signals email",
         "text": f"{CONFIRM_INTRO}\n\n{confirm_url}\n\n{CONFIRM_NOTE}\n",
         "html": _layout(
-            preheader="Confirm this address to get the briefing.",
+            preheader="Confirm this address for Open Health Signals.",
             blocks=[CONFIRM_INTRO, CONFIRM_NOTE],
             action_href=confirm_url,
             action_label="Confirm this address",
@@ -170,7 +174,7 @@ def confirmation_email(*, confirm_url: str) -> dict[str, Any]:
 def welcome_email(*, unsubscribe_url: str, list_unsubscribe_url: str, postal_address: str) -> dict[str, Any]:
     postal = str(postal_address or "").strip()
     lines = [
-        "You're confirmed.",
+        WELCOME_OPEN,
         "",
         WELCOME_BODY,
         "",
@@ -186,11 +190,11 @@ def welcome_email(*, unsubscribe_url: str, list_unsubscribe_url: str, postal_add
     lines.append("")
     return {
         "kind": "welcome",
-        "subject": "You're on the Inflammation Signal Monitor list",
+        "subject": "Welcome to Open Health Signals",
         "text": "\n".join(lines),
         "html": _layout(
-            preheader="You're confirmed. The digest is about once a week.",
-            blocks=["You're confirmed.", WELCOME_BODY, WELCOME_ADVICE, WELCOME_UNSUB, f"Questions: {CONTACT_EMAIL}"],
+            preheader="Welcome to Open Health Signals.",
+            blocks=[WELCOME_OPEN, WELCOME_BODY, WELCOME_ADVICE, WELCOME_UNSUB, f"Questions: {CONTACT_EMAIL}"],
             action_href=unsubscribe_url,
             action_label="Unsubscribe",
             postal=postal,
@@ -280,7 +284,7 @@ def send_message(
             "transactional dry_run to=%s subject=%s reply_to=%s",
             mask_recipient(record["to"]),
             record["subject"],
-            record["reply_to"],
+            mask_recipient(record["reply_to"]) if record["reply_to"] else "",
         )
         return
     payload: dict[str, Any] = {
@@ -301,7 +305,11 @@ def send_message(
             json=payload,
         )
     except Exception:
-        logger.exception("transactional send failed to=%s subject=%s", record["to"], record["subject"])
+        logger.exception(
+            "transactional send failed to=%s subject=%s",
+            mask_recipient(record["to"]),
+            record["subject"],
+        )
         record["error"] = "send_failed"
         return
     record["dry_run"] = False

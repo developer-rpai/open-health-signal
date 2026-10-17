@@ -15,14 +15,19 @@ export function dryRun() {
 export async function sendResend({ to, subject, text, html, replyTo, headers, from }) {
   const apiKey = Deno.env.get("RESEND_API_KEY") || "";
   const sender = (from || Deno.env.get("NEWSLETTER_FROM") || "").trim();
-  const note = { transactional: "dry_run", to, subject, from: sender, reply_to: replyTo || null };
+  const logged = {
+    to: maskRecipient(to),
+    subject,
+    from: sender,
+    reply_to: replyTo ? maskRecipient(replyTo) : null,
+  };
   try {
     if (dryRun()) {
-      console.log(JSON.stringify({ ...note, to: maskRecipient(to) }));
+      console.log(JSON.stringify({ transactional: "dry_run", ...logged }));
       return { id: null, dry_run: true };
     }
     if (!apiKey || !sender) {
-      console.error(JSON.stringify({ ...note, transactional: "skipped", reason: "not_configured" }));
+      console.error(JSON.stringify({ transactional: "skipped", reason: "not_configured", ...logged }));
       return { id: null, error: "not_configured" };
     }
     const body = { from: sender, to: [to], subject, text, html };
@@ -34,12 +39,12 @@ export async function sendResend({ to, subject, text, html, replyTo, headers, fr
       body: JSON.stringify(body),
     });
     if (!response.ok) {
-      console.error(JSON.stringify({ transactional: "failed", to, subject, status: response.status }));
+      console.error(JSON.stringify({ transactional: "failed", status: response.status, ...logged }));
       return { id: null, error: "send_failed" };
     }
     return await response.json();
   } catch (error) {
-    console.error(JSON.stringify({ transactional: "failed", to, subject, error: String(error) }));
+    console.error(JSON.stringify({ transactional: "failed", error: String(error), ...logged }));
     return { id: null, error: "send_failed" };
   }
 }

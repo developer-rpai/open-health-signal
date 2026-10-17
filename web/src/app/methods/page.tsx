@@ -29,7 +29,7 @@ const SOURCES = [
   {
     name: "FDA Drug Safety Communications",
     url: "https://www.fda.gov/drugs/drug-safety-and-availability/drug-safety-communications",
-    use: "HTML index. No public RSS was available.",
+    use: "Labeled drug safety communications",
     license: "US government public domain",
   },
   {
@@ -47,7 +47,7 @@ const SOURCES = [
   {
     name: "CDC Chronic Disease Indicators",
     url: "https://data.cdc.gov/resource/hksd-2xuw.json",
-    use: "US arthritis prevalence (topic=Arthritis)",
+    use: "US arthritis prevalence",
     license: "US government public domain",
   },
 ];

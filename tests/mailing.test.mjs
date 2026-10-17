@@ -17,7 +17,8 @@ test("unsubscribe token matches the Python vector", async () => {
 
 test("transactional templates stay short and plain", () => {
   const confirm = confirmationEmail({ confirmUrl: "https://openhealthsignals.org/confirm?token=abc" });
-  assert.equal(confirm.subject, "Confirm your Open Health Signals briefing");
+  assert.equal(confirm.subject, "Confirm your Open Health Signals email");
+  assert.match(confirm.text, /^Confirm this address for Open Health Signals\./);
   assert.match(confirm.text, /https:\/\/openhealthsignals.org\/confirm\?token=abc/);
   assert.equal(confirm.replyTo, "contact@openhealthsignals.org");
   assert.equal(confirm.text.toLowerCase().includes("causes"), false);
@@ -27,6 +28,9 @@ test("transactional templates stay short and plain", () => {
     listUnsubscribeUrl: "https://fn.example/unsubscribe?token=abc",
     postalAddress: "",
   });
+  assert.equal(welcome.subject, "Welcome to Open Health Signals");
+  assert.match(welcome.text, /^Welcome to Open Health Signals\./);
+  assert.match(welcome.text, /Inflammation Signal Monitor/);
   assert.equal(welcome.text.toLowerCase().split("not medical advice").length - 1, 1);
   assert.match(welcome.text, /about once a week/i);
   assert.match(welcome.text, /FAERS/);

@@ -401,7 +401,7 @@ def test_pending_confirmation_resends_until_the_hourly_cap():
         hashes.append(store.by_email("again@example.com")["confirm_token_hash"])
     assert len(sent) == CONFIRM_EMAIL_LIMIT
     assert len(set(hashes)) == CONFIRM_EMAIL_LIMIT
-    assert sent[0]["subject"] == "Confirm your Open Health Signals briefing"
+    assert sent[0]["subject"] == "Confirm your Open Health Signals email"
     assert sent[0]["reply_to"] == "contact@openhealthsignals.org"
     assert "<html" in sent[0]["html"].lower() or "<!DOCTYPE html>" in sent[0]["html"]
     capped, _, capped_body = _live(
@@ -452,7 +452,7 @@ def test_confirm_sends_one_welcome_with_unsubscribe_and_optional_postal():
         postal="PO Box 1, San Jose, CA 95113",
     )
     assert again == 200
-    welcomes = [item for item in sent if item["subject"].startswith("You're on the")]
+    welcomes = [item for item in sent if item["subject"] == "Welcome to Open Health Signals"]
     assert len(welcomes) == 1
     welcome = welcomes[0]
     assert welcome["reply_to"] == "contact@openhealthsignals.org"
@@ -575,7 +575,7 @@ def test_contact_mail_is_best_effort_and_dry_run_only_logs(caplog):
         "dry_run" in record.message
         and "d***@example.com" in record.message
         and "dry@example.com" not in record.message
-        and "Confirm your Open Health Signals briefing" in record.message
+        and "Confirm your Open Health Signals email" in record.message
         for record in caplog.records
     )
 
