@@ -10,10 +10,15 @@ data/state/
 data/*.duckdb
 data/*.duckdb.wal
 
+node_modules/
+.next/
+out/
 web/node_modules/
 web/.next/
 web/out/
 web/tsconfig.tsbuildinfo
+*.tsbuildinfo
+screenshots/
 
 .DS_Store
 *.log
