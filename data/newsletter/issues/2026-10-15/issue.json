@@ -3,11 +3,33 @@
   "slug": "2026-10-15",
   "cadence": "weekly",
   "kind": "inaugural",
-  "subject": "Reports of tuberculosis with TNF inhibitors: what the FAERS signal does and does not show",
-  "headline": "Reports of tuberculosis with TNF inhibitors: what the FAERS signal does and does not show",
+  "subject": "TNF inhibitors: tuberculosis signal, Tyenne biosimilar recall",
+  "headline": "TNF inhibitors: tuberculosis signal, Tyenne biosimilar recall",
   "kicker": "Inaugural briefing \u00b7 15 October 2026",
-  "intro": "This is the first briefing, from the snapshot of 15 October 2026. There is no earlier snapshot to compare, so the lists below are the latest notices and the strongest prespecified signals in the current extract, not week-over-week changes. openFDA extract dated 2026-07-30. Myocardial Infarction and Cerebrovascular Accident cleared a reporting-odds bound only. The PRR is below 2, so those comparisons are not Evans signals and they are not the headline. PRR and ROR describe reporting. A higher ratio is a disproportionality signal. It is not an incidence rate.",
-  "preheader": "A reporting signal is not proof a drug caused an event.",
+  "intro": "",
+  "highlights": [
+    {
+      "sentence": "Tuberculosis was reported more often than expected with TNF inhibitors (PRR 7.54).",
+      "href": "https://openhealthsignals.org/signals"
+    },
+    {
+      "sentence": "Tyenne, a tocilizumab biosimilar, is under a Class I recall for presence of particulate matter.",
+      "href": "https://openhealthsignals.org/newsletter/2026-10-15#recalls"
+    },
+    {
+      "sentence": "FDA requires warnings about increased risk of serious heart-related events, cancer, blood clots, and death for JAK inhibitors that treat certain chronic inflammatory conditions.",
+      "href": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requires-warnings-about-increased-risk-serious-heart-related-events-cancer-blood-clots-and-death"
+    },
+    {
+      "sentence": "Initial safety trial results find increased risk of serious heart-related problems and cancer with arthritis and ulcerative colitis medicine Xeljanz, Xeljanz XR (tofacitinib).",
+      "href": "https://www.fda.gov/drugs/drug-safety-and-availability/initial-safety-trial-results-find-increased-risk-serious-heart-related-problems-and-cancer-arthritis"
+    },
+    {
+      "sentence": "A phase 3 trial is recruiting: Two Arm, Double-blind, Phase III Study Assessing Efficacy and Safety of Ianalumab Versus Placebo, in Participants With Sj\u00f6gren's Disease.",
+      "href": "https://clinicaltrials.gov/study/NCT07621809"
+    }
+  ],
+  "preheader": "Tuberculosis was reported more often than expected with TNF inhibitors (PRR 7.54). Tyenne, a tocilizumab biosimilar, is under a Class I recall.",
   "signal_caveat": "A reporting signal is not proof a drug caused an event.",
   "snapshot_generated_at": "2026-10-15T06:37:57+00:00",
   "openfda_last_updated": "2026-07-30",
@@ -33,21 +55,31 @@
           "meta": "FDA Drug Safety Communications",
           "body": "",
           "href": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requires-warnings-about-increased-risk-serious-heart-related-events-cancer-blood-clots-and-death",
-          "badge": ""
+          "badge": "",
+          "tags": [
+            "jak_inhibitor"
+          ]
         },
         {
           "title": "Initial safety trial results find increased risk of serious heart-related problems and cancer with arthritis and ulcerative colitis medicine Xeljanz, Xeljanz XR (tofacitinib)",
           "meta": "FDA Drug Safety Communications",
           "body": "",
           "href": "https://www.fda.gov/drugs/drug-safety-and-availability/initial-safety-trial-results-find-increased-risk-serious-heart-related-problems-and-cancer-arthritis",
-          "badge": ""
+          "badge": "",
+          "tags": [
+            "jak_inhibitor",
+            "ulcerative_colitis"
+          ]
         },
         {
           "title": "FDA recommends avoiding use of NSAIDs in pregnancy at 20 weeks or later because they can result in low amniotic fluid",
           "meta": "FDA Drug Safety Communications",
           "body": "",
           "href": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-recommends-avoiding-use-nsaids-pregnancy-20-weeks-or-later-because-they-can-result-low-amniotic",
-          "badge": ""
+          "badge": "",
+          "tags": [
+            "nsaid"
+          ]
         }
       ]
     },
@@ -145,28 +177,40 @@
           "meta": "NCT07619547 \u00b7 Recruiting \u00b7 Crohn's disease \u00b7 start 2026-10-19",
           "body": "Inflammatory Bowel Disease; Crohn's Disease; Ulcerative Colitis",
           "href": "https://clinicaltrials.gov/study/NCT07619547",
-          "badge": ""
+          "badge": "",
+          "phase": "",
+          "status": "RECRUITING",
+          "topic": "crohns_disease"
         },
         {
           "title": "Deciphering the Genetic Architecture of Autoimmune Diseases",
           "meta": "NCT06948110 \u00b7 Recruiting \u00b7 Systemic lupus erythematosus \u00b7 start 2026-10-19",
           "body": "Autoimmune Diseases",
           "href": "https://clinicaltrials.gov/study/NCT06948110",
-          "badge": ""
+          "badge": "",
+          "phase": "",
+          "status": "RECRUITING",
+          "topic": "lupus"
         },
         {
           "title": "Retinal Capillary Vessel Density and Foveal Avascular Zone Size in Patients With Psoriatic Arthritis: A Case-Control Study.",
           "meta": "NCT07858591 \u00b7 Recruiting \u00b7 Psoriasis \u00b7 start 2026-09-01",
           "body": "Arthritic Psoriasis; Psoriasis (PsO); Retinal Vessels",
           "href": "https://clinicaltrials.gov/study/NCT07858591",
-          "badge": ""
+          "badge": "",
+          "phase": "",
+          "status": "RECRUITING",
+          "topic": "psoriasis"
         },
         {
           "title": "Two Arm, Double-blind, Phase III Study Assessing Efficacy and Safety of Ianalumab Versus Placebo, in Participants With Sj\u00f6gren's Disease With High Symptom Burden",
           "meta": "NCT07621809 \u00b7 PHASE3 \u00b7 Recruiting \u00b7 Rheumatoid arthritis \u00b7 start 2026-07-16",
           "body": "Sj\u00f6gren\u00b4s Disease",
           "href": "https://clinicaltrials.gov/study/NCT07621809",
-          "badge": ""
+          "badge": "",
+          "phase": "PHASE3",
+          "status": "RECRUITING",
+          "topic": "rheumatoid_arthritis"
         }
       ]
     },
@@ -178,28 +222,28 @@
       "items": [
         {
           "title": "Rapid fecal lipidome profiling in inflammatory bowel disease: A novel approach for exploratory disease molecular characterization and therapeutic monitoring",
-          "meta": "",
+          "meta": "J Pharm Biomed Anal",
           "body": "",
           "href": "https://pubmed.ncbi.nlm.nih.gov/42580209/",
           "badge": ""
         },
         {
           "title": "Integrated DIA proteomics of tissue and exudate reveals screening markers for early detection of ulcerative colitis and colorectal cancer",
-          "meta": "",
+          "meta": "Clin Chim Acta",
           "body": "",
           "href": "https://pubmed.ncbi.nlm.nih.gov/42556455/",
           "badge": ""
         },
         {
           "title": "Inflammation-triggered nanodrug delivery microneedles targeting pathogenic COX2(+) endothelial cell-mediated glycocalyx degradation to ameliorate psoriasis",
-          "meta": "",
+          "meta": "Biomaterials",
           "body": "",
           "href": "https://pubmed.ncbi.nlm.nih.gov/42546583/",
           "badge": ""
         },
         {
           "title": "A novel urinary metabolic signature for the non-invasive screening of lupus nephritis in systemic lupus erythematosus",
-          "meta": "",
+          "meta": "Clin Chim Acta",
           "body": "",
           "href": "https://pubmed.ncbi.nlm.nih.gov/42468728/",
           "badge": ""

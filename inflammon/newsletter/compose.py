@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 from html import unescape
 from pathlib import Path
@@ -17,7 +18,7 @@ from inflammon.compliance import (
     postal_address,
 )
 from inflammon.newsletter.cadence import newsletter_cadence
-from inflammon.taxonomy import CONDITIONS, DISCLAIMER, DRUG_CLASSES, DRUG_TOPICS
+from inflammon.taxonomy import CONDITIONS, DISCLAIMER, DRUG_CLASSES, DRUG_TOPICS, DRUGS
 
 CLASS_SHORT = {item.key: item.short_label for item in DRUG_CLASSES}
 TOPIC_LABELS = {item.key: item.label for item in (*CONDITIONS, *DRUG_TOPICS)}
@@ -28,6 +29,24 @@ SIGNAL_CAP = 6
 TRIAL_CAP = 4
 PAPER_CAP = 4
 STRENGTHEN_RATIO = 1.25
+SUBJECT_LIMIT = 70
+HIGHLIGHT_CAP = 5
+
+# Sponsor names are not in the snapshot, so a notable trial is a phase 3 study.
+_HIGH_IMPACT_JOURNALS = (
+    "annals of the rheumatic diseases",
+    "arthritis & rheumatology",
+    "arthritis and rheumatology",
+    "the lancet",
+    "new england journal of medicine",
+    "lancet",
+    "jama",
+    "bmj",
+    "nature medicine",
+    "gastroenterology",
+    "hepatology",
+)
+_BIOSIMILAR = re.compile(r"-[a-z]{4}\b", re.IGNORECASE)
 
 COMPARATOR_PHRASE = {
     "all_faers": "the rest of FAERS",
@@ -126,8 +145,6 @@ def compose_issue(
     trials = _trials(snapshot["trials"], previous, inaugural)
     papers = _papers(snapshot["publications"], previous, inaugural)
 
-    headline = _headline(ranked_signals, generated_at, inaugural, daily)
-    intro = _intro(snapshot, previous, inaugural, generated_at, daily)
     long_date = _long_date(generated_at)
     if daily:
         kicker = f"Daily test edition · {long_date}"
@@ -135,34 +152,31 @@ def compose_issue(
         kicker = f"Inaugural briefing · {long_date}"
     else:
         kicker = f"Week of {long_date}"
-    subject = headline
-    if daily and not headline.lower().startswith("daily test edition"):
+    archive_path = f"/newsletter/{slug}"
+    bundles = _news_bundles(
+        alerts,
+        recalls,
+        ranked_signals,
+        trials,
+        papers,
+        site=site,
+        archive_path=archive_path,
+        inaugural=inaugural,
+    )
+    fragments = _subject_fragments(bundles)
+    if fragments:
+        budget = SUBJECT_LIMIT - len("Daily test edition: ") if daily else SUBJECT_LIMIT
+        headline = _join_subject(fragments, budget)
+    elif daily:
+        headline = f"Daily test edition, {long_date}"
+    else:
+        headline = f"Open Health Signals, {long_date}"
+    if daily and fragments:
         subject = f"Daily test edition: {headline}"
-    return {
-        "product": "Open Health Signals",
-        "slug": slug,
-        "cadence": resolved,
-        "kind": kind,
-        "subject": subject,
-        "headline": headline,
-        "kicker": kicker,
-        "intro": intro,
-        "preheader": SIGNAL_CAVEAT,
-        "signal_caveat": SIGNAL_CAVEAT,
-        "snapshot_generated_at": generated_at,
-        "openfda_last_updated": manifest.get("openfda_last_updated"),
-        "site_url": site,
-        "dashboard_url": f"{site}/",
-        "archive_path": f"/newsletter/{slug}",
-        "disclaimer": manifest.get("disclaimer") or DISCLAIMER,
-        "fda_caveat": FDA_CAVEAT,
-        "research_line": RESEARCH_LINE,
-        "fda_attribution": FDA_ATTRIBUTION,
-        "fda_independence": FDA_INDEPENDENCE,
-        "ncbi_disclaimer_url": NCBI_DISCLAIMER_URL,
-        "postal_address": postal_address(),
-        "unsubscribe_page": f"{site}/unsubscribe",
-        "sections": [
+    else:
+        subject = headline
+    highlights = _highlights(bundles)
+    sections = [
             {
                 "id": "alerts",
                 "heading": "Latest FDA safety notices" if inaugural else "New FDA safety alerts",
@@ -194,7 +208,34 @@ def compose_issue(
                 "note": f"Titles and links only. Abstracts are not shown. NCBI disclaimer: {NCBI_DISCLAIMER_URL}",
                 "items": papers[:PAPER_CAP],
             },
-        ],
+        ]
+    sections = [section for section in sections if section["items"] or section["id"] != "signals"]
+    return {
+        "product": "Open Health Signals",
+        "slug": slug,
+        "cadence": resolved,
+        "kind": kind,
+        "subject": subject,
+        "headline": headline,
+        "kicker": kicker,
+        "intro": "",
+        "highlights": highlights,
+        "preheader": _preheader(highlights, headline),
+        "signal_caveat": SIGNAL_CAVEAT,
+        "snapshot_generated_at": generated_at,
+        "openfda_last_updated": manifest.get("openfda_last_updated"),
+        "site_url": site,
+        "dashboard_url": f"{site}/",
+        "archive_path": archive_path,
+        "disclaimer": manifest.get("disclaimer") or DISCLAIMER,
+        "fda_caveat": FDA_CAVEAT,
+        "research_line": RESEARCH_LINE,
+        "fda_attribution": FDA_ATTRIBUTION,
+        "fda_independence": FDA_INDEPENDENCE,
+        "ncbi_disclaimer_url": NCBI_DISCLAIMER_URL,
+        "postal_address": postal_address(),
+        "unsubscribe_page": f"{site}/unsubscribe",
+        "sections": sections,
     }
 
 
@@ -224,6 +265,7 @@ def _alerts(items: list[dict], previous: dict | None, inaugural: bool) -> list[d
                 "body": summary,
                 "href": _http_url(item.get("link")),
                 "badge": "",
+                "tags": [str(tag) for tag in item.get("tags") or []],
             }
         )
     return rows
@@ -343,6 +385,9 @@ def _trials(items: list[dict], previous: dict | None, inaugural: bool) -> list[d
                 "body": _clean(item.get("conditions")),
                 "href": _http_url(item.get("link")),
                 "badge": "",
+                "phase": _clean(item.get("phase")),
+                "status": _clean(item.get("status")),
+                "topic": _clean(item.get("topic")),
             }
         )
     return rows
@@ -363,7 +408,7 @@ def _papers(items: list[dict], previous: dict | None, inaugural: bool) -> list[d
         rows.append(
             {
                 "title": title,
-                "meta": "",
+                "meta": _clean(item.get("journal")),
                 "body": "",
                 "href": _http_url(item.get("link")),
                 "badge": "",
@@ -372,77 +417,362 @@ def _papers(items: list[dict], previous: dict | None, inaugural: bool) -> list[d
     return rows
 
 
-def _headline(ranked: list[tuple], generated_at: str, inaugural: bool, daily: bool) -> str:
-    source = None
-    for row, _change, _previous in ranked:
-        if row.get("evans_signal") and row.get("prr") is not None:
-            source = row
+def _news_bundles(
+    alerts: list[dict],
+    recalls: list[dict],
+    ranked_signals: list[tuple],
+    trials: list[dict],
+    papers: list[dict],
+    *,
+    site: str,
+    archive_path: str,
+    inaugural: bool,
+) -> dict[str, list[dict]]:
+    signal_rows = []
+    for row, change, _previous in ranked_signals:
+        if row.get("prr") is None and not row.get("reaction"):
+            continue
+        signal_rows.append(
+            {
+                "subject": _signal_fragment(row, change),
+                "sentence": _signal_sentence(row, change),
+                "href": f"{site}/signals",
+            }
+        )
+    recall_rows = []
+    for item in recalls:
+        if _class_rank(item.get("badge")) != 0:
+            continue
+        name, generic, biosimilar = _recall_names(item.get("title") or "")
+        if not name:
+            continue
+        recall_rows.append(
+            {
+                "subject": _recall_fragment(name, biosimilar),
+                "sentence": _recall_sentence(name, generic, biosimilar, item.get("body") or ""),
+                "href": f"{site}{archive_path}#recalls",
+            }
+        )
+    notice_rows = []
+    for item in alerts:
+        name = _name_in_text(item.get("title") or "") or _name_from_tags(item.get("tags") or [])
+        if not name:
+            continue
+        labeling = "label" in (item.get("title") or "").lower()
+        prefix = "" if inaugural else "new "
+        kind = "labeling change" if labeling else "safety notice"
+        notice_rows.append(
+            {
+                "subject": f"{prefix}{name} {kind}",
+                "sentence": _as_sentence(item.get("title") or ""),
+                "href": item.get("href") or f"{site}{archive_path}#alerts",
+            }
+        )
+    phase3 = [item for item in trials if _is_phase3(item)]
+    trial_rows = []
+    for item in phase3:
+        trial_rows.append(
+            {
+                "subject": _trial_fragment(item),
+                "sentence": _trial_sentence(item),
+                "href": item.get("href") or f"{site}{archive_path}#trials",
+            }
+        )
+    paper_rows = []
+    for item in papers:
+        journal = _journal_of(item)
+        if not _is_high_impact(journal):
+            continue
+        paper_rows.append(
+            {
+                "subject": _paper_fragment(journal),
+                "sentence": _paper_sentence(item, journal),
+                "href": item.get("href") or f"{site}{archive_path}#papers",
+            }
+        )
+    return {
+        "signals": signal_rows,
+        "recalls": recall_rows,
+        "notices": notice_rows,
+        "trials": trial_rows,
+        "papers": paper_rows,
+        "phase3_count": len(phase3),
+    }
+
+
+def _subject_fragments(bundles: dict) -> list[str]:
+    fragments: list[str] = []
+    if bundles["signals"]:
+        fragments.append(bundles["signals"][0]["subject"])
+    if bundles["recalls"]:
+        fragments.append(bundles["recalls"][0]["subject"])
+    if bundles["notices"]:
+        fragments.append(bundles["notices"][0]["subject"])
+    count = bundles["phase3_count"]
+    if count > 1:
+        fragments.append(f"{count} phase 3 trials")
+    elif bundles["trials"]:
+        fragments.append(bundles["trials"][0]["subject"])
+    if bundles["papers"]:
+        fragments.append(bundles["papers"][0]["subject"])
+    return fragments
+
+
+def _highlights(bundles: dict) -> list[dict]:
+    picked: list[dict] = []
+    seen: set[int] = set()
+    for key, cap in (("signals", 1), ("recalls", 1), ("notices", 2), ("trials", 2), ("papers", 1)):
+        for item in bundles[key][:cap]:
+            picked.append(item)
+            seen.add(id(item))
+            if len(picked) >= HIGHLIGHT_CAP:
+                return [_public_highlight(row) for row in picked]
+    for key in ("signals", "recalls", "notices", "trials", "papers"):
+        for item in bundles[key]:
+            if id(item) in seen:
+                continue
+            picked.append(item)
+            seen.add(id(item))
+            if len(picked) >= HIGHLIGHT_CAP:
+                break
+        if len(picked) >= HIGHLIGHT_CAP:
             break
-    if source is None and ranked and ranked[0][0].get("prr") is not None:
-        source = ranked[0][0]
-    if source is not None:
-        return _reporting_headline(source)
-    long_date = _long_date(generated_at)
-    if daily:
-        return f"Daily test edition, {long_date}: no new or strengthened high signals"
-    if inaugural:
-        return f"Inflammation Signal Monitor briefing, {long_date}"
-    return f"Week of {long_date}: no new or strengthened high signals"
+    return [_public_highlight(row) for row in picked[:HIGHLIGHT_CAP]]
 
 
-def _reporting_headline(row: dict) -> str:
+def _public_highlight(item: dict) -> dict:
+    return {"sentence": item["sentence"], "href": item["href"]}
+
+
+def _join_subject(fragments: list[str], limit: int) -> str:
+    chosen: list[str] = []
+    for fragment in fragments:
+        piece = " ".join(fragment.split())
+        if not piece:
+            continue
+        candidate = ", ".join([*chosen, piece])
+        if len(chosen) < 3 and len(candidate) <= limit:
+            chosen.append(piece)
+            continue
+        if not chosen:
+            chosen.append(_fit_fragment(piece, limit))
+        break
+    return ", ".join(chosen)
+
+
+def _fit_fragment(text: str, limit: int) -> str:
+    if len(text) <= limit:
+        return text
+    cut = text[:limit].rsplit(" ", 1)[0]
+    return cut or text[:limit]
+
+
+def _preheader(highlights: list[dict], headline: str) -> str:
+    parts: list[str] = []
+    for item in highlights[:3]:
+        sentence = " ".join(str(item.get("sentence") or "").split())
+        if not sentence:
+            continue
+        room = 159 - len(". ".join(parts)) - (2 if parts else 0)
+        if room < 24:
+            break
+        piece = _clip_clause(sentence, room)
+        if len(piece) < 24:
+            break
+        parts.append(piece)
+    if not parts:
+        return headline
+    return ". ".join(parts) + "."
+
+
+def _clip_clause(sentence: str, limit: int) -> str:
+    text = sentence.strip().rstrip(".")
+    if len(text) <= limit:
+        return text
+    cut_at = [text.find(marker) for marker in (" for ", "; ")]
+    candidates = [text[:idx].rstrip(" ,;:") for idx in cut_at if idx >= 24]
+    for candidate in candidates:
+        if len(candidate) <= limit:
+            return candidate
+    cut = text[:limit].rsplit(" ", 1)[0].rstrip(" ,;:")
+    for ending in (" for", " of", " with", " and", " a", " the"):
+        if cut.lower().endswith(ending):
+            cut = cut[: -len(ending)].rstrip(" ,;:")
+    return cut
+
+
+def _signal_fragment(row: dict, change: str) -> str:
     name = _display_name(row)
     reaction = _title_case(row.get("reaction") or "").lower()
-    return f"Reports of {reaction} with {name}: what the FAERS signal does and does not show"
+    qualifier = {"new": "new ", "strengthened": "stronger "}.get(change, "")
+    return f"{name}: {qualifier}{reaction} signal"
 
 
-def _intro(snapshot: dict, previous: dict | None, inaugural: bool, generated_at: str, daily: bool) -> str:
-    manifest = snapshot["manifest"]
-    long_date = _long_date(generated_at)
-    extract = manifest.get("openfda_last_updated") or "an undated extract"
-    if daily and inaugural:
-        lead = (
-            f"This daily test edition is the first briefing, from the snapshot of {long_date}. "
-            "There is no earlier snapshot to compare, so the lists below are the latest notices "
-            "and the strongest prespecified signals in the current extract, not day-over-day changes. "
-            "The edition is still produced when little is new."
-        )
-    elif daily:
-        earlier = _long_date(str((previous or {}).get("snapshot_generated_at") or ""))
-        lead = (
-            f"This daily test edition compares the {long_date} snapshot with the one from {earlier}. "
-            "It is produced even when little is new. "
-            "It includes FDA notices, recalls, trials, and papers that were not in that extract, "
-            "and drug-safety signals that are newly high or whose PRR is at least 25% higher."
-        )
-    elif inaugural:
-        lead = (
-            f"This is the first briefing, from the snapshot of {long_date}. "
-            "There is no earlier snapshot to compare, so the lists below are the latest notices "
-            "and the strongest prespecified signals in the current extract, not week-over-week changes."
-        )
+def _signal_sentence(row: dict, change: str) -> str:
+    name = _display_name(row)
+    reaction = _title_case(row.get("reaction") or "")
+    prr = row.get("prr")
+    detail = f" (PRR {_fmt(prr)})" if prr is not None else ""
+    if change == "strengthened":
+        return f"The {reaction.lower()} signal with {name} is stronger than in the last snapshot{detail}."
+    if change == "new":
+        return f"{reaction} is a new high signal with {name}{detail}."
+    return f"{reaction} was reported more often than expected with {name}{detail}."
+
+
+def _recall_fragment(name: str, biosimilar: bool) -> str:
+    if biosimilar:
+        text = f"{name} biosimilar recall"
+        if len(text) <= 32:
+            return text
     else:
-        earlier = _long_date(str((previous or {}).get("snapshot_generated_at") or ""))
-        lead = (
-            f"This briefing compares the {long_date} snapshot with the one from {earlier}. "
-            "It includes FDA notices, recalls, trials, and papers that were not in that extract, "
-            "and drug-safety signals that are newly high or whose PRR is at least 25% higher."
-        )
-    ror_only = [
-        _title_case(check.get("reaction") or "")
-        for check in snapshot["validation"].get("checks") or []
-        if check.get("recovered") and not check.get("evans_signal")
-    ]
-    caveat = ""
-    if ror_only:
-        caveat = (
-            f" {_join_names(ror_only)} cleared a reporting-odds bound only. "
-            "The PRR is below 2, so those comparisons are not Evans signals and they are not the headline."
-        )
-    return (
-        f"{lead} openFDA extract dated {extract}.{caveat} "
-        "PRR and ROR describe reporting. A higher ratio is a disproportionality signal. It is not an incidence rate."
-    )
+        text = f"{name} Class I recall"
+        if len(text) <= 32:
+            return text
+    return f"{name} recall"
+
+
+def _recall_sentence(name: str, generic: str, biosimilar: bool, reason: str) -> str:
+    if biosimilar and generic and generic.lower() != name.lower():
+        article = "an" if generic[:1].lower() in "aeiou" else "a"
+        lead = f"{name}, {article} {generic.lower()} biosimilar, is under a Class I recall"
+    elif biosimilar:
+        lead = f"{name}, a biosimilar, is under a Class I recall"
+    else:
+        lead = f"{name} is under a Class I recall"
+    short = _short_reason(reason)
+    if short:
+        return f"{lead} for {short}."
+    return f"{lead}."
+
+
+def _short_reason(reason: str) -> str:
+    text = _clean(reason)
+    if not text:
+        return ""
+    head = text.split(":")[0].strip(" .")
+    head = head[:1].lower() + head[1:] if head else ""
+    if len(head) > 80:
+        head = head[:79].rsplit(" ", 1)[0]
+    return head
+
+
+def _recall_names(description: str) -> tuple[str, str, bool]:
+    text = _clean(description)
+    lowered = text.lower()
+    biosimilar = bool(_BIOSIMILAR.search(lowered)) or "biosimilar" in lowered
+    generic = ""
+    for drug in DRUGS:
+        if re.search(rf"\b{re.escape(drug.generic_name.lower())}\b", lowered) or re.search(
+            rf"\b{re.escape(drug.label.lower())}\b", lowered
+        ):
+            generic = drug.label
+            break
+    head = text.split(",")[0].split("(")[0].strip()
+    first = head.split()[0] if head else ""
+    if first.isupper() or first.islower():
+        pretty = first[:1].upper() + first[1:].lower()
+    else:
+        pretty = first
+    if pretty.lower() in {"the", "a", "an"}:
+        pretty = ""
+    return pretty or generic, generic, biosimilar
+
+
+def _name_in_text(text: str) -> str:
+    lowered = _clean(text).lower()
+    if not lowered:
+        return ""
+    for drug in DRUGS:
+        for token in drug.brands:
+            if re.search(rf"\b{re.escape(token)}\b", lowered):
+                return token[:1].upper() + token[1:]
+    for drug in DRUGS:
+        if re.search(rf"\b{re.escape(drug.label.lower())}\b", lowered) or re.search(
+            rf"\b{re.escape(drug.generic_name.lower())}\b", lowered
+        ):
+            return drug.label
+    for key, label in CLASS_SHORT.items():
+        if key.replace("_", " ") in lowered or label.lower() in lowered:
+            return _singular_class(label)
+    return ""
+
+
+def _name_from_tags(tags: list) -> str:
+    for tag in tags:
+        label = CLASS_SHORT.get(str(tag))
+        if label:
+            return _singular_class(label)
+    return ""
+
+
+def _singular_class(label: str) -> str:
+    if label.endswith("s") and not label.endswith("ss"):
+        return label[:-1]
+    return label
+
+
+def _is_phase3(item: dict) -> bool:
+    return "PHASE3" in str(item.get("phase") or "").upper()
+
+
+def _trial_fragment(item: dict) -> str:
+    name = _name_in_text(item.get("title") or "") or TOPIC_LABELS.get(item.get("topic") or "", "")
+    if name:
+        return f"{name} phase 3 trial"
+    return "Phase 3 trial"
+
+
+def _trial_sentence(item: dict) -> str:
+    title = _clean(item.get("title"))
+    if len(title) > 140:
+        title = title[:139].rsplit(" ", 1)[0]
+    status = str(item.get("status") or "").replace("_", " ").lower()
+    if "recruiting" in status and "not" not in status:
+        lead = "A phase 3 trial is recruiting"
+    else:
+        lead = "A phase 3 trial was posted"
+    if title:
+        return f"{lead}: {title}."
+    return f"{lead}."
+
+
+def _journal_of(item: dict) -> str:
+    meta = item.get("meta") or ""
+    return _clean(meta)
+
+
+def _is_high_impact(journal: str) -> bool:
+    text = " ".join(journal.lower().split())
+    if not text:
+        return False
+    for name in _HIGH_IMPACT_JOURNALS:
+        if text == name or text.startswith(name + " "):
+            return True
+    return False
+
+
+def _paper_fragment(journal: str) -> str:
+    text = f"{journal} paper"
+    if len(text) <= 32:
+        return text
+    return "New research paper"
+
+
+def _paper_sentence(item: dict, journal: str) -> str:
+    title = _as_sentence(item.get("title") or "")
+    if journal:
+        return f"{journal}: {title}"
+    return title
+
+
+def _as_sentence(text: str) -> str:
+    clean = _clean(text)
+    if len(clean) > 180:
+        clean = clean[:179].rsplit(" ", 1)[0]
+    if clean and clean[-1] not in ".!?…":
+        clean += "."
+    return clean
 
 
 def _plain_english(row: dict, change: str, previous_prr: float | None) -> str:

@@ -19,6 +19,11 @@ export type NewsletterSection = {
   items: NewsletterItem[];
 };
 
+export type NewsletterHighlight = {
+  sentence: string;
+  href: string;
+};
+
 export type NewsletterIssue = {
   slug: string;
   kind: string;
@@ -26,6 +31,8 @@ export type NewsletterIssue = {
   headline: string;
   kicker: string;
   intro: string;
+  highlights?: NewsletterHighlight[];
+  preheader?: string;
   snapshot_generated_at: string;
   disclaimer: string;
   fda_caveat?: string;

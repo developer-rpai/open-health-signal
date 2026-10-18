@@ -2,17 +2,21 @@ OPEN HEALTH SIGNALS
 Inflammation Signal Monitor
 Inaugural briefing · 15 October 2026
 
-Reports of tuberculosis with TNF inhibitors: what the FAERS signal does and does not show
+TNF inhibitors: tuberculosis signal, Tyenne biosimilar recall
 
-A reporting signal is not proof a drug caused an event.
+This week
+- Tuberculosis was reported more often than expected with TNF inhibitors (PRR 7.54).
+  https://openhealthsignals.org/signals
+- Tyenne, a tocilizumab biosimilar, is under a Class I recall for presence of particulate matter.
+  https://openhealthsignals.org/newsletter/2026-10-15#recalls
+- FDA requires warnings about increased risk of serious heart-related events, cancer, blood clots, and death for JAK inhibitors that treat certain chronic inflammatory conditions.
+  https://www.fda.gov/drugs/drug-safety-and-availability/fda-requires-warnings-about-increased-risk-serious-heart-related-events-cancer-blood-clots-and-death
+- Initial safety trial results find increased risk of serious heart-related problems and cancer with arthritis and ulcerative colitis medicine Xeljanz, Xeljanz XR (tofacitinib).
+  https://www.fda.gov/drugs/drug-safety-and-availability/initial-safety-trial-results-find-increased-risk-serious-heart-related-problems-and-cancer-arthritis
+- A phase 3 trial is recruiting: Two Arm, Double-blind, Phase III Study Assessing Efficacy and Safety of Ianalumab Versus Placebo, in Participants With Sjögren's Disease.
+  https://clinicaltrials.gov/study/NCT07621809
 
 FAERS data as of 2026-07-30.
-
-This is the first briefing, from the snapshot of 15 October 2026. There is no earlier snapshot to compare, so the lists below are the latest notices and the strongest prespecified signals in the current extract, not week-over-week changes. openFDA extract dated 2026-07-30. Myocardial Infarction and Cerebrovascular Accident cleared a reporting-odds bound only. The PRR is below 2, so those comparisons are not Evans signals and they are not the headline. PRR and ROR describe reporting. A higher ratio is a disproportionality signal. It is not an incidence rate.
-
-There is no certainty that the reported event was actually due to the product. The information in these reports has not been scientifically or otherwise verified as to a cause and effect relationship and cannot be used to estimate the incidence of these events.
-
-For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor.
 
 LATEST FDA SAFETY NOTICES
 - FDA requires warnings about increased risk of serious heart-related events, cancer, blood clots, and death for JAK inhibitors that treat certain chronic inflammatory conditions
@@ -103,28 +107,25 @@ RECENT TRIALS
 RECENT PUBMED PAPERS
 Titles and links only. Abstracts are not shown. NCBI disclaimer: https://www.ncbi.nlm.nih.gov/home/about/policies/
 - Rapid fecal lipidome profiling in inflammatory bowel disease: A novel approach for exploratory disease molecular characterization and therapeutic monitoring
+  J Pharm Biomed Anal
   https://pubmed.ncbi.nlm.nih.gov/42580209/
 
 - Integrated DIA proteomics of tissue and exudate reveals screening markers for early detection of ulcerative colitis and colorectal cancer
+  Clin Chim Acta
   https://pubmed.ncbi.nlm.nih.gov/42556455/
 
 - Inflammation-triggered nanodrug delivery microneedles targeting pathogenic COX2(+) endothelial cell-mediated glycocalyx degradation to ameliorate psoriasis
+  Biomaterials
   https://pubmed.ncbi.nlm.nih.gov/42546583/
 
 - A novel urinary metabolic signature for the non-invasive screening of lupus nephritis in systemic lupus erythematosus
+  Clin Chim Acta
   https://pubmed.ncbi.nlm.nih.gov/42468728/
 
 Open the dashboard: https://openhealthsignals.org/
 Read this issue on the site: https://openhealthsignals.org/newsletter/2026-10-15
+How these numbers are made: https://openhealthsignals.org/methods
 
-For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor. FAERS is a spontaneous-report system with under-reporting, duplicate reports, and no exposure denominator. A disproportionality signal means a reaction was reported more often than expected. It is not an incidence rate. Report adverse events to FDA MedWatch.
-
-There is no certainty that the reported event was actually due to the product. The information in these reports has not been scientifically or otherwise verified as to a cause and effect relationship and cannot be used to estimate the incidence of these events.
-
-For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor.
-
-Data provided by the U.S. Food and Drug Administration (https://open.fda.gov). This site is not affiliated with or endorsed by the U.S. Food and Drug Administration.
-
-Unsubscribe: https://openhealthsignals.org/unsubscribe
-The link is signed for this address and takes effect immediately.
-One-click: POST List-Unsubscribe=One-Click to that address.
+Informational only, not medical advice. FAERS reports don't prove a drug caused an event.
+Data: U.S. FDA (open.fda.gov). Not affiliated with or endorsed by FDA.
+You're getting this because you subscribed. Unsubscribe: https://openhealthsignals.org/unsubscribe

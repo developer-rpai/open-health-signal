@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
-import { NCBI_DISCLAIMER_URL, SIGNAL_CAVEAT } from "@/lib/compliance";
+import { NCBI_DISCLAIMER_URL } from "@/lib/compliance";
 import { getNewsletterIndex, getNewsletterIssue } from "@/lib/newsletter";
 
 export function generateStaticParams() {
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const issue = getNewsletterIssue(slug);
   if (!issue) return { title: "Newsletter" };
-  return { title: issue.headline, description: issue.intro };
+  return { title: issue.headline, description: issue.preheader || issue.headline };
 }
 
 export default async function NewsletterIssuePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -27,12 +27,27 @@ export default async function NewsletterIssuePage({ params }: { params: Promise<
     <article className="mx-auto max-w-3xl">
       <p className="text-sm text-muted-foreground">{issue.kicker}</p>
       <h1 className="mt-3 text-4xl leading-tight sm:text-5xl">{issue.headline}</h1>
-      <p className="mt-4 text-sm leading-relaxed">{issue.signal_caveat || SIGNAL_CAVEAT}</p>
-      {issue.openfda_last_updated ? (
-        <p className="mt-2 text-sm text-muted-foreground">FAERS data as of {issue.openfda_last_updated}.</p>
+      {issue.highlights && issue.highlights.length > 0 ? (
+        <div className="mt-6">
+          <h2 className="text-xs font-medium tracking-widest text-primary uppercase">This week</h2>
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed">
+            {issue.highlights.map((item) => (
+              <li key={item.href + item.sentence}>
+                {item.href ? (
+                  <a href={item.href} className="underline decoration-foreground/30 underline-offset-2 hover:decoration-foreground">
+                    {item.sentence}
+                  </a>
+                ) : (
+                  item.sentence
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : null}
-      <p className="mt-5 text-lg leading-relaxed">{issue.intro}</p>
-      {issue.fda_caveat ? <p className="mt-4 text-sm leading-relaxed">{issue.fda_caveat}</p> : null}
+      {issue.openfda_last_updated ? (
+        <p className="mt-4 text-xs text-muted-foreground">FAERS data as of {issue.openfda_last_updated}.</p>
+      ) : null}
       <p className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
         <Link href="/methods" className="text-primary underline underline-offset-2">
           How these numbers are made
@@ -78,20 +93,19 @@ export default async function NewsletterIssuePage({ params }: { params: Promise<
         ))}
       </div>
 
-      <p className="mt-10 text-sm leading-relaxed text-muted-foreground">{issue.disclaimer}</p>
-      {issue.fda_attribution ? (
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          {issue.fda_attribution}. {issue.fda_independence}
-        </p>
-      ) : null}
-      {issue.postal_address ? <p className="mt-2 text-sm text-muted-foreground">{issue.postal_address}</p> : null}
-      <p className="mt-3 text-sm text-muted-foreground">
+      <p className="mt-10 text-sm leading-relaxed text-muted-foreground">
+        Informational only, not medical advice. FAERS reports don&apos;t prove a drug caused an event.
+      </p>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        Data: U.S. FDA (open.fda.gov). Not affiliated with or endorsed by FDA.
+      </p>
+      <p className="mt-2 text-sm text-muted-foreground">
+        You&apos;re getting this because you subscribed.{" "}
         <Link href="/unsubscribe" className="text-primary underline-offset-2 hover:underline">
           Unsubscribe
         </Link>
-        . The link in a sent issue is signed for that address and takes effect immediately. Mail clients can also POST
-        List-Unsubscribe=One-Click.
       </p>
+      {issue.postal_address ? <p className="mt-2 text-sm text-muted-foreground">{issue.postal_address}</p> : null}
     </article>
   );
 }

@@ -142,8 +142,11 @@ def test_weekly_diff_keeps_new_and_strengthened_only():
     assert "causes" not in stronger["body"].lower()
     fresh = next(item for item in _section(issue, "signals")["items"] if "Fresh Event" in item["title"])
     assert "Evans screen" in fresh["body"]
-    assert "TNF inhibitors" in issue["headline"]
-    assert issue["headline"].startswith("Reports of")
+    assert issue["headline"] == issue["subject"]
+    assert issue["headline"].startswith("TNF inhibitors")
+    assert "fresh event" in issue["headline"].lower()
+    assert "no new" not in issue["headline"].lower()
+    assert len(issue["subject"]) <= 70
 
 
 def test_cadence_defaults_to_weekly_and_rejects_other_values(monkeypatch):
@@ -190,10 +193,11 @@ def test_daily_edition_is_built_when_little_is_new(monkeypatch):
     assert issue["kind"] == "daily"
     assert issue["kicker"].startswith("Daily test edition")
     assert issue["subject"].startswith("Daily test edition")
-    assert "no new or strengthened high signals" in issue["headline"]
-    assert "little is new" in issue["intro"]
+    assert "no new" not in issue["headline"].lower()
+    assert "no new" not in issue["subject"].lower()
+    assert "little is new" not in json.dumps(issue).lower()
+    assert all(section["id"] != "signals" for section in issue["sections"])
     assert _section(issue, "alerts")["items"] == []
-    assert _section(issue, "signals")["items"] == []
     assert _section(issue, "alerts")["empty"] == "None in this daily edition."
     assert "None this week." not in blob
     assert "causes" not in blob.lower()
@@ -213,8 +217,11 @@ def test_daily_diff_keeps_only_what_changed_and_stays_a_test_edition(monkeypatch
     )
     issue = compose_issue(current, fingerprint(earlier), site_url="http://127.0.0.1:43123")
     assert issue["kind"] == "daily"
-    assert "TNF inhibitors" in issue["headline"]
+    assert issue["headline"].startswith("TNF inhibitors")
+    assert "fresh event" in issue["headline"].lower()
     assert issue["subject"] == "Daily test edition: " + issue["headline"]
+    assert len(issue["subject"]) <= 70
+    assert "no new" not in issue["subject"].lower()
     assert "Brand new notice" in _titles(issue, "alerts")
     assert "Old notice" not in _titles(issue, "alerts")
     weekly = compose_issue(current, fingerprint(earlier), site_url="http://127.0.0.1:43123", cadence="weekly")
@@ -254,7 +261,9 @@ def test_empty_weekly_section_says_none_this_week():
     issue = compose_issue(_snapshot(), fingerprint(earlier), site_url="http://127.0.0.1:43123")
     assert _section(issue, "alerts")["items"] == []
     assert _section(issue, "alerts")["empty"] == "None this week."
-    assert "no new or strengthened high signals" in issue["headline"]
+    assert all(section["id"] != "signals" for section in issue["sections"])
+    assert "no new" not in issue["headline"].lower()
+    assert "no new" not in json.dumps(issue).lower()
 
 
 def test_inaugural_is_not_labeled_as_new_this_week():
@@ -285,12 +294,15 @@ def test_inaugural_is_not_labeled_as_new_this_week():
     )
     blob = json.dumps(issue).lower()
     assert issue["kind"] == "inaugural"
-    assert "no earlier snapshot" in issue["intro"]
+    assert issue["intro"] == ""
     assert "new this week" not in blob
-    assert issue["headline"] == "Reports of tuberculosis with TNF inhibitors: what the FAERS signal does and does not show"
-    assert issue["preheader"] == "A reporting signal is not proof a drug caused an event."
-    assert issue["signal_caveat"] == issue["preheader"]
-    assert "not week-over-week changes" in issue["intro"]
+    assert "no new" not in issue["headline"].lower()
+    assert issue["headline"].startswith("TNF inhibitors")
+    assert "tuberculosis" in issue["headline"].lower()
+    assert "tuberculosis" in issue["preheader"].lower()
+    assert issue["preheader"] != issue["signal_caveat"]
+    assert len(issue["subject"]) <= 70
+    assert any(section["id"] == "signals" for section in issue["sections"])
 
 
 def test_html_and_text_rendering():
@@ -323,31 +335,36 @@ def test_html_and_text_rendering():
     html_body = render_html(issue, unsubscribe_href="http://127.0.0.1:43123/unsubscribe?token=signed")
     text_body = render_text(issue, unsubscribe_href="http://127.0.0.1:43123/unsubscribe?token=signed")
     assert 'name="viewport"' in html_body
+    assert "prefers-color-scheme: dark" in html_body
     assert issue["headline"] in html_body
-    assert DISCLAIMER in html_body
+    assert "This week" in html_body
+    assert DISCLAIMER not in html_body
     assert "http://127.0.0.1:43123/unsubscribe?token=signed" in html_body
-    assert "takes effect immediately" in html_body
-    assert "List-Unsubscribe-Post" in html_body
+    assert "takes effect immediately" not in html_body
+    assert "List-Unsubscribe-Post" not in html_body
     assert "<script>alert" not in html_body
     assert "&lt;script&gt;" in html_body
     assert "A &amp; B" in html_body
     assert issue["headline"] in text_body
-    assert "There is no certainty that the reported event was actually due to the product." in html_body
-    assert "For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor." in html_body
-    assert "Data provided by the U.S. Food and Drug Administration (https://open.fda.gov)" in html_body
-    assert "not affiliated with or endorsed by" in html_body
+    assert "There is no certainty that the reported event was actually due to the product." not in html_body
+    assert "For research and informational purposes only" not in html_body
+    assert "This briefing compares" not in html_body
+    assert "Data: U.S. FDA (open.fda.gov). Not affiliated with or endorsed by FDA." in html_body
+    assert "Informational only, not medical advice." in html_body
+    assert "You're getting this because you subscribed." in text_body
     assert "http://127.0.0.1:43123/unsubscribe" in html_body
     assert "Postal address placeholder" not in html_body
-    assert "A reporting signal is not proof a drug caused an event." in html_body
     assert "FAERS data as of" in html_body
     assert "Open Health Signals" in html_body
+    assert "/methods" in html_body
     assert "NCBI disclaimer" in html_body
     assert "causes" not in html_body.lower()
     assert "<table" not in text_body
     assert "<p" not in text_body
     assert "<html" not in text_body
     assert "token=signed" in text_body
-    assert "takes effect immediately" in text_body
+    assert "takes effect immediately" not in text_body
+    assert "List-Unsubscribe" not in text_body
     assert '<script>alert("x")</script>' in text_body
 
 
@@ -530,6 +547,122 @@ def test_a_later_snapshot_diffs_against_the_previous_one(tmp_path):
     assert prior["snapshot_generated_at"] == "2026-10-22T12:00:00+00:00"
 
 
+def test_subject_leads_with_a_signal_then_a_recall_and_stays_short():
+    earlier = _snapshot()
+    current = _snapshot(
+        signals=[_signal(reaction="TUBERCULOSIS", drug_class="tnf_inhibitor", prr=7.54)],
+        recalls=[
+            {
+                "recall_number": "D-1",
+                "product_description": "Hadlima (adalimumab-bwwd) injection, 40 mg",
+                "classification": "Class I",
+                "reason": "Lack of assurance of sterility",
+                "report_date": "20251105",
+            }
+        ],
+        alerts=[
+            {
+                "title": "FDA requires a warning for Rinvoq (upadacitinib) about serious heart-related events",
+                "link": "https://www.fda.gov/drugs/example-rinvoq",
+                "source": "FDA Drug Safety Communications",
+                "tags": ["jak_inhibitor"],
+            }
+        ],
+        trials=[
+            {
+                "nct_id": f"NCT{index}",
+                "title": f"Phase 3 study {index} in rheumatoid arthritis",
+                "phase": "PHASE3",
+                "status": "RECRUITING",
+                "topic": "rheumatoid_arthritis",
+                "link": f"https://clinicaltrials.gov/study/NCT{index}",
+            }
+            for index in range(1, 4)
+        ],
+    )
+    issue = compose_issue(current, fingerprint(earlier), site_url="https://openhealthsignals.org")
+    assert issue["subject"] == issue["headline"]
+    assert issue["subject"].startswith("TNF inhibitors")
+    assert "tuberculosis" in issue["subject"].lower()
+    assert "hadlima" in issue["subject"].lower()
+    assert len(issue["subject"]) <= 70
+    assert "no new" not in issue["subject"].lower()
+    assert any(section["id"] == "signals" for section in issue["sections"])
+    assert any("Rinvoq" in item["sentence"] for item in issue["highlights"])
+    assert 3 <= len(issue["highlights"]) <= 5
+    assert all(item["href"].startswith("https://") for item in issue["highlights"])
+    assert "tuberculosis" in issue["preheader"].lower()
+    assert "hadlima" in issue["preheader"].lower()
+
+
+def test_subject_ranks_other_news_when_there_are_no_new_signals():
+    earlier = _snapshot()
+    current = _snapshot(
+        signals=[_signal(reaction="UNCHANGED EVENT", prr=2.0)],
+        recalls=[
+            {
+                "recall_number": "D-OLD",
+                "product_description": "Old product",
+                "classification": "Class II",
+                "reason": "Old",
+                "report_date": "20200101",
+            },
+            {
+                "recall_number": "D-1",
+                "product_description": "Hadlima (adalimumab-bwwd) injection",
+                "classification": "Class I",
+                "reason": "Lack of assurance of sterility",
+                "report_date": "20251105",
+            },
+        ],
+        alerts=[
+            {
+                "title": "FDA requires a warning for Rinvoq (upadacitinib)",
+                "link": "https://www.fda.gov/drugs/example-rinvoq",
+                "source": "FDA Drug Safety Communications",
+                "tags": ["jak_inhibitor"],
+            }
+        ],
+        trials=[
+            {
+                "nct_id": f"NCT{index}",
+                "title": f"Phase 3 study {index}",
+                "phase": "PHASE3",
+                "status": "RECRUITING",
+                "topic": "psoriasis",
+                "link": f"https://clinicaltrials.gov/study/NCT{index}",
+            }
+            for index in range(1, 4)
+        ],
+    )
+    earlier["signals"] = [_signal(reaction="UNCHANGED EVENT", prr=2.0)]
+    issue = compose_issue(current, fingerprint(earlier), site_url="https://openhealthsignals.org")
+    assert issue["subject"] == "Hadlima biosimilar recall, new Rinvoq safety notice, 3 phase 3 trials"
+    assert len(issue["subject"]) <= 70
+    assert issue["headline"] == issue["subject"]
+    assert "no new" not in issue["subject"].lower()
+    assert "no new" not in issue["preheader"].lower()
+    assert "hadlima" in issue["preheader"].lower()
+    assert "rinvoq" in issue["preheader"].lower()
+    assert "signal" not in issue["subject"].lower()
+    assert all(section["id"] != "signals" for section in issue["sections"])
+    html_body = render_html(issue, unsubscribe_href="https://openhealthsignals.org/unsubscribe?token=signed")
+    text_body = render_text(issue, unsubscribe_href="https://openhealthsignals.org/unsubscribe?token=signed")
+    assert "This week" in html_body
+    assert "Informational only, not medical advice." in html_body
+    assert "You're getting this because you subscribed." in text_body
+    assert "List-Unsubscribe-Post" not in html_body
+    assert "For research and informational purposes only" not in html_body
+    assert "no new" not in html_body.lower()
+    assert "prefers-color-scheme: dark" in html_body
+    issue["postal_address"] = "PO Box 1, San Jose, CA"
+    with_postal = render_text(issue, unsubscribe_href="https://openhealthsignals.org/unsubscribe")
+    assert "PO Box 1, San Jose, CA" in with_postal
+    issue["postal_address"] = ""
+    without_postal = render_text(issue, unsubscribe_href="https://openhealthsignals.org/unsubscribe")
+    assert "San Jose" not in without_postal
+
+
 def test_duplicate_trial_records_collapse_to_one_study():
     issue = compose_issue(
         _snapshot(
@@ -572,11 +705,15 @@ def test_real_snapshot_mentions_tuberculosis_and_gastrointestinal_haemorrhage():
     assert "tuberculosis" in blob
     assert "gastrointestinal haemorrhage" in blob
     assert "new this week" not in blob
-    assert "no earlier snapshot" in issue["intro"]
+    assert "no earlier snapshot" not in blob
+    assert "no new" not in issue["subject"].lower()
+    assert len(issue["subject"]) <= 70
     html_body = render_html(issue, unsubscribe_href="http://127.0.0.1:43123/unsubscribe")
     assert "viewport" in html_body
     assert "7.5" in json.dumps(issue)
-    assert "what the FAERS signal does and does not show" in issue["headline"]
+    assert "tuberculosis" in issue["headline"].lower()
+    assert "List-Unsubscribe-Post" not in html_body
+    assert "For research and informational purposes only" not in html_body
 
 
 def test_cli_dry_run(tmp_path, monkeypatch):
