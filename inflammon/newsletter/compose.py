@@ -175,7 +175,8 @@ def compose_issue(
         subject = f"Daily test edition: {headline}"
     else:
         subject = headline
-    highlights = _highlights(bundles)
+    picked = _pick_highlights(bundles)
+    highlights = [_public_highlight(row) for row in picked]
     sections = [
             {
                 "id": "alerts",
@@ -220,7 +221,7 @@ def compose_issue(
         "kicker": kicker,
         "intro": "",
         "highlights": highlights,
-        "preheader": _preheader(highlights, headline),
+        "preheader": _preheader(picked, headline),
         "signal_caveat": SIGNAL_CAVEAT,
         "snapshot_generated_at": generated_at,
         "openfda_last_updated": manifest.get("openfda_last_updated"),
@@ -282,7 +283,7 @@ def _recalls(items: list[dict], previous: dict | None, inaugural: bool) -> list[
         description = _clean(item.get("product_description"))
         if not description:
             continue
-        reason = _clean(item.get("reason"))
+        reason = _display_reason(item.get("reason") or "")
         firm = _clean(item.get("recalling_firm"))
         classification = _clean(item.get("classification")) or "Unclassified"
         number = _clean(item.get("recall_number"))
@@ -436,6 +437,9 @@ def _news_bundles(
             continue
         signal_rows.append(
             {
+                "kind": "signal",
+                "name": _display_name(row),
+                "reaction": _title_case(row.get("reaction") or ""),
                 "subject": _signal_fragment(row, change),
                 "sentence": _signal_sentence(row, change),
                 "href": f"{site}/signals",
@@ -451,6 +455,8 @@ def _news_bundles(
         if not name:
             continue
         row = {
+            "kind": "class_ii" if rank == 1 else "class_i",
+            "name": name,
             "subject": _recall_fragment(name, biosimilar, "Class II" if rank == 1 else "Class I"),
             "sentence": _recall_sentence(name, generic, biosimilar, item.get("body") or "", "Class II" if rank == 1 else "Class I"),
             "href": f"{site}{archive_path}#recalls",
@@ -461,8 +467,16 @@ def _news_bundles(
             class_ii_rows.append(row)
     notice_rows = []
     for item in alerts:
+        notice_title = item.get("title") or ""
+        notice_name = _name_in_text(notice_title) or _name_from_tags(item.get("tags") or [])
+        if "counterfeit" in notice_title.lower():
+            notice_name = _counterfeit_target(notice_title.lower())
         notice_rows.append(
             {
+                "kind": "notice",
+                "name": notice_name,
+                "class_key": _class_key_for_notice(item, notice_name),
+                "title": item.get("title") or "",
                 "subject": _notice_fragment(item, inaugural),
                 "sentence": _notice_sentence(item),
                 "href": item.get("href") or f"{site}{archive_path}#alerts",
@@ -473,10 +487,14 @@ def _news_bundles(
     for index, item in enumerate(phase3):
         trial_rows.append(
             {
+                "kind": "trial",
+                "name": _drug_from_trial(item),
+                "drug": _drug_from_trial(item),
+                "condition": _condition_abbrev(item),
+                "condition_phrase": _condition_phrase(item),
                 "subject": _trial_fragment(item),
                 "sentence": _trial_sentence(item, index),
                 "href": item.get("href") or f"{site}{archive_path}#trials",
-                "condition": _condition_abbrev(item),
             }
         )
     paper_rows = []
@@ -486,6 +504,8 @@ def _news_bundles(
             continue
         paper_rows.append(
             {
+                "kind": "paper",
+                "name": journal,
                 "subject": _paper_fragment(journal),
                 "sentence": _paper_sentence(item, journal),
                 "href": item.get("href") or f"{site}{archive_path}#papers",
@@ -518,7 +538,7 @@ def _subject_fragments(bundles: dict) -> list[str]:
     return fragments
 
 
-def _highlights(bundles: dict) -> list[dict]:
+def _pick_highlights(bundles: dict) -> list[dict]:
     picked: list[dict] = []
     for key, cap in (
         ("signals", 1),
@@ -531,8 +551,8 @@ def _highlights(bundles: dict) -> list[dict]:
         for item in bundles[key][:cap]:
             picked.append(item)
             if len(picked) >= HIGHLIGHT_CAP:
-                return [_public_highlight(row) for row in picked]
-    return [_public_highlight(row) for row in picked]
+                return picked
+    return picked
 
 
 def _public_highlight(item: dict) -> dict:
@@ -562,16 +582,136 @@ def _fit_fragment(text: str, limit: int) -> str:
     return cut or text[:limit]
 
 
-def _preheader(highlights: list[dict], headline: str) -> str:
-    lead = " ".join(str(headline or "").split()).rstrip(".")
-    if not lead and highlights:
-        lead = " ".join(str(highlights[0].get("sentence") or "").split()).rstrip(".")
-    if not lead:
+def _preheader(picked: list[dict], headline: str) -> str:
+    subject = " ".join(str(headline or "").split())
+    leftovers = [item for item in picked if not _already_in_subject(item, subject)]
+    line = _also_sentence(leftovers)
+    if line and _preheader_is_distinct(line, subject):
+        return _cap_preheader(line)
+    for item in picked:
+        detail = " ".join(str(item.get("sentence") or "").split())
+        if detail and _preheader_is_distinct(detail, subject):
+            return _cap_preheader(detail)
+    return ""
+
+
+def _preheader_is_distinct(text: str, subject: str) -> bool:
+    candidate = text.strip().rstrip(".").lower()
+    lead = subject.strip().rstrip(".").lower()
+    if not candidate or candidate.startswith("this week:"):
+        return False
+    return candidate != lead and candidate != f"this week: {lead}"
+
+
+def _cap_preheader(text: str) -> str:
+    clean = " ".join(text.split())
+    if len(clean) <= 100:
+        if clean.endswith("…"):
+            return clean
+        return clean if clean.endswith(".") else f"{clean.rstrip('.')}."
+    clipped = _fit_words(clean.rstrip("."), 96)
+    if clipped.endswith("…"):
+        return clipped
+    return f"{clipped.rstrip('.')}."
+
+
+def _already_in_subject(item: dict, subject: str) -> bool:
+    haystack = subject.lower()
+    kind = item.get("kind")
+    if kind == "trial":
+        drug = str(item.get("drug") or "").lower()
+        if drug:
+            return drug in haystack
+        condition = str(item.get("condition") or "").lower()
+        return bool(condition) and condition in haystack
+    name = str(item.get("name") or "").lower()
+    if name and name in haystack:
+        return True
+    if kind == "signal":
+        reaction = str(item.get("reaction") or "").lower()
+        return bool(reaction) and reaction in haystack
+    return False
+
+
+def _also_sentence(items: list[dict]) -> str:
+    phrases: list[str] = []
+    covered_classes: set[str] = set()
+    for item in items:
+        phrase = _also_phrase(item, covered_classes)
+        if phrase and phrase not in phrases:
+            phrases.append(phrase)
+        if len(phrases) == 2:
+            break
+    if not phrases:
         return ""
-    sentence = f"This week: {lead}."
-    if len(sentence) <= 100:
-        return sentence
-    return _fit_words(sentence[:-1], 96)
+    if len(phrases) == 1:
+        body = phrases[0]
+    else:
+        body = f"{phrases[0]} and {phrases[1]}"
+    return f"Also: {body}."
+
+
+def _also_phrase(item: dict, covered_classes: set[str]) -> str:
+    kind = item.get("kind")
+    if kind == "notice":
+        class_key = str(item.get("class_key") or "")
+        if class_key and class_key in covered_classes:
+            return ""
+        phrase, covers_class = _notice_also(item)
+        if covers_class and class_key:
+            covered_classes.add(class_key)
+        return phrase
+    if kind in {"class_i", "class_ii"}:
+        name = str(item.get("name") or "drug")
+        return f"{_article(name)} {name} recall"
+    if kind == "trial":
+        return _trial_also(item)
+    if kind == "signal":
+        reaction = str(item.get("reaction") or "safety").lower()
+        name = str(item.get("name") or "a drug class")
+        return f"a {reaction} signal with {name}"
+    if kind == "paper":
+        journal = str(item.get("name") or "a journal")
+        return f"a {journal} paper"
+    return ""
+
+
+def _notice_also(item: dict) -> tuple[str, bool]:
+    title = _clean(item.get("title")).lower()
+    name = str(item.get("name") or "a drug")
+    class_label = CLASS_SHORT.get(str(item.get("class_key") or ""), "")
+    covers_class = bool(class_label) and class_label.lower() in title
+    display = class_label if covers_class else name
+    if "counterfeit" in title:
+        return f"a counterfeit {_counterfeit_target(title)} alert", False
+    if "contaminat" in title:
+        return "a contamination alert", False
+    if "warning" in title:
+        if covers_class or "warnings" in title:
+            plural = display if display.endswith("s") else f"{display}s"
+            return f"FDA warnings on {plural}", covers_class
+        return f"{_article(display)} FDA warning on {display}", False
+    if "recall" in title:
+        return f"an FDA recall of {display}", covers_class
+    if "label" in title:
+        return f"an FDA labeling change for {display}", covers_class
+    return f"an FDA update on {display}", covers_class
+
+
+def _trial_also(item: dict) -> str:
+    drug = str(item.get("drug") or "")
+    condition = str(item.get("condition_phrase") or item.get("condition") or "")
+    if drug and condition:
+        return f"{_article(drug)} {drug} study in {condition}"
+    if drug:
+        return f"a phase 3 {drug} study"
+    if condition:
+        return f"a phase 3 trial in {condition}"
+    return "a new phase 3 trial"
+
+
+def _article(word: str) -> str:
+    return "an" if word[:1].lower() in "aeiou" else "a"
 
 
 def _signal_fragment(row: dict, change: str) -> str:
@@ -625,9 +765,24 @@ def _short_reason(reason: str) -> str:
     if not text:
         return ""
     head = text.split(":")[0].strip(" .")
-    head = head[:1].lower() + head[1:] if head else ""
+    head = head.lower()
     if len(head) > 80:
         head = head[:79].rsplit(" ", 1)[0]
+    return head
+
+
+def _display_reason(reason: str) -> str:
+    text = _clean(reason)
+    if not text:
+        return ""
+    head, _sep, rest = text.partition(":")
+    head = head.strip(" .")
+    if head:
+        head = head[:1].upper() + head[1:].lower()
+    rest = rest.strip()
+    if rest:
+        rest = rest[:1].upper() + rest[1:]
+        return f"{head}: {rest}" if head else rest
     return head
 
 
@@ -862,17 +1017,72 @@ def _notice_fragment(item: dict, inaugural: bool) -> str:
 
 def _notice_sentence(item: dict) -> str:
     title = _clean(item.get("title"))
+    summary = _clean(item.get("summary"))
     lowered = title.lower()
     if "counterfeit" in lowered:
         return f"FDA warning about counterfeit {_counterfeit_target(lowered)}."
     if "contaminat" in lowered:
         return "FDA warning about a contaminated drug product."
-    name = _name_in_text(title) or _name_from_tags(item.get("tags") or [])
-    if name and any(word in lowered for word in ("warning", "safety", "label", "recall", "adverse")):
-        return f"FDA safety notice on {name}."
-    if len(title) <= 140:
-        return _as_sentence(title)
-    return _fit_words(title, 140)
+    sentence = _condense_notice(title)
+    if _generic_notice(sentence) and summary:
+        sentence = _condense_notice(summary)
+    if _generic_notice(sentence):
+        source = title or summary
+        sentence = _as_sentence(source if len(source) <= 140 else _fit_words(source, 140))
+    return sentence
+
+
+def _generic_notice(sentence: str) -> bool:
+    return sentence.lower().startswith("fda safety notice on ")
+
+
+def _condense_notice(title: str) -> str:
+    text = re.sub(r"\s*\([^)]*\)", "", _clean(title))
+    text = re.sub(r",\s+\S+\s+XR\b", "", text)
+    text = " ".join(text.split()).strip(" ,")
+    for pattern, replacement in (
+        (r"increased risk of serious heart-related events", "heart events"),
+        (r"serious heart-related events", "heart events"),
+        (r"increased risk of serious heart-related problems", "a higher risk of heart problems"),
+        (r"serious heart-related problems", "heart problems"),
+        (r"blood clots", "clots"),
+    ):
+        text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+    text = re.split(r"\s+that\s+(?:treat|receive|are)\b", text, maxsplit=1)[0].strip(" ,")
+    warnings = re.match(r"FDA requires warnings about (.+?) for (.+)$", text, flags=re.IGNORECASE)
+    if warnings:
+        risks = re.sub(r",\s+and\b", " and", warnings.group(1))
+        text = f"FDA added warnings for {risks} to {warnings.group(2)}"
+    else:
+        one_warning = re.match(r"FDA requires a warning for (.+?) about (.+)$", text, flags=re.IGNORECASE)
+        if one_warning:
+            text = f"FDA added a warning about {one_warning.group(2)} for {one_warning.group(1)}"
+        else:
+            trial = re.match(r"Initial safety trial results find (.+) with (.+)$", text, flags=re.IGNORECASE)
+            if trial:
+                drug = trial.group(2).split(" medicine ")[-1].split(",")[0].strip()
+                text = f"A safety trial found {trial.group(1)} with {drug or trial.group(2)}"
+    text = " ".join(text.split()).rstrip(" ,;:")
+    if len(text) > 140:
+        return _fit_words(text, 140)
+    if text and text[-1] not in ".!?…":
+        text += "."
+    return text
+
+
+def _class_key_for_notice(item: dict, name: str) -> str:
+    for tag in item.get("tags") or []:
+        if str(tag) in CLASS_SHORT:
+            return str(tag)
+    lowered = name.lower()
+    for key, label in CLASS_SHORT.items():
+        if lowered and lowered in {label.lower(), _singular_class(label).lower()}:
+            return key
+    for drug in DRUGS:
+        tokens = {drug.label.lower(), *(brand.lower() for brand in drug.brands)}
+        if lowered and lowered in tokens:
+            return drug.drug_class
+    return ""
 
 
 def _counterfeit_target(lowered: str) -> str:

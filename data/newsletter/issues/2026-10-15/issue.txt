@@ -9,11 +9,11 @@ This week
   https://openhealthsignals.org/signals
 - Tyenne, a tocilizumab biosimilar, is under a Class I recall for presence of particulate matter.
   https://openhealthsignals.org/newsletter/2026-10-15#recalls
-- FDA safety notice on JAK inhibitor.
+- FDA added warnings for heart events, cancer, clots and death to JAK inhibitors.
   https://www.fda.gov/drugs/drug-safety-and-availability/fda-requires-warnings-about-increased-risk-serious-heart-related-events-cancer-blood-clots-and-death
-- FDA safety notice on Xeljanz.
+- A safety trial found a higher risk of heart problems and cancer with Xeljanz.
   https://www.fda.gov/drugs/drug-safety-and-availability/initial-safety-trial-results-find-increased-risk-serious-heart-related-problems-and-cancer-arthritis
-- Imuldosa, an ustekinumab biosimilar, is under a Class II recall for lack of assurance of Sterility.
+- Imuldosa, an ustekinumab biosimilar, is under a Class II recall for lack of assurance of sterility.
   https://openhealthsignals.org/newsletter/2026-10-15#recalls
 
 FAERS data as of 2026-07-30.
@@ -43,7 +43,7 @@ RECALLS IN THE EXTRACT
 - Tyenne (tocilizumab-aazg) Injection, 400 mg/20 mL (20 mg/mL), 20 mL vial, Rx Only, Manufactured by Fresenius Kabi USA, LLC, Lake Zurich, Illinois, 60047, NDC 65219-594-20.
   Class I
   D-0827-2026 · Class I · Fresenius Kabi USA, LLC · reported 20260902
-  Presence of particulate matter:An internal investigation at the firm found the product to contain glass particles.
+  Presence of particulate matter: An internal investigation at the firm found the product to contain glass particles.
 
 - Advil Liqui Gels (minis), Solubilized ibuprofen capsules, 200mg, Pain Reliever Fever Reducer (NSAID), 200 liquid filled capsules, Pfizer, Madison, NJ 07940, UPC 3 0573 1769 13 5
   Class I

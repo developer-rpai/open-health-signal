@@ -300,6 +300,8 @@ def test_inaugural_is_not_labeled_as_new_this_week():
     assert issue["headline"].startswith("TNF inhibitors")
     assert "tuberculosis" in issue["headline"].lower()
     assert "tuberculosis" in issue["preheader"].lower()
+    assert not issue["preheader"].lower().startswith("this week:")
+    assert issue["preheader"].rstrip(".").lower() != issue["subject"].rstrip(".").lower()
     assert issue["preheader"] != issue["signal_caveat"]
     assert len(issue["subject"]) <= 70
     assert any(section["id"] == "signals" for section in issue["sections"])
@@ -588,11 +590,16 @@ def test_subject_leads_with_a_signal_then_a_recall_and_stays_short():
     assert len(issue["subject"]) <= 70
     assert "no new" not in issue["subject"].lower()
     assert any(section["id"] == "signals" for section in issue["sections"])
-    assert any("Rinvoq" in item["sentence"] for item in issue["highlights"])
+    bullets = [item["sentence"] for item in issue["highlights"]]
+    rinvoq = next(sentence for sentence in bullets if "Rinvoq" in sentence)
+    assert "heart" in rinvoq.lower()
+    assert not any(sentence.lower().startswith("fda safety notice on ") for sentence in bullets)
     assert 3 <= len(issue["highlights"]) <= 5
     assert all(item["href"].startswith("https://") for item in issue["highlights"])
-    assert "tuberculosis" in issue["preheader"].lower()
-    assert "hadlima" in issue["preheader"].lower()
+    assert "rinvoq" in issue["preheader"].lower()
+    assert "hadlima" not in issue["preheader"].lower()
+    assert not issue["preheader"].lower().startswith("this week:")
+    assert issue["preheader"].rstrip(".").lower() != issue["subject"].rstrip(".").lower()
 
 
 def test_subject_ranks_other_news_when_there_are_no_new_signals():
@@ -645,8 +652,13 @@ def test_subject_ranks_other_news_when_there_are_no_new_signals():
     assert issue["headline"] == issue["subject"]
     assert "no new" not in issue["subject"].lower()
     assert "no new" not in issue["preheader"].lower()
-    assert "hadlima" in issue["preheader"].lower()
-    assert "rinvoq" in issue["preheader"].lower()
+    assert "psoriasis" in issue["preheader"].lower()
+    assert "hadlima" not in issue["preheader"].lower()
+    assert not issue["preheader"].lower().startswith("this week:")
+    assert issue["preheader"].rstrip(".").lower() != issue["subject"].rstrip(".").lower()
+    notice_bullets = [item["sentence"] for item in issue["highlights"] if "Rinvoq" in item["sentence"]]
+    assert notice_bullets
+    assert not notice_bullets[0].lower().startswith("fda safety notice on ")
     assert "signal" not in issue["subject"].lower()
     assert all(section["id"] != "signals" for section in issue["sections"])
     html_body = render_html(issue, unsubscribe_href="https://openhealthsignals.org/unsubscribe?token=signed")
@@ -776,10 +788,13 @@ def test_october_18_style_week_puts_safety_alerts_ahead_of_trials():
     assert all("A phase 3 trial is recruiting" not in sentence for sentence in bullets)
     assert all(not sentence.endswith(".") for sentence in trial_bullets)
     assert all("…" not in sentence or not sentence.endswith(".") for sentence in bullets)
-    assert 70 <= len(issue["preheader"]) <= 100
     assert issue["preheader"].endswith(".")
-    assert "counterfeit eye drops" in issue["preheader"].lower()
-    assert "UC and lupus" in issue["preheader"]
+    assert len(issue["preheader"]) <= 100
+    assert "duvakitug" in issue["preheader"].lower()
+    assert "ianalumab" in issue["preheader"].lower()
+    assert not issue["preheader"].lower().startswith("this week:")
+    assert issue["preheader"].rstrip(".").lower() != issue["subject"].rstrip(".").lower()
+    assert "counterfeit eye drops" not in issue["preheader"].lower()
     assert all(section["items"] for section in issue["sections"])
     text_body = render_text(issue, unsubscribe_href="https://openhealthsignals.org/unsubscribe")
     assert "None this week." not in text_body
@@ -835,6 +850,19 @@ def test_real_snapshot_mentions_tuberculosis_and_gastrointestinal_haemorrhage():
     assert "viewport" in html_body
     assert "7.5" in json.dumps(issue)
     assert "tuberculosis" in issue["headline"].lower()
+    bullets = [item["sentence"] for item in issue["highlights"]]
+    assert not any(sentence.lower().startswith("fda safety notice on ") for sentence in bullets)
+    jak = next(sentence for sentence in bullets if "JAK" in sentence)
+    assert "heart" in jak.lower() and "cancer" in jak.lower() and "clot" in jak.lower()
+    xeljanz = next(sentence for sentence in bullets if "Xeljanz" in sentence)
+    assert "heart" in xeljanz.lower() and "cancer" in xeljanz.lower()
+    assert "Sterility" not in " ".join(bullets)
+    assert "sterility" in " ".join(bullets).lower()
+    assert not issue["preheader"].lower().startswith("this week:")
+    assert issue["preheader"].rstrip(".").lower() != issue["subject"].rstrip(".").lower()
+    assert "jak" in issue["preheader"].lower()
+    assert "imuldosa" in issue["preheader"].lower()
+    assert "tyenne" not in issue["preheader"].lower()
     assert "List-Unsubscribe-Post" not in html_body
     assert "For research and informational purposes only" not in html_body
     assert "NCBI disclaimer" in html_body
