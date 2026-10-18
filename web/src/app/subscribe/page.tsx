@@ -17,17 +17,13 @@ export default function SubscribePage() {
           The briefing lists what changed since the previous snapshot: FDA notices and recalls, drug-safety signals that
           are new or stronger, trials, and PubMed titles.
         </p>
-        <ul className="mt-6 space-y-3 text-sm leading-relaxed">
-          <li>A confirmation email comes first. The address is added only after that link is opened.</li>
-          <li>Each sent issue has a signed unsubscribe link. It takes effect immediately.</li>
-          <li>
-            Past issues stay on the site.{" "}
-            <Link href="/newsletter" className="text-primary underline underline-offset-2">
-              Read the archive
-            </Link>
-            .
-          </li>
-        </ul>
+        <p className="mt-6 text-sm leading-relaxed">
+          Past issues stay on the site.{" "}
+          <Link href="/newsletter" className="text-primary underline underline-offset-2">
+            Read the archive
+          </Link>
+          .
+        </p>
       </div>
       <div className="rounded-xl bg-card p-6 ring-1 ring-foreground/10">
         <h2 className="text-2xl">Email address</h2>

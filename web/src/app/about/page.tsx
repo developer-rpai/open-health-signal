@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { SelectedWork } from "@/components/selected-work";
 import { CONTACT_EMAIL, COPYRIGHT_LINE, OPERATOR_NAME, publicPostalAddress } from "@/lib/compliance";
 
 export const metadata: Metadata = {
@@ -51,6 +52,8 @@ export default function AboutPage() {
         {postal ? <p className="mt-2">{postal}</p> : null}
         <p className="mt-2">{COPYRIGHT_LINE}</p>
       </section>
+
+      <SelectedWork />
 
       <section>
         <h2 className="text-2xl">How to cite</h2>

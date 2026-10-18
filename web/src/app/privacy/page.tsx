@@ -38,13 +38,16 @@ export default function PrivacyPage() {
           you consented, and the IP address of the request. The contact form stores the name, email, message, interest
           type, and any organization, role, or link you choose to add.
         </p>
-        <p className="mt-2">The lawful basis is consent. The address is not active until the confirmation link is opened.</p>
+        <p className="mt-2">
+          The lawful basis is consent. A confirmation email is sent first, and the address is added only after that
+          link is opened. Each sent issue includes a signed unsubscribe link, and it takes effect immediately.
+        </p>
       </section>
 
       <section>
         <h2 className="text-2xl">Who processes it</h2>
         <ul className="mt-2 list-disc space-y-2 pl-5">
-          <li>Cloudflare hosts the site on Cloudflare Pages, serves it through its CDN, and runs Turnstile on the contact form.</li>
+          <li>Cloudflare hosts the site on Cloudflare Pages, serves it through its CDN, and uses Turnstile as the anti-spam check on the contact form.</li>
           <li>Supabase stores the mailing list, contact messages, and the owner sign-in.</li>
           <li>Resend sends the confirmation email and, after you confirm, the briefing. Resend is not the list.</li>
         </ul>
@@ -68,7 +71,7 @@ export default function PrivacyPage() {
         <ul className="mt-2 list-disc space-y-2 pl-5">
           <li>A subscription that is never confirmed is deleted after 30 days.</li>
           <li>After you unsubscribe, only a suppression record is kept: the address, the unsubscribed status, and the time. The request IP and the confirmation token are removed.</li>
-          <li>Contact messages are deleted after 12 months.</li>
+          <li>Contact messages are kept for up to 12 months, then deleted.</li>
         </ul>
         <p className="mt-2">
           Deletion runs on a database schedule (<code>purge_personal_data</code>). Access and erasure requests that do not

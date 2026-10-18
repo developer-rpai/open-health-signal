@@ -92,7 +92,7 @@ export function ContactForm() {
       });
       const payload = await readApi(response);
       if (response.ok && payload.ok) {
-        setSuccess("Thanks, your message was sent. We'll reply by email.");
+        setSuccess("Thank you for contacting us. We'll get back to you as soon as we can.");
         return;
       }
       setError(messageForError(payload.error));
@@ -161,11 +161,11 @@ export function ContactForm() {
       <Button type="submit" size="lg" disabled={!configured || pending || !token}>
         {pending ? "Sending..." : "Send message"}
       </Button>
-      <p className="text-xs leading-relaxed text-muted-foreground">
-        {configured
-          ? "Cloudflare Turnstile checks this form. Messages are stored for up to 12 months."
-          : "The contact form is not available on this copy of the site."}
-      </p>
+      {configured ? null : (
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          The contact form is not available on this copy of the site.
+        </p>
+      )}
     </form>
   );
 }
