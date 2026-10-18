@@ -51,8 +51,13 @@ test("transactional templates stay short and plain", () => {
   assert.match(withPostal.html, /PO Box 1, San Jose, CA/);
 
   const ack = contactAckEmail({ interestLabel: "Media", excerpt: "The first lines" });
-  assert.equal(ack.text.startsWith("Thanks, we got your message and will reply within a few days."), true);
-  assert.match(ack.text, /The first lines/);
+  assert.equal(ack.subject, "Thanks for contacting Open Health Signals");
+  assert.equal(ack.text, "Thank you for contacting us. We got your message and will get back to you as soon as we can.\n\nOpen Health Signals\nhttps://openhealthsignals.org\n");
+  assert.equal(ack.text.includes("You wrote"), false);
+  assert.equal(ack.text.includes("The first lines"), false);
+  assert.equal(ack.html.includes("The first lines"), false);
+  assert.match(ack.html, /background:#0f5c5c/);
+  assert.match(ack.html, /https:\/\/openhealthsignals\.org/);
   assert.equal(contactFrom("Open Health Signals <briefing@openhealthsignals.org>"), "Open Health Signals <contact@openhealthsignals.org>");
   assert.equal(contactFrom("Ops <onboarding@resend.dev>"), "Ops <onboarding@resend.dev>");
   assert.equal(maskRecipient("jane@example.com"), "j***@example.com");

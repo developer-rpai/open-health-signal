@@ -37,7 +37,9 @@ WELCOME_BODY = (
 )
 WELCOME_ADVICE = "This is informational, not medical advice."
 WELCOME_UNSUB = "The link is signed for this address and takes effect immediately."
-ACK = "Thanks, we got your message and will reply within a few days."
+ACK = "Thank you for contacting us. We got your message and will get back to you as soon as we can."
+ACK_SIGN = "Open Health Signals"
+SITE_URL = "https://openhealthsignals.org"
 
 logger = logging.getLogger("inflammon.transactional")
 
@@ -203,16 +205,17 @@ def welcome_email(*, unsubscribe_url: str, list_unsubscribe_url: str, postal_add
     }
 
 
-def contact_ack_email(*, interest_label: str, excerpt_text: str) -> dict[str, Any]:
-    label = interest_label or "your note"
+def contact_ack_email(*, interest_label: str = "", excerpt_text: str = "") -> dict[str, Any]:
+    del interest_label, excerpt_text
     return {
         "kind": "contact_ack",
-        "subject": "We got your message",
-        "text": f"{ACK}\n\nYou wrote ({label}):\n{excerpt_text}\n",
+        "subject": "Thanks for contacting Open Health Signals",
+        "text": f"{ACK}\n\n{ACK_SIGN}\n{SITE_URL}\n",
         "html": _layout(
             preheader=ACK,
-            blocks=[ACK, f"You wrote ({label}):"],
-            quote=excerpt_text,
+            blocks=[ACK, ACK_SIGN],
+            action_href=SITE_URL,
+            action_label="openhealthsignals.org",
         ),
         "reply_to": CONTACT_EMAIL,
         "headers": {},

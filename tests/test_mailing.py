@@ -522,9 +522,12 @@ def test_contact_mail_is_best_effort_and_dry_run_only_logs(caplog):
     assert ack["to"] == ["ada@example.com"]
     assert ack["from"] == "Open Health Signals <contact@openhealthsignals.org>"
     assert ack["reply_to"] == "contact@openhealthsignals.org"
-    assert ack["text"].startswith("Thanks, we got your message and will reply within a few days.")
-    assert "First line of the note" in ack["text"]
-    assert "Fourth should stay" not in ack["text"]
+    assert ack["subject"] == "Thanks for contacting Open Health Signals"
+    assert ack["text"].startswith("Thank you for contacting us. We got your message and will get back to you as soon as we can.")
+    assert "You wrote" not in ack["text"]
+    assert "First line of the note" not in ack["text"]
+    assert "https://openhealthsignals.org" in ack["text"]
+    assert "Open Health Signals" in ack["text"]
     assert owner["to"] == ["rakeshpai@openhealthsignals.org"]
     assert owner["reply_to"] == "ada@example.com"
     assert "Fourth should stay in the owner copy only" in owner["text"]

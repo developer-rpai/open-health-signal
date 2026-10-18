@@ -21,7 +21,9 @@ const WELCOME_BODY =
   "About once a week you'll get the Inflammation Signal Monitor, our digest of public signals on inflammatory conditions and drugs: FDA adverse-event reports and FAERS trends, research, and access news.";
 const WELCOME_ADVICE = "This is informational, not medical advice.";
 const WELCOME_UNSUB = "The link is signed for this address and takes effect immediately.";
-const ACK = "Thanks, we got your message and will reply within a few days.";
+const ACK = "Thank you for contacting us. We got your message and will get back to you as soon as we can.";
+const ACK_SIGN = "Open Health Signals";
+const SITE_URL = "https://openhealthsignals.org";
 
 export function interestLabel(value) {
   return INTEREST_LABELS[value] || String(value || "").trim() || "Message";
@@ -175,16 +177,16 @@ export function welcomeEmail({ unsubscribeUrl, listUnsubscribeUrl, postalAddress
   };
 }
 
-export function contactAckEmail({ interestLabel, excerpt: quote }) {
-  const label = interestLabel || "your note";
+export function contactAckEmail() {
   return {
     kind: "contact_ack",
-    subject: "We got your message",
-    text: `${ACK}\n\nYou wrote (${label}):\n${quote}\n`,
+    subject: "Thanks for contacting Open Health Signals",
+    text: `${ACK}\n\n${ACK_SIGN}\n${SITE_URL}\n`,
     html: layout({
       preheader: ACK,
-      blocks: [ACK, `You wrote (${label}):`],
-      quote,
+      blocks: [ACK, ACK_SIGN],
+      actionHref: SITE_URL,
+      actionLabel: "openhealthsignals.org",
     }),
     replyTo: CONTACT_EMAIL,
     headers: {},
