@@ -11,6 +11,7 @@ abstract: >-
   disproportionality (PRR and ROR), FDA notices and recalls, ClinicalTrials.gov
   starts, and PubMed counts, published as a static dashboard.
 license: MIT
+repository-code: https://github.com/developer-rpai/open-health-signal
 version: 0.1.0
 date-released: 2026-10-15
 keywords:

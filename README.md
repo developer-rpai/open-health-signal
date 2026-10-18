@@ -9,7 +9,7 @@ It watches two problems that are usually split across different websites:
 
 Each week the pipeline recounts public FAERS extracts, FDA notices and recalls, ClinicalTrials.gov starts, and PubMed records, scores disproportionality, and republishes a static dashboard. The numbers describe spontaneous reports. They are not incidence rates and they are **not medical advice**.
 
-Maintained by Rakesh Pai.
+Maintained by Rakesh Pai. Source: https://github.com/developer-rpai/open-health-signal
 
 ## Architecture
 
@@ -137,25 +137,27 @@ Pulled from the openFDA extract dated 2026-07-30 (20,692,690 reports). Full tabl
 | TNF inhibitors: tuberculosis and pulmonary tuberculosis | Evans signal. PRR about 6.9–7.5. |
 | NSAIDs: gastrointestinal haemorrhage, gastric ulcer, melaena | Evans signal. PRR about 2.5, 6.3, and 4.2. |
 
-## Deploy to Vercel, and a custom domain
+## Deploy to Cloudflare Pages
 
-The dashboard is a Next.js app with `output: "export"`.
+The dashboard is a Next.js app with `output: "export"`. The live site is [openhealthsignals.org](https://openhealthsignals.org), a Cloudflare Pages deploy of the static export in `web/out`. The repository is [github.com/developer-rpai/open-health-signal](https://github.com/developer-rpai/open-health-signal).
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FYOUR_GITHUB_OWNER%2Finflammation-signal-monitor&project-name=inflammation-signal-monitor&root-directory=web&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,NEXT_PUBLIC_FUNCTIONS_BASE,NEXT_PUBLIC_TURNSTILE_SITE_KEY,NEXT_PUBLIC_SITE_URL&envDescription=Public%20site%20values%20baked%20into%20the%20static%20build.%20Put%20service%20role%20and%20Resend%20keys%20in%20GitHub%20and%20Supabase%2C%20not%20here.)
+In the Cloudflare Pages project, connect that repository and use:
 
-Replace `YOUR_GITHUB_OWNER` after the repository is on GitHub. Set **Root Directory** to `web` if the button does not. Framework preset: Next.js. Build command: `npm run build`. Vercel serves the static `out` directory produced by `output: "export"`.
+- **Root directory:** `web`
+- **Build command:** `npm run build`
+- **Build output directory:** `out`
 
-The dashboard itself builds with no secrets. Subscribe, confirm, contact, and approve need the public variables in the button **before** the build. They are baked into the static pages.
+The dashboard itself builds with no secrets. Subscribe, confirm, contact, and approve need these public variables **before** the build. They are baked into the static pages: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_FUNCTIONS_BASE`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `NEXT_PUBLIC_SITE_URL`. Set `NEXT_PUBLIC_CF_BEACON_TOKEN` as well when Cloudflare Web Analytics should load.
 
 Custom domain:
 
-1. Open the Vercel project → **Settings** → **Domains** → add the domain.
-2. At the DNS host, use the records Vercel shows. For a subdomain that is typically a `CNAME` to `cname.vercel-dns.com`. For an apex domain, Vercel shows an `A` record (currently `76.76.21.21`) or their nameservers.
-3. Wait until Vercel reports the domain as valid. The certificate is issued automatically.
+1. Open the Pages project → **Custom domains** → add the domain.
+2. At the DNS host, use the records Pages shows. On Cloudflare DNS that is usually a `CNAME` to `<project>.pages.dev` (the apex uses CNAME flattening).
+3. Wait until Pages reports the domain as active. The certificate is issued automatically.
 
-Any static host can serve `web/out/` the same way. GitHub Actions (`.github/workflows/weekly-refresh.yml`) reruns the pull on the newsletter cadence (Monday 12:00 UTC, or every day at 14:00 UTC while `NEWSLETTER_CADENCE=daily`) and commits the new snapshot; redeploy after that commit if the host does not rebuild on push.
+Any static host can serve `web/out/` the same way. GitHub Actions (`.github/workflows/weekly-refresh.yml`) reruns the pull on the newsletter cadence (Monday 12:00 UTC, or every day at 14:00 UTC while `NEWSLETTER_CADENCE=daily`) and commits the new snapshot; Pages rebuilds when that commit lands on the production branch.
 
-The live site is [openhealthsignals.org](https://openhealthsignals.org), a Cloudflare Pages deploy of the static export in `web/out`. Run `make dashboard` to work locally. A live newsletter send is refused until `NEWSLETTER_POSTAL_ADDRESS` is a real postal address.
+Run `make dashboard` to work locally. A live newsletter send is refused until `NEWSLETTER_POSTAL_ADDRESS` is a real postal address.
 
 ## Automation
 
@@ -209,9 +211,9 @@ You need four accounts. Copy [`.env.example`](.env.example).
 
 | Account | What to create | Where the value goes |
 | --- | --- | --- |
-| Supabase | Project, then `supabase db push` (or run `supabase/migrations` and `supabase/seed.sql` in the SQL editor). Add the owner email to `owner_allowlist`. Deploy `supabase/functions/*`. | `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` on Vercel, before the build. `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as GitHub secrets **and** as function secrets. `SUPABASE_ANON_KEY` as a function secret for `dispatch-send`. |
+| Supabase | Project, then `supabase db push` (or run `supabase/migrations` and `supabase/seed.sql` in the SQL editor). Add the owner email to `owner_allowlist`. Deploy `supabase/functions/*`. | `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` on Cloudflare Pages, before the build. `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as GitHub secrets **and** as function secrets. `SUPABASE_ANON_KEY` as a function secret for `dispatch-send`. |
 | Resend | A verified domain and a webhook pointing at `https://<project-ref>.supabase.co/functions/v1/resend-webhook` for `email.bounced` and `email.complained`. | `RESEND_API_KEY` as a GitHub secret and a function secret. `NEWSLETTER_FROM` as a GitHub variable and a function secret. `RESEND_WEBHOOK_SECRET` (`whsec_…`) as a function secret only. |
-| Cloudflare Turnstile | A widget on the dashboard hostname. The test site key `1x00000000000000000000AA` and secret `1x0000000000000000000000000000000AA` always pass and are safe for a local dry run. | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` on Vercel. `TURNSTILE_SECRET_KEY` as a function secret. |
+| Cloudflare Turnstile | A widget on the dashboard hostname. The test site key `1x00000000000000000000AA` and secret `1x0000000000000000000000000000000AA` always pass and are safe for a local dry run. | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` on Cloudflare Pages. `TURNSTILE_SECRET_KEY` as a function secret. |
 | GitHub | Repository variables and secrets for the Monday workflow. A fine-grained token that can dispatch workflows, stored only as a function secret. | Listed below. |
 
 GitHub **secrets** (Settings → Secrets and variables → Actions → Secrets):
@@ -231,7 +233,7 @@ GitHub **variables**:
 
 Function secrets (Supabase → Edge Functions → Secrets), same names: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_ANON_KEY`, `RESEND_API_KEY`, `NEWSLETTER_FROM`, `UNSUBSCRIBE_HMAC_SECRET`, `RESEND_WEBHOOK_SECRET`, `TURNSTILE_SECRET_KEY`, `OWNER_NOTIFY_EMAIL`, `SITE_URL`, `NEWSLETTER_DRY_RUN`, `GITHUB_DISPATCH_TOKEN`, `GITHUB_REPOSITORY`.
 
-Vercel, public, set before the build: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_FUNCTIONS_BASE`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `NEXT_PUBLIC_SITE_URL`.
+Cloudflare Pages, public, set before the build: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_FUNCTIONS_BASE`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `NEXT_PUBLIC_SITE_URL`, and `NEXT_PUBLIC_CF_BEACON_TOKEN` when the analytics beacon should load.
 
 Local dry run, in `web/.env.local` (gitignored):
 

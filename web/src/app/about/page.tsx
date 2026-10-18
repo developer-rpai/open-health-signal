@@ -28,7 +28,14 @@ export default function AboutPage() {
         </p>
         <p className="mt-3">
           Inflammation Signal Monitor pulls those sources, scores FAERS disproportionality with published formulas, and
-          publishes a static dashboard. The code and the snapshot are in this repository.
+          publishes a static dashboard. The code and the snapshot are{" "}
+          <a
+            className="text-primary underline underline-offset-2"
+            href="https://github.com/developer-rpai/open-health-signal"
+          >
+            in this repository
+          </a>
+          .
         </p>
       </section>
 
@@ -57,7 +64,15 @@ export default function AboutPage() {
 
       <section>
         <h2 className="text-2xl">How to cite</h2>
-        <p className="mt-2">The repository includes a CITATION.cff file. A plain citation:</p>
+        <p className="mt-2">
+          <a
+            className="text-primary underline underline-offset-2"
+            href="https://github.com/developer-rpai/open-health-signal"
+          >
+            The repository
+          </a>{" "}
+          includes a CITATION.cff file. A plain citation:
+        </p>
         <blockquote className="mt-3 border-l-2 border-primary pl-4 text-sm">
           Pai R. Open Health Signals: Inflammation Signal Monitor. Public FAERS dashboard for inflammatory disease and
           anti-inflammatory drug safety. 2026. https://openhealthsignals.org
