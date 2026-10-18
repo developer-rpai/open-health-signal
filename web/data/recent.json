@@ -191,6 +191,46 @@
       "published": "2026 Dec 31",
       "topic": "lupus",
       "link": "https://pubmed.ncbi.nlm.nih.gov/42687341/"
+    },
+    {
+      "pmid": "42767510",
+      "title": "Long-term monitoring reveals immobility-defined sleep fragmentation and behavioural alterations in collagen-induced arthritis mouse model of both sexes",
+      "journal": "Behav Brain Res",
+      "published": "2027 Jan 5",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42767510/"
+    },
+    {
+      "pmid": "42472488",
+      "title": "Biomimetic nanosystem rewires microRNA-mediated inflammatory circuits and disrupts ROS crosstalk for multifaceted rheumatoid arthritis therapy",
+      "journal": "Biomaterials",
+      "published": "2027 Jan",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42472488/"
+    },
+    {
+      "pmid": "42413298",
+      "title": "A dual-response near-infrared fluorescent probe for hypochlorite and viscosity detection in ferroptosis and rheumatoid arthritis model",
+      "journal": "Talanta",
+      "published": "2027 Jan 1",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42413298/"
+    },
+    {
+      "pmid": "42888947",
+      "title": "Targeted intestinal ROS scavenging alleviated rheumatoid arthritis by microbial metabolite kynurenic acid mediated Treg/Th17 balance through AhR pathway activation",
+      "journal": "Gut Microbes",
+      "published": "2026 Dec 31",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42888947/"
+    },
+    {
+      "pmid": "42815948",
+      "title": "Temporal dynamics of systemic immune cell networks in C57BL/6 mice with collagen-induced arthritis",
+      "journal": "Autoimmunity",
+      "published": "2026 Dec 31",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/42815948/"
     }
   ],
   "trials": [

@@ -129,8 +129,7 @@ export function SiteFooter({ generated }: { generated: string }) {
           <Link className="underline underline-offset-2 hover:text-foreground" href="/methods">
             Methods
           </Link>
-          <span aria-hidden="true">·</span>
-          <span>{COPYRIGHT_LINE}</span>
+          <span className="max-sm:basis-full sm:before:mr-3 sm:before:content-['·']">{COPYRIGHT_LINE}</span>
         </p>
       </div>
     </footer>

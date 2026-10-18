@@ -189,7 +189,7 @@ CONDITIONS: tuple[Topic, ...] = (
         "rheumatoid_arthritis",
         "Rheumatoid arthritis",
         "condition",
-        '"rheumatoid arthritis"[MeSH Terms]',
+        '"Arthritis, Rheumatoid"[MeSH Terms]',
         "Rheumatoid Arthritis",
     ),
     Topic(
