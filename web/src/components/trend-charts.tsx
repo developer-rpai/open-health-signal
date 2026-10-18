@@ -199,7 +199,7 @@ export function TrendCharts({
                 </tr>
               </thead>
               <tbody>
-                {arthritis.map((row) => (
+                {[...arthritis].sort((a, b) => b.year.localeCompare(a.year)).map((row) => (
                   <tr key={row.year} className="border-t border-border">
                     <td className="py-1.5 pr-3">{row.year}</td>
                     <td className="py-1.5 text-right font-mono text-xs">{formatNumber(Number(row.data_value), 1)}</td>
@@ -240,7 +240,7 @@ function CountTable({
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
+          {[...rows].sort((a, b) => String(b.year).localeCompare(String(a.year))).map((row) => (
             <tr key={String(row.year)} className="border-t border-border">
               <td className="py-1.5 pr-3">{row.year}</td>
               {CONDITIONS.map((topic) => (

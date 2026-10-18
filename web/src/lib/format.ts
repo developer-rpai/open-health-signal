@@ -20,11 +20,15 @@ export function formatInterval(low: number | null, high: number | null): string 
 export function formatGenerated(iso: string): string {
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return iso;
-  return date.toLocaleString("en-US", {
-    dateStyle: "medium",
-    timeStyle: "short",
-    timeZone: "UTC",
-  }) + " UTC";
+  const formatted = date.toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "America/Los_Angeles",
+  });
+  return `${formatted} PT`;
 }
 
 export function titleCaseReaction(reaction: string): string {

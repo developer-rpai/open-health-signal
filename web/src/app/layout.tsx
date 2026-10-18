@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
 
-import { Disclaimer, SiteFooter, SiteHeader } from "@/components/site-header";
+import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getManifest } from "@/lib/snapshot";
 import { formatGenerated } from "@/lib/format";
-import { RESEARCH_LINE } from "@/lib/compliance";
 
 import "./globals.css";
 
@@ -46,7 +45,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${plex.variable} ${plexMono.variable} ${newsreader.variable}`}>
       <body className="antialiased">
         <SiteHeader />
-        <Disclaimer text={RESEARCH_LINE} />
         <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">{children}</main>
         <SiteFooter generated={formatGenerated(manifest.generated_at)} />
       </body>
