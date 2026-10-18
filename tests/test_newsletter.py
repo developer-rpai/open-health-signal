@@ -197,9 +197,9 @@ def test_daily_edition_is_built_when_little_is_new(monkeypatch):
     assert "no new" not in issue["subject"].lower()
     assert "little is new" not in json.dumps(issue).lower()
     assert all(section["id"] != "signals" for section in issue["sections"])
-    assert _section(issue, "alerts")["items"] == []
-    assert _section(issue, "alerts")["empty"] == "None in this daily edition."
+    assert all(section["id"] != "alerts" for section in issue["sections"])
     assert "None this week." not in blob
+    assert "None in this daily edition." not in blob
     assert "causes" not in blob.lower()
 
 
@@ -227,7 +227,8 @@ def test_daily_diff_keeps_only_what_changed_and_stays_a_test_edition(monkeypatch
     weekly = compose_issue(current, fingerprint(earlier), site_url="http://127.0.0.1:43123", cadence="weekly")
     assert weekly["kind"] == "weekly"
     assert weekly["subject"] == weekly["headline"]
-    assert "None this week." == _section(weekly, "recalls")["empty"]
+    assert all(section["id"] != "recalls" for section in weekly["sections"])
+    assert all(section["items"] for section in weekly["sections"])
 
 
 def test_daily_dry_run_still_does_not_send(tmp_path, monkeypatch):
@@ -256,12 +257,11 @@ def test_daily_dry_run_still_does_not_send(tmp_path, monkeypatch):
     assert "Daily test edition" in (tmp_path / "newsletter" / "issues" / "2026-10-22" / "issue.txt").read_text()
 
 
-def test_empty_weekly_section_says_none_this_week():
+def test_empty_weekly_omits_empty_sections():
     earlier = _snapshot()
     issue = compose_issue(_snapshot(), fingerprint(earlier), site_url="http://127.0.0.1:43123")
-    assert _section(issue, "alerts")["items"] == []
-    assert _section(issue, "alerts")["empty"] == "None this week."
-    assert all(section["id"] != "signals" for section in issue["sections"])
+    assert issue["sections"] == []
+    assert "None this week." not in json.dumps(issue)
     assert "no new" not in issue["headline"].lower()
     assert "no new" not in json.dumps(issue).lower()
 
@@ -357,7 +357,7 @@ def test_html_and_text_rendering():
     assert "FAERS data as of" in html_body
     assert "Open Health Signals" in html_body
     assert "/methods" in html_body
-    assert "NCBI disclaimer" in html_body
+    assert "NCBI disclaimer" not in html_body
     assert "causes" not in html_body.lower()
     assert "<table" not in text_body
     assert "<p" not in text_body
@@ -637,7 +637,10 @@ def test_subject_ranks_other_news_when_there_are_no_new_signals():
     )
     earlier["signals"] = [_signal(reaction="UNCHANGED EVENT", prr=2.0)]
     issue = compose_issue(current, fingerprint(earlier), site_url="https://openhealthsignals.org")
-    assert issue["subject"] == "Hadlima biosimilar recall, new Rinvoq safety notice, 3 phase 3 trials"
+    assert issue["subject"].startswith("Hadlima biosimilar recall")
+    assert "Rinvoq" in issue["subject"]
+    assert "4 phase 3" not in issue["subject"]
+    assert "3 phase 3 trials" not in issue["subject"]
     assert len(issue["subject"]) <= 70
     assert issue["headline"] == issue["subject"]
     assert "no new" not in issue["subject"].lower()
@@ -661,6 +664,126 @@ def test_subject_ranks_other_news_when_there_are_no_new_signals():
     issue["postal_address"] = ""
     without_postal = render_text(issue, unsubscribe_href="https://openhealthsignals.org/unsubscribe")
     assert "San Jose" not in without_postal
+
+
+def test_october_18_style_week_puts_safety_alerts_ahead_of_trials():
+    earlier = _snapshot(
+        alerts=[
+            {
+                "title": "FDA Rare Disease Framework Initiative Public Meeting - 10/28/2026",
+                "link": "https://example.com/meeting",
+                "source": "FDA Drugs",
+            }
+        ],
+        trials=[
+            {
+                "nct_id": "NCTOLD",
+                "title": "Old phase 3 study",
+                "phase": "PHASE3",
+                "status": "RECRUITING",
+                "topic": "psoriasis",
+                "link": "https://clinicaltrials.gov/study/NCTOLD",
+            }
+        ],
+    )
+    current = _snapshot(
+        alerts=[
+            {
+                "title": "FDA Rare Disease Framework Initiative Public Meeting - 10/28/2026",
+                "link": "https://example.com/meeting",
+                "source": "FDA Drugs",
+            },
+            {
+                "title": "Recently Issued Guidance Documents",
+                "link": "https://example.com/guidance",
+                "source": "FDA Drugs",
+            },
+            {
+                "title": "FDA announces Expedited IND process for rare inflammatory diseases",
+                "link": "https://example.com/ind",
+                "source": "FDA Drugs",
+                "tags": ["jak_inhibitor"],
+            },
+            {
+                "title": "FDA warns of counterfeit eye drops sold online",
+                "link": "https://www.fda.gov/drugs/counterfeit-eye-drops",
+                "source": "FDA MedWatch",
+            },
+        ],
+        trials=[
+            {
+                "nct_id": "NCTOLD",
+                "title": "Old phase 3 study",
+                "phase": "PHASE3",
+                "status": "RECRUITING",
+                "topic": "psoriasis",
+                "link": "https://clinicaltrials.gov/study/NCTOLD",
+            },
+            {
+                "nct_id": "NCT1",
+                "title": "A Study of Duvakitug as Maintenance Therapy in Participants With Ulcerative Colitis",
+                "phase": "PHASE3",
+                "status": "RECRUITING",
+                "topic": "ulcerative_colitis",
+                "conditions": "Ulcerative Colitis",
+                "sponsor": "Sanofi",
+                "link": "https://clinicaltrials.gov/study/NCT1",
+            },
+            {
+                "nct_id": "NCT2",
+                "title": "Phase 3 Study to Evaluate Ianalumab in Patients With Systemic Lupus Erythematosus",
+                "phase": "PHASE3",
+                "status": "RECRUITING",
+                "topic": "lupus",
+                "conditions": "Systemic Lupus Erythematosus",
+                "sponsor": "Novartis",
+                "link": "https://clinicaltrials.gov/study/NCT2",
+            },
+            {
+                "nct_id": "NCT3",
+                "title": "A Study of Zasocitinib in Adults With Psoriatic Arthritis",
+                "phase": "PHASE3",
+                "status": "RECRUITING",
+                "topic": "psoriasis",
+                "link": "https://clinicaltrials.gov/study/NCT3",
+            },
+            {
+                "nct_id": "NCT4",
+                "title": "Long-Term Safety Study of Deucravacitinib in Participants With Psoriasis",
+                "phase": "PHASE3",
+                "status": "ACTIVE_NOT_RECRUITING",
+                "topic": "psoriasis",
+                "link": "https://clinicaltrials.gov/study/NCT4",
+            },
+        ],
+    )
+    issue = compose_issue(current, fingerprint(earlier), site_url="https://openhealthsignals.org")
+    titles = _titles(issue, "alerts")
+    assert any("counterfeit eye drops" in title.lower() for title in titles)
+    assert not any("Expedited IND" in title for title in titles)
+    assert not any("Guidance" in title for title in titles)
+    assert not any("Public Meeting" in title for title in titles)
+    assert issue["subject"] == "Counterfeit eye drops alert, new phase 3 trials in UC and lupus"
+    assert len(issue["subject"]) <= 70
+    assert "4 phase 3" not in issue["subject"]
+    bullets = [item["sentence"] for item in issue["highlights"]]
+    trial_bullets = [sentence for sentence in bullets if sentence.lower().startswith("phase 3")]
+    assert bullets[0].lower().startswith("fda warning about counterfeit")
+    assert len(trial_bullets) <= 2
+    assert trial_bullets[0] == "Phase 3: duvakitug maintenance study in ulcerative colitis (recruiting, Sanofi)"
+    assert "ianalumab" in trial_bullets[1].lower()
+    assert "lupus" in trial_bullets[1].lower()
+    assert all("A phase 3 trial is recruiting" not in sentence for sentence in bullets)
+    assert all(not sentence.endswith(".") for sentence in trial_bullets)
+    assert all("…" not in sentence or not sentence.endswith(".") for sentence in bullets)
+    assert 70 <= len(issue["preheader"]) <= 100
+    assert issue["preheader"].endswith(".")
+    assert "counterfeit eye drops" in issue["preheader"].lower()
+    assert "UC and lupus" in issue["preheader"]
+    assert all(section["items"] for section in issue["sections"])
+    text_body = render_text(issue, unsubscribe_href="https://openhealthsignals.org/unsubscribe")
+    assert "None this week." not in text_body
+    assert "None in this snapshot." not in text_body
 
 
 def test_duplicate_trial_records_collapse_to_one_study():
@@ -714,6 +837,7 @@ def test_real_snapshot_mentions_tuberculosis_and_gastrointestinal_haemorrhage():
     assert "tuberculosis" in issue["headline"].lower()
     assert "List-Unsubscribe-Post" not in html_body
     assert "For research and informational purposes only" not in html_body
+    assert "NCBI disclaimer" in html_body
 
 
 def test_cli_dry_run(tmp_path, monkeypatch):

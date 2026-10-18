@@ -17,19 +17,19 @@
       "href": "https://openhealthsignals.org/newsletter/2026-10-15#recalls"
     },
     {
-      "sentence": "FDA requires warnings about increased risk of serious heart-related events, cancer, blood clots, and death for JAK inhibitors that treat certain chronic inflammatory conditions.",
+      "sentence": "FDA safety notice on JAK inhibitor.",
       "href": "https://www.fda.gov/drugs/drug-safety-and-availability/fda-requires-warnings-about-increased-risk-serious-heart-related-events-cancer-blood-clots-and-death"
     },
     {
-      "sentence": "Initial safety trial results find increased risk of serious heart-related problems and cancer with arthritis and ulcerative colitis medicine Xeljanz, Xeljanz XR (tofacitinib).",
+      "sentence": "FDA safety notice on Xeljanz.",
       "href": "https://www.fda.gov/drugs/drug-safety-and-availability/initial-safety-trial-results-find-increased-risk-serious-heart-related-problems-and-cancer-arthritis"
     },
     {
-      "sentence": "A phase 3 trial is recruiting: Two Arm, Double-blind, Phase III Study Assessing Efficacy and Safety of Ianalumab Versus Placebo, in Participants With Sj\u00f6gren's Disease.",
-      "href": "https://clinicaltrials.gov/study/NCT07621809"
+      "sentence": "Imuldosa, an ustekinumab biosimilar, is under a Class II recall for lack of assurance of Sterility.",
+      "href": "https://openhealthsignals.org/newsletter/2026-10-15#recalls"
     }
   ],
-  "preheader": "Tuberculosis was reported more often than expected with TNF inhibitors (PRR 7.54). Tyenne, a tocilizumab biosimilar, is under a Class I recall.",
+  "preheader": "This week: TNF inhibitors: tuberculosis signal, Tyenne biosimilar recall.",
   "signal_caveat": "A reporting signal is not proof a drug caused an event.",
   "snapshot_generated_at": "2026-10-15T06:37:57+00:00",
   "openfda_last_updated": "2026-07-30",
@@ -80,6 +80,22 @@
           "tags": [
             "nsaid"
           ]
+        },
+        {
+          "title": "FDA Approves Additional Information in Labeling for Kybella (Deoxycholic Acid) Injection Warning of Adverse Reactions Associated with Unapproved Use",
+          "meta": "FDA Drug Safety Communications",
+          "body": "",
+          "href": "https://www.fda.gov/drugs/drug-safety-communications/fda-approves-additional-information-labeling-kybella-deoxycholic-acid-injection-warning-adverse",
+          "badge": "",
+          "tags": []
+        },
+        {
+          "title": "FDA Adds Boxed Warning to Labeling for Ferric Carboxymaltose Injection (Injectafer) to Describe Risk of Low Phosphate Levels",
+          "meta": "FDA Drug Safety Communications",
+          "body": "",
+          "href": "https://www.fda.gov/drugs/drug-safety-communications/fda-adds-boxed-warning-labeling-ferric-carboxymaltose-injection-injectafer-describe-risk-low",
+          "badge": "",
+          "tags": []
         }
       ]
     },
@@ -180,7 +196,9 @@
           "badge": "",
           "phase": "",
           "status": "RECRUITING",
-          "topic": "crohns_disease"
+          "topic": "crohns_disease",
+          "conditions": "Inflammatory Bowel Disease; Crohn's Disease; Ulcerative Colitis",
+          "sponsor": ""
         },
         {
           "title": "Deciphering the Genetic Architecture of Autoimmune Diseases",
@@ -190,7 +208,9 @@
           "badge": "",
           "phase": "",
           "status": "RECRUITING",
-          "topic": "lupus"
+          "topic": "lupus",
+          "conditions": "Autoimmune Diseases",
+          "sponsor": ""
         },
         {
           "title": "Retinal Capillary Vessel Density and Foveal Avascular Zone Size in Patients With Psoriatic Arthritis: A Case-Control Study.",
@@ -200,7 +220,9 @@
           "badge": "",
           "phase": "",
           "status": "RECRUITING",
-          "topic": "psoriasis"
+          "topic": "psoriasis",
+          "conditions": "Arthritic Psoriasis; Psoriasis (PsO); Retinal Vessels",
+          "sponsor": ""
         },
         {
           "title": "Two Arm, Double-blind, Phase III Study Assessing Efficacy and Safety of Ianalumab Versus Placebo, in Participants With Sj\u00f6gren's Disease With High Symptom Burden",
@@ -210,7 +232,9 @@
           "badge": "",
           "phase": "PHASE3",
           "status": "RECRUITING",
-          "topic": "rheumatoid_arthritis"
+          "topic": "rheumatoid_arthritis",
+          "conditions": "Sj\u00f6gren\u00b4s Disease",
+          "sponsor": ""
         }
       ]
     },

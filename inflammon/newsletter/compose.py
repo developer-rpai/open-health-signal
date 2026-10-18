@@ -209,7 +209,7 @@ def compose_issue(
                 "items": papers[:PAPER_CAP],
             },
         ]
-    sections = [section for section in sections if section["items"] or section["id"] != "signals"]
+    sections = [section for section in sections if section["items"]]
     return {
         "product": "Open Health Signals",
         "slug": slug,
@@ -249,8 +249,8 @@ def recall_key(item: dict) -> str:
 
 def _alerts(items: list[dict], previous: dict | None, inaugural: bool) -> list[dict]:
     chosen = items if inaugural else [item for item in items if alert_key(item) not in set(previous.get("alert_keys") or [])]
-    tagged = [item for item in chosen if item.get("tags")]
-    ordered = tagged or chosen
+    chosen = [item for item in chosen if _is_safety_alert(item)]
+    ordered = sorted(chosen, key=_notice_sort_key)
     rows = []
     for item in ordered:
         title = _clean(item.get("title"))
@@ -388,6 +388,8 @@ def _trials(items: list[dict], previous: dict | None, inaugural: bool) -> list[d
                 "phase": _clean(item.get("phase")),
                 "status": _clean(item.get("status")),
                 "topic": _clean(item.get("topic")),
+                "conditions": _clean(item.get("conditions")),
+                "sponsor": _clean(item.get("sponsor") or item.get("lead_sponsor")),
             }
         )
     return rows
@@ -439,43 +441,42 @@ def _news_bundles(
                 "href": f"{site}/signals",
             }
         )
-    recall_rows = []
+    class_i_rows = []
+    class_ii_rows = []
     for item in recalls:
-        if _class_rank(item.get("badge")) != 0:
+        rank = _class_rank(item.get("badge"))
+        if rank > 1:
             continue
         name, generic, biosimilar = _recall_names(item.get("title") or "")
         if not name:
             continue
-        recall_rows.append(
-            {
-                "subject": _recall_fragment(name, biosimilar),
-                "sentence": _recall_sentence(name, generic, biosimilar, item.get("body") or ""),
-                "href": f"{site}{archive_path}#recalls",
-            }
-        )
+        row = {
+            "subject": _recall_fragment(name, biosimilar, "Class II" if rank == 1 else "Class I"),
+            "sentence": _recall_sentence(name, generic, biosimilar, item.get("body") or "", "Class II" if rank == 1 else "Class I"),
+            "href": f"{site}{archive_path}#recalls",
+        }
+        if rank == 0:
+            class_i_rows.append(row)
+        else:
+            class_ii_rows.append(row)
     notice_rows = []
     for item in alerts:
-        name = _name_in_text(item.get("title") or "") or _name_from_tags(item.get("tags") or [])
-        if not name:
-            continue
-        labeling = "label" in (item.get("title") or "").lower()
-        prefix = "" if inaugural else "new "
-        kind = "labeling change" if labeling else "safety notice"
         notice_rows.append(
             {
-                "subject": f"{prefix}{name} {kind}",
-                "sentence": _as_sentence(item.get("title") or ""),
+                "subject": _notice_fragment(item, inaugural),
+                "sentence": _notice_sentence(item),
                 "href": item.get("href") or f"{site}{archive_path}#alerts",
             }
         )
     phase3 = [item for item in trials if _is_phase3(item)]
     trial_rows = []
-    for item in phase3:
+    for index, item in enumerate(phase3):
         trial_rows.append(
             {
                 "subject": _trial_fragment(item),
-                "sentence": _trial_sentence(item),
+                "sentence": _trial_sentence(item, index),
                 "href": item.get("href") or f"{site}{archive_path}#trials",
+                "condition": _condition_abbrev(item),
             }
         )
     paper_rows = []
@@ -492,11 +493,11 @@ def _news_bundles(
         )
     return {
         "signals": signal_rows,
-        "recalls": recall_rows,
+        "class_i": class_i_rows,
         "notices": notice_rows,
+        "class_ii": class_ii_rows,
         "trials": trial_rows,
         "papers": paper_rows,
-        "phase3_count": len(phase3),
     }
 
 
@@ -504,15 +505,14 @@ def _subject_fragments(bundles: dict) -> list[str]:
     fragments: list[str] = []
     if bundles["signals"]:
         fragments.append(bundles["signals"][0]["subject"])
-    if bundles["recalls"]:
-        fragments.append(bundles["recalls"][0]["subject"])
+    if bundles["class_i"]:
+        fragments.append(bundles["class_i"][0]["subject"])
     if bundles["notices"]:
         fragments.append(bundles["notices"][0]["subject"])
-    count = bundles["phase3_count"]
-    if count > 1:
-        fragments.append(f"{count} phase 3 trials")
-    elif bundles["trials"]:
-        fragments.append(bundles["trials"][0]["subject"])
+    if bundles["class_ii"]:
+        fragments.append(bundles["class_ii"][0]["subject"])
+    if bundles["trials"]:
+        fragments.append(_trials_subject(bundles["trials"]))
     if bundles["papers"]:
         fragments.append(bundles["papers"][0]["subject"])
     return fragments
@@ -520,24 +520,19 @@ def _subject_fragments(bundles: dict) -> list[str]:
 
 def _highlights(bundles: dict) -> list[dict]:
     picked: list[dict] = []
-    seen: set[int] = set()
-    for key, cap in (("signals", 1), ("recalls", 1), ("notices", 2), ("trials", 2), ("papers", 1)):
+    for key, cap in (
+        ("signals", 1),
+        ("class_i", 1),
+        ("notices", 2),
+        ("class_ii", 1),
+        ("trials", 2),
+        ("papers", 1),
+    ):
         for item in bundles[key][:cap]:
             picked.append(item)
-            seen.add(id(item))
             if len(picked) >= HIGHLIGHT_CAP:
                 return [_public_highlight(row) for row in picked]
-    for key in ("signals", "recalls", "notices", "trials", "papers"):
-        for item in bundles[key]:
-            if id(item) in seen:
-                continue
-            picked.append(item)
-            seen.add(id(item))
-            if len(picked) >= HIGHLIGHT_CAP:
-                break
-        if len(picked) >= HIGHLIGHT_CAP:
-            break
-    return [_public_highlight(row) for row in picked[:HIGHLIGHT_CAP]]
+    return [_public_highlight(row) for row in picked]
 
 
 def _public_highlight(item: dict) -> dict:
@@ -568,37 +563,15 @@ def _fit_fragment(text: str, limit: int) -> str:
 
 
 def _preheader(highlights: list[dict], headline: str) -> str:
-    parts: list[str] = []
-    for item in highlights[:3]:
-        sentence = " ".join(str(item.get("sentence") or "").split())
-        if not sentence:
-            continue
-        room = 159 - len(". ".join(parts)) - (2 if parts else 0)
-        if room < 24:
-            break
-        piece = _clip_clause(sentence, room)
-        if len(piece) < 24:
-            break
-        parts.append(piece)
-    if not parts:
-        return headline
-    return ". ".join(parts) + "."
-
-
-def _clip_clause(sentence: str, limit: int) -> str:
-    text = sentence.strip().rstrip(".")
-    if len(text) <= limit:
-        return text
-    cut_at = [text.find(marker) for marker in (" for ", "; ")]
-    candidates = [text[:idx].rstrip(" ,;:") for idx in cut_at if idx >= 24]
-    for candidate in candidates:
-        if len(candidate) <= limit:
-            return candidate
-    cut = text[:limit].rsplit(" ", 1)[0].rstrip(" ,;:")
-    for ending in (" for", " of", " with", " and", " a", " the"):
-        if cut.lower().endswith(ending):
-            cut = cut[: -len(ending)].rstrip(" ,;:")
-    return cut
+    lead = " ".join(str(headline or "").split()).rstrip(".")
+    if not lead and highlights:
+        lead = " ".join(str(highlights[0].get("sentence") or "").split()).rstrip(".")
+    if not lead:
+        return ""
+    sentence = f"This week: {lead}."
+    if len(sentence) <= 100:
+        return sentence
+    return _fit_words(sentence[:-1], 96)
 
 
 def _signal_fragment(row: dict, change: str) -> str:
@@ -620,26 +593,27 @@ def _signal_sentence(row: dict, change: str) -> str:
     return f"{reaction} was reported more often than expected with {name}{detail}."
 
 
-def _recall_fragment(name: str, biosimilar: bool) -> str:
-    if biosimilar:
+def _recall_fragment(name: str, biosimilar: bool, classification: str) -> str:
+    if biosimilar and classification == "Class I":
         text = f"{name} biosimilar recall"
         if len(text) <= 32:
             return text
-    else:
-        text = f"{name} Class I recall"
-        if len(text) <= 32:
-            return text
+    short = "Class II" if classification == "Class II" else "Class I"
+    text = f"{name} {short} recall"
+    if len(text) <= 32:
+        return text
     return f"{name} recall"
 
 
-def _recall_sentence(name: str, generic: str, biosimilar: bool, reason: str) -> str:
+def _recall_sentence(name: str, generic: str, biosimilar: bool, reason: str, classification: str = "Class I") -> str:
+    label = "Class II" if classification == "Class II" else "Class I"
     if biosimilar and generic and generic.lower() != name.lower():
         article = "an" if generic[:1].lower() in "aeiou" else "a"
-        lead = f"{name}, {article} {generic.lower()} biosimilar, is under a Class I recall"
+        lead = f"{name}, {article} {generic.lower()} biosimilar, is under a {label} recall"
     elif biosimilar:
-        lead = f"{name}, a biosimilar, is under a Class I recall"
+        lead = f"{name}, a biosimilar, is under a {label} recall"
     else:
-        lead = f"{name} is under a Class I recall"
+        lead = f"{name} is under a {label} recall"
     short = _short_reason(reason)
     if short:
         return f"{lead} for {short}."
@@ -717,24 +691,47 @@ def _is_phase3(item: dict) -> bool:
 
 
 def _trial_fragment(item: dict) -> str:
-    name = _name_in_text(item.get("title") or "") or TOPIC_LABELS.get(item.get("topic") or "", "")
-    if name:
-        return f"{name} phase 3 trial"
-    return "Phase 3 trial"
+    condition = _condition_abbrev(item)
+    if condition:
+        return f"phase 3 trial in {condition}"
+    return "phase 3 trial"
 
 
-def _trial_sentence(item: dict) -> str:
-    title = _clean(item.get("title"))
-    if len(title) > 140:
-        title = title[:139].rsplit(" ", 1)[0]
-    status = str(item.get("status") or "").replace("_", " ").lower()
-    if "recruiting" in status and "not" not in status:
-        lead = "A phase 3 trial is recruiting"
+def _trials_subject(trials: list[dict]) -> str:
+    conditions: list[str] = []
+    for item in trials:
+        label = item.get("condition") or _condition_abbrev(item)
+        if label and label not in conditions:
+            conditions.append(label)
+        if len(conditions) == 2:
+            break
+    noun = "trial" if len(trials) == 1 else "trials"
+    if len(conditions) == 1:
+        return f"new phase 3 {noun} in {conditions[0]}"
+    if len(conditions) >= 2:
+        return f"new phase 3 trials in {conditions[0]} and {conditions[1]}"
+    return f"new phase 3 {noun}"
+
+
+def _trial_sentence(item: dict, index: int = 0) -> str:
+    drug = _drug_from_trial(item)
+    condition = _condition_phrase(item)
+    status = _status_phrase(item)
+    kind = _study_kind(item.get("title") or "")
+    sponsor = _short_sponsor(item.get("sponsor") or "")
+    drug_bit = drug if drug else "a study drug"
+    where = f" in {condition}" if condition else ""
+    status_bit = status or "posted"
+    if sponsor:
+        status_bit = f"{status_bit}, {sponsor}"
+    if index % 2 == 0:
+        sentence = f"Phase 3: {drug_bit} {kind}{where} ({status_bit})"
     else:
-        lead = "A phase 3 trial was posted"
-    if title:
-        return f"{lead}: {title}."
-    return f"{lead}."
+        sentence = f"Phase 3 {condition or 'study'} study of {drug_bit} ({status_bit})"
+    sentence = " ".join(sentence.split())
+    if len(sentence) > 140:
+        return _fit_words(sentence, 140)
+    return sentence
 
 
 def _journal_of(item: dict) -> str:
@@ -769,10 +766,229 @@ def _paper_sentence(item: dict, journal: str) -> str:
 def _as_sentence(text: str) -> str:
     clean = _clean(text)
     if len(clean) > 180:
-        clean = clean[:179].rsplit(" ", 1)[0]
+        return _fit_words(clean, 180)
     if clean and clean[-1] not in ".!?…":
         clean += "."
     return clean
+
+
+_PROGRAM_PHRASES = (
+    "expedited ind",
+    "guidance document",
+    "recently issued guidance",
+    "public meeting",
+    "framework initiative",
+    "organization chart",
+    "prescribe with confidence",
+    "data files",
+    "paid facilities",
+    "what's new",
+    "whats new",
+    "listening session",
+    "drug safety podcasts",
+    "approval notifications",
+    "registered outsourcing",
+)
+
+_SAFETY_WORDS = (
+    "warning",
+    "recall",
+    "counterfeit",
+    "contaminat",
+    "adverse",
+    "safety communication",
+    "safety alert",
+    "boxed warning",
+    "particulate",
+    "sterility",
+    "endotoxin",
+)
+
+_CONDITION_ABBREV = {
+    "ulcerative_colitis": "UC",
+    "crohns_disease": "Crohn's",
+    "rheumatoid_arthritis": "RA",
+    "lupus": "lupus",
+    "psoriasis": "psoriasis",
+    "psoriatic_arthritis": "PsA",
+}
+
+
+def _is_program_announcement(title: str) -> bool:
+    text = _clean(title).lower()
+    return any(phrase in text for phrase in _PROGRAM_PHRASES)
+
+
+def _is_safety_alert(item: dict) -> bool:
+    title = _clean(item.get("title"))
+    if not title or _is_program_announcement(title):
+        return False
+    source = _clean(item.get("source")).lower()
+    blob = f"{title} {_clean(item.get('summary'))}".lower()
+    if "drug safety communication" in source:
+        if len(title) < 40 and not any(word in blob for word in ("warning", "recall", "safety", "adverse")):
+            return False
+        return True
+    if any(word in blob for word in _SAFETY_WORDS):
+        return True
+    if item.get("tags"):
+        return True
+    return False
+
+
+def _notice_sort_key(item: dict) -> tuple:
+    title = _clean(item.get("title")).lower()
+    tagged = 0 if item.get("tags") else 1
+    urgent = 0 if any(word in title for word in ("counterfeit", "contaminat", "warning", "recall")) else 1
+    return (tagged, urgent)
+
+
+def _notice_fragment(item: dict, inaugural: bool) -> str:
+    title = _clean(item.get("title"))
+    lowered = title.lower()
+    prefix = "" if inaugural else "new "
+    if "counterfeit" in lowered:
+        return f"Counterfeit {_counterfeit_target(lowered)} alert"
+    if "contaminat" in lowered:
+        return f"{prefix}contamination alert".strip()
+    name = _name_in_text(title) or _name_from_tags(item.get("tags") or [])
+    if name:
+        kind = "labeling change" if "label" in lowered else "safety notice"
+        return f"{prefix}{name} {kind}".strip()
+    if "recall" in lowered:
+        return f"{prefix}drug recall".strip()
+    return f"{prefix}FDA safety alert".strip()
+
+
+def _notice_sentence(item: dict) -> str:
+    title = _clean(item.get("title"))
+    lowered = title.lower()
+    if "counterfeit" in lowered:
+        return f"FDA warning about counterfeit {_counterfeit_target(lowered)}."
+    if "contaminat" in lowered:
+        return "FDA warning about a contaminated drug product."
+    name = _name_in_text(title) or _name_from_tags(item.get("tags") or [])
+    if name and any(word in lowered for word in ("warning", "safety", "label", "recall", "adverse")):
+        return f"FDA safety notice on {name}."
+    if len(title) <= 140:
+        return _as_sentence(title)
+    return _fit_words(title, 140)
+
+
+def _counterfeit_target(lowered: str) -> str:
+    match = re.search(r"counterfeit\s+([a-z0-9][a-z0-9 \-]{0,40})", lowered)
+    if not match:
+        return "drug"
+    kept = []
+    for word in match.group(1).split():
+        if word in {"sold", "found", "alert", "warning", "online", "products", "product"}:
+            break
+        kept.append(word)
+        if len(kept) == 3:
+            break
+    return " ".join(kept) or "drug"
+
+
+def _fit_words(text: str, limit: int) -> str:
+    clean = " ".join(text.split()).rstrip(" .")
+    if len(clean) <= limit:
+        return clean
+    room = max(limit - 1, 1)
+    cut = clean[:room].rsplit(" ", 1)[0].rstrip(" ,;:")
+    if not cut:
+        cut = clean[:room].rstrip(" ,;:")
+    return f"{cut}…"
+
+
+def _condition_abbrev(item: dict) -> str:
+    topic = str(item.get("topic") or "")
+    if topic in _CONDITION_ABBREV:
+        return _CONDITION_ABBREV[topic]
+    blob = f"{item.get('conditions') or ''} {item.get('title') or ''}".lower()
+    if "ulcerative colitis" in blob:
+        return "UC"
+    if "crohn" in blob:
+        return "Crohn's"
+    if "psoriatic arthritis" in blob:
+        return "PsA"
+    if "rheumatoid" in blob:
+        return "RA"
+    if "lupus" in blob:
+        return "lupus"
+    if "psoriasis" in blob:
+        return "psoriasis"
+    return ""
+
+
+def _condition_phrase(item: dict) -> str:
+    topic = str(item.get("topic") or "")
+    phrases = {
+        "ulcerative_colitis": "ulcerative colitis",
+        "crohns_disease": "Crohn's disease",
+        "rheumatoid_arthritis": "rheumatoid arthritis",
+        "lupus": "lupus",
+        "psoriasis": "psoriasis",
+        "psoriatic_arthritis": "psoriatic arthritis",
+    }
+    if topic in phrases:
+        return phrases[topic]
+    label = _condition_abbrev(item)
+    return {
+        "UC": "ulcerative colitis",
+        "Crohn's": "Crohn's disease",
+        "RA": "rheumatoid arthritis",
+        "PsA": "psoriatic arthritis",
+    }.get(label, label)
+
+
+def _drug_from_trial(item: dict) -> str:
+    title = _clean(item.get("title"))
+    named = _name_in_text(title)
+    if named and named.lower() not in {label.lower() for label in CLASS_SHORT.values()} and not named.endswith("inhibitor"):
+        return _display_drug(named)
+    match = re.search(r"\b(?:of|evaluat(?:e|ing))\s+([A-Za-z][A-Za-z0-9-]{2,})", title, re.IGNORECASE)
+    if match:
+        return _display_drug(match.group(1))
+    return ""
+
+
+def _display_drug(name: str) -> str:
+    if name.isalpha() and name[:1].isupper() and name[1:].islower():
+        return name.lower()
+    if name.isalpha() and name.isupper():
+        return name[:1] + name[1:].lower()
+    return name
+
+
+def _study_kind(title: str) -> str:
+    lowered = title.lower()
+    if "maintenance" in lowered:
+        return "maintenance study"
+    if "extension" in lowered or "long-term" in lowered or "long term" in lowered:
+        return "extension study"
+    if "safety" in lowered:
+        return "safety study"
+    return "study"
+
+
+def _status_phrase(item: dict) -> str:
+    status = str(item.get("status") or "").upper()
+    if status == "RECRUITING":
+        return "recruiting"
+    if status == "NOT_YET_RECRUITING":
+        return "not yet recruiting"
+    if status == "ACTIVE_NOT_RECRUITING":
+        return "active, not recruiting"
+    if status == "COMPLETED":
+        return "completed"
+    return status.replace("_", " ").lower()
+
+
+def _short_sponsor(sponsor: str) -> str:
+    text = _clean(sponsor)
+    if not text or len(text) > 18 or "," in text:
+        return ""
+    return text
 
 
 def _plain_english(row: dict, change: str, previous_prr: float | None) -> str:
