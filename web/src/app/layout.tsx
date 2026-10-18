@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
+import Script from "next/script";
 
+import { PageViewLogger } from "@/components/page-view";
 import { SiteFooter, SiteHeader } from "@/components/site-header";
 import { getManifest } from "@/lib/snapshot";
 import { formatGenerated } from "@/lib/format";
@@ -41,9 +43,18 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const manifest = getManifest();
+  const cfBeacon = (process.env.NEXT_PUBLIC_CF_BEACON_TOKEN || "").trim();
   return (
     <html lang="en" className={`${plex.variable} ${plexMono.variable} ${newsreader.variable}`}>
       <body className="antialiased">
+        <PageViewLogger />
+        {cfBeacon ? (
+          <Script
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            strategy="afterInteractive"
+            data-cf-beacon={JSON.stringify({ token: cfBeacon })}
+          />
+        ) : null}
         <SiteHeader />
         <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">{children}</main>
         <SiteFooter generated={formatGenerated(manifest.generated_at)} />

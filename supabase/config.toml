@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.dispatch-send]
 verify_jwt = false
+
+[functions.pageview]
+verify_jwt = false

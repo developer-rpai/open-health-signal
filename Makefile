@@ -9,7 +9,7 @@ install:
 
 test:
 	$(PYTHON) -m pytest
-	node --test tests/mailing.test.mjs
+	node --test tests/mailing.test.mjs tests/pageview.test.mjs
 
 # Weekly data pull. Cached HTTP responses are reused; use refresh-live to ignore them.
 refresh:

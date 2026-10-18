@@ -42,6 +42,10 @@ export default function PrivacyPage() {
           The lawful basis is consent. A confirmation email is sent first, and the address is added only after that
           link is opened. Each sent issue includes a signed unsubscribe link, and it takes effect immediately.
         </p>
+        <p className="mt-2">
+          The site records anonymous page views (the page, time, country, device type, and referrer) with no cookies or
+          IP addresses, and uses Cloudflare Web Analytics.
+        </p>
       </section>
 
       <section>
