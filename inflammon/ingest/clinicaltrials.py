@@ -64,7 +64,7 @@ async def _recent(
             "pageSize": 8,
             "countTotal": "true",
             "sort": "LastUpdatePostDate:desc",
-            "fields": "NCTId,BriefTitle,OverallStatus,StartDate,LastUpdatePostDate,Phase,Condition",
+            "fields": "NCTId,BriefTitle,OverallStatus,StartDate,LastUpdatePostDate,Phase,Condition,InterventionName,InterventionType,LeadSponsorName",
         },
         limiter=limiter,
     )
@@ -78,6 +78,13 @@ async def _recent(
         design = protocol.get("designModule") or {}
         conditions = (protocol.get("conditionsModule") or {}).get("conditions") or []
         phases = design.get("phases") or []
+        interventions = []
+        for entry in (protocol.get("armsInterventionsModule") or {}).get("interventions") or []:
+            name = (entry.get("name") or "").strip()
+            if not name:
+                continue
+            interventions.append({"type": entry.get("type") or "", "name": name})
+        sponsor = ((protocol.get("sponsorCollaboratorsModule") or {}).get("leadSponsor") or {}).get("name") or ""
         nct_id = ident.get("nctId") or ""
         rows.append(
             {
@@ -90,6 +97,8 @@ async def _recent(
                 "last_update": (status_mod.get("lastUpdatePostDateStruct") or {}).get("date") or "",
                 "topic": topic_key,
                 "link": f"https://clinicaltrials.gov/study/{nct_id}" if nct_id else "",
+                "interventions": interventions,
+                "sponsor": sponsor,
             }
         )
     return rows

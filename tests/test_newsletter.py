@@ -775,12 +775,14 @@ def test_october_18_style_week_puts_safety_alerts_ahead_of_trials():
     assert not any("Expedited IND" in title for title in titles)
     assert not any("Guidance" in title for title in titles)
     assert not any("Public Meeting" in title for title in titles)
-    assert issue["subject"] == "Counterfeit eye drops alert, new phase 3 trials in UC and lupus"
+    assert issue["subject"] == "Counterfeit eye drops alert; phase 3 trials in UC and lupus"
     assert len(issue["subject"]) <= 70
     assert "4 phase 3" not in issue["subject"]
     bullets = [item["sentence"] for item in issue["highlights"]]
     trial_bullets = [sentence for sentence in bullets if sentence.lower().startswith("phase 3")]
-    assert bullets[0].lower().startswith("fda warning about counterfeit")
+    assert "eye drops" in bullets[0].lower()
+    assert "counterfeit" in bullets[0].lower()
+    assert "versions of eye." not in bullets[0].lower()
     assert len(trial_bullets) <= 2
     assert trial_bullets[0] == "Phase 3: duvakitug maintenance study in ulcerative colitis (recruiting, Sanofi)"
     assert "ianalumab" in trial_bullets[1].lower()
@@ -788,17 +790,67 @@ def test_october_18_style_week_puts_safety_alerts_ahead_of_trials():
     assert all("A phase 3 trial is recruiting" not in sentence for sentence in bullets)
     assert all(not sentence.endswith(".") for sentence in trial_bullets)
     assert all("…" not in sentence or not sentence.endswith(".") for sentence in bullets)
-    assert issue["preheader"].endswith(".")
-    assert len(issue["preheader"]) <= 100
-    assert "duvakitug" in issue["preheader"].lower()
-    assert "ianalumab" in issue["preheader"].lower()
     assert not issue["preheader"].lower().startswith("this week:")
+    assert "counterfeit" not in issue["preheader"].lower()
     assert issue["preheader"].rstrip(".").lower() != issue["subject"].rstrip(".").lower()
-    assert "counterfeit eye drops" not in issue["preheader"].lower()
     assert all(section["items"] for section in issue["sections"])
     text_body = render_text(issue, unsubscribe_href="https://openhealthsignals.org/unsubscribe")
     assert "None this week." not in text_body
     assert "None in this snapshot." not in text_body
+
+
+def test_october_18_snapshot_keeps_the_drug_and_drops_index_pages():
+    current = json.loads((ROOT / "tests" / "fixtures" / "2026-10-18-week.json").read_text(encoding="utf8"))
+    baseline = fingerprint(load_snapshot(ROOT / "data" / "snapshot"))
+    issue = compose_issue(current, baseline, site_url="https://openhealthsignals.org")
+    assert issue["subject"] == "Counterfeit eye drops alert; phase 3 trials in UC and Crohn's"
+    assert len(issue["subject"]) <= 70
+    assert "versions of eye" not in issue["subject"].lower()
+    bullets = [item["sentence"] for item in issue["highlights"]]
+    assert bullets[0] == "Counterfeit eye drops were found in Florida and Georgia."
+    assert not any(sentence.lower().startswith("fda safety notice on ") for sentence in bullets)
+    assert not any(sentence.rstrip(".").endswith(" eye") for sentence in bullets)
+    assert any("duvakitug" in sentence.lower() and "ulcerative colitis" in sentence.lower() for sentence in bullets)
+    assert any("afimkibart" in sentence.lower() and "crohn" in sentence.lower() for sentence in bullets)
+    assert all("study of induction" not in sentence.lower() for sentence in bullets)
+    titles = _titles(issue, "alerts")
+    assert any("Eye Drops" in title for title in titles)
+    assert "Counterfeit Medicine" not in titles
+    assert not any(title.endswith("Notifications") for title in titles)
+    assert "counterfeit" not in issue["preheader"].lower()
+    assert "10 day forecast" in issue["preheader"].lower()
+    assert not issue["preheader"].lower().startswith("this week:")
+    assert issue["preheader"].rstrip(".").lower() != issue["subject"].rstrip(".").lower()
+    text_body = render_text(issue, unsubscribe_href="https://openhealthsignals.org/unsubscribe")
+    assert "None this week." not in text_body
+    assert "Counterfeit Medicine" not in text_body
+    assert "Sexual Enhancement and Energy Product Notifications" not in text_body
+
+
+def test_trial_bullet_prefers_the_interventions_field():
+    issue = compose_issue(
+        _snapshot(
+            trials=[
+                {
+                    "nct_id": "NCT1",
+                    "title": "A Study of Induction and Maintenance Therapy in Participants With Crohn's Disease",
+                    "phase": "PHASE3",
+                    "status": "RECRUITING",
+                    "topic": "crohns_disease",
+                    "conditions": "Crohn's Disease",
+                    "interventions": [
+                        {"type": "DRUG", "name": "Afimkibart"},
+                        {"type": "DRUG", "name": "Placebo"},
+                    ],
+                    "link": "https://clinicaltrials.gov/study/NCT1",
+                }
+            ]
+        ),
+        None,
+        site_url="https://openhealthsignals.org",
+    )
+    bullets = [item["sentence"] for item in issue["highlights"] if "phase 3" in item["sentence"].lower()]
+    assert bullets == ["Phase 3: afimkibart induction and maintenance study in Crohn's disease (recruiting)"]
 
 
 def test_duplicate_trial_records_collapse_to_one_study():

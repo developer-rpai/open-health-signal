@@ -200,7 +200,7 @@ def compose_issue(
                 "id": "trials",
                 "heading": "Recent trials" if inaugural else "Notable new trials",
                 "empty": empty,
-                "items": trials[:TRIAL_CAP],
+                "items": _lead_with_phase3(trials)[:TRIAL_CAP],
             },
             {
                 "id": "papers",
@@ -391,6 +391,7 @@ def _trials(items: list[dict], previous: dict | None, inaugural: bool) -> list[d
                 "topic": _clean(item.get("topic")),
                 "conditions": _clean(item.get("conditions")),
                 "sponsor": _clean(item.get("sponsor") or item.get("lead_sponsor")),
+                "interventions": item.get("interventions") or item.get("intervention") or [],
             }
         )
     return rows
@@ -565,34 +566,41 @@ def _join_subject(fragments: list[str], limit: int) -> str:
         piece = " ".join(fragment.split())
         if not piece:
             continue
-        candidate = ", ".join([*chosen, piece])
-        if len(chosen) < 3 and len(candidate) <= limit:
+        candidate = "; ".join([*chosen, piece])
+        if len(chosen) < 2 and len(candidate) <= limit:
             chosen.append(piece)
             continue
         if not chosen:
             chosen.append(_fit_fragment(piece, limit))
         break
-    return ", ".join(chosen)
+    return "; ".join(chosen)
 
 
 def _fit_fragment(text: str, limit: int) -> str:
     if len(text) <= limit:
         return text
-    cut = text[:limit].rsplit(" ", 1)[0]
-    return cut or text[:limit]
+    return _fit_words(text, limit)
 
 
 def _preheader(picked: list[dict], headline: str) -> str:
     subject = " ".join(str(headline or "").split())
     leftovers = [item for item in picked if not _already_in_subject(item, subject)]
     line = _also_sentence(leftovers)
-    if line and _preheader_is_distinct(line, subject):
+    if line and _preheader_is_distinct(line, subject) and not _repeats_named_topic(line, subject):
         return _cap_preheader(line)
-    for item in picked:
-        detail = " ".join(str(item.get("sentence") or "").split())
+    if len(picked) == 1:
+        detail = " ".join(str(picked[0].get("sentence") or "").split())
         if detail and _preheader_is_distinct(detail, subject):
             return _cap_preheader(detail)
     return ""
+
+
+def _repeats_named_topic(line: str, subject: str) -> bool:
+    lowered = line.lower()
+    lead = subject.lower()
+    if "counterfeit" in lead and "counterfeit" in lowered:
+        return True
+    return False
 
 
 def _preheader_is_distinct(text: str, subject: str) -> bool:
@@ -620,10 +628,12 @@ def _already_in_subject(item: dict, subject: str) -> bool:
     kind = item.get("kind")
     if kind == "trial":
         drug = str(item.get("drug") or "").lower()
-        if drug:
-            return drug in haystack
+        if drug and drug in haystack:
+            return True
         condition = str(item.get("condition") or "").lower()
-        return bool(condition) and condition in haystack
+        if condition and re.search(rf"\b{re.escape(condition)}\b", haystack):
+            return True
+        return False
     name = str(item.get("name") or "").lower()
     if name and name in haystack:
         return True
@@ -682,6 +692,8 @@ def _notice_also(item: dict) -> tuple[str, bool]:
     class_label = CLASS_SHORT.get(str(item.get("class_key") or ""), "")
     covers_class = bool(class_label) and class_label.lower() in title
     display = class_label if covers_class else name
+    if "hidden ingredient" in title or "may be harmful" in title:
+        return f"a hidden-ingredient warning for {_harm_product(item.get('title') or '')}", False
     if "counterfeit" in title:
         return f"a counterfeit {_counterfeit_target(title)} alert", False
     if "contaminat" in title:
@@ -845,6 +857,10 @@ def _is_phase3(item: dict) -> bool:
     return "PHASE3" in str(item.get("phase") or "").upper()
 
 
+def _lead_with_phase3(items: list[dict]) -> list[dict]:
+    return [item for item in items if _is_phase3(item)] + [item for item in items if not _is_phase3(item)]
+
+
 def _trial_fragment(item: dict) -> str:
     condition = _condition_abbrev(item)
     if condition:
@@ -862,10 +878,10 @@ def _trials_subject(trials: list[dict]) -> str:
             break
     noun = "trial" if len(trials) == 1 else "trials"
     if len(conditions) == 1:
-        return f"new phase 3 {noun} in {conditions[0]}"
+        return f"phase 3 {noun} in {conditions[0]}"
     if len(conditions) >= 2:
-        return f"new phase 3 trials in {conditions[0]} and {conditions[1]}"
-    return f"new phase 3 {noun}"
+        return f"phase 3 trials in {conditions[0]} and {conditions[1]}"
+    return f"phase 3 {noun}"
 
 
 def _trial_sentence(item: dict, index: int = 0) -> str:
@@ -881,6 +897,8 @@ def _trial_sentence(item: dict, index: int = 0) -> str:
         status_bit = f"{status_bit}, {sponsor}"
     if index % 2 == 0:
         sentence = f"Phase 3: {drug_bit} {kind}{where} ({status_bit})"
+    elif kind != "study":
+        sentence = f"Phase 3 {condition or 'study'} {kind} of {drug_bit} ({status_bit})"
     else:
         sentence = f"Phase 3 {condition or 'study'} study of {drug_bit} ({status_bit})"
     sentence = " ".join(sentence.split())
@@ -957,6 +975,21 @@ _SAFETY_WORDS = (
     "particulate",
     "sterility",
     "endotoxin",
+    "hidden ingredient",
+    "may be harmful",
+    "not to purchase",
+    "not to use",
+)
+
+_EVERGREEN_URL_PARTS = (
+    "/buying-using-medicine-safely/",
+    "/understanding-over-counter-medicines/",
+    "/about-fda/",
+    "/industry/",
+    "/development-approval-process-drugs/",
+    "/resources-information-approved-drugs/",
+    "/warning-letters-and-notice-violation-letters-pharmaceutical-companies/",
+    "/offices-and-divisions/",
 )
 
 _CONDITION_ABBREV = {
@@ -969,6 +1002,17 @@ _CONDITION_ABBREV = {
 }
 
 
+def _is_evergreen_page(item: dict) -> bool:
+    link = str(item.get("link") or item.get("href") or "").lower().rstrip("/")
+    title = _clean(item.get("title")).lower()
+    if any(part in link for part in _EVERGREEN_URL_PARTS):
+        return True
+    last = link.rsplit("/", 1)[-1]
+    if last.endswith("notifications") or title.endswith("notifications"):
+        return True
+    return False
+
+
 def _is_program_announcement(title: str) -> bool:
     text = _clean(title).lower()
     return any(phrase in text for phrase in _PROGRAM_PHRASES)
@@ -976,7 +1020,7 @@ def _is_program_announcement(title: str) -> bool:
 
 def _is_safety_alert(item: dict) -> bool:
     title = _clean(item.get("title"))
-    if not title or _is_program_announcement(title):
+    if not title or _is_program_announcement(title) or _is_evergreen_page(item):
         return False
     source = _clean(item.get("source")).lower()
     blob = f"{title} {_clean(item.get('summary'))}".lower()
@@ -1017,10 +1061,12 @@ def _notice_fragment(item: dict, inaugural: bool) -> str:
 
 def _notice_sentence(item: dict) -> str:
     title = _clean(item.get("title"))
-    summary = _clean(item.get("summary"))
+    summary = _clean(item.get("summary") or item.get("body"))
     lowered = title.lower()
     if "counterfeit" in lowered:
-        return f"FDA warning about counterfeit {_counterfeit_target(lowered)}."
+        return _counterfeit_sentence(title, summary)
+    if "hidden ingredient" in lowered or "may be harmful" in lowered:
+        return f"FDA advises against {_harm_product(title)}, which may contain hidden ingredients."
     if "contaminat" in lowered:
         return "FDA warning about a contaminated drug product."
     sentence = _condense_notice(title)
@@ -1085,18 +1131,128 @@ def _class_key_for_notice(item: dict, name: str) -> str:
     return ""
 
 
+_COUNTERFEIT_STOP = {"found", "sold", "alert", "warning", "online", "in", "across", "reported"}
+_COUNTERFEIT_FILLER = {
+    "versions",
+    "version",
+    "of",
+    "the",
+    "a",
+    "an",
+    "fake",
+    "falsified",
+    "over-the-counter",
+    "otc",
+}
+_US_STATES = (
+    "alabama",
+    "alaska",
+    "arizona",
+    "arkansas",
+    "california",
+    "colorado",
+    "connecticut",
+    "delaware",
+    "district of columbia",
+    "florida",
+    "georgia",
+    "hawaii",
+    "idaho",
+    "illinois",
+    "indiana",
+    "iowa",
+    "kansas",
+    "kentucky",
+    "louisiana",
+    "maine",
+    "maryland",
+    "massachusetts",
+    "michigan",
+    "minnesota",
+    "mississippi",
+    "missouri",
+    "montana",
+    "nebraska",
+    "nevada",
+    "new hampshire",
+    "new jersey",
+    "new mexico",
+    "new york",
+    "north carolina",
+    "north dakota",
+    "ohio",
+    "oklahoma",
+    "oregon",
+    "pennsylvania",
+    "rhode island",
+    "south carolina",
+    "south dakota",
+    "tennessee",
+    "texas",
+    "utah",
+    "vermont",
+    "virginia",
+    "washington",
+    "west virginia",
+    "wisconsin",
+    "wyoming",
+)
+
+
 def _counterfeit_target(lowered: str) -> str:
-    match = re.search(r"counterfeit\s+([a-z0-9][a-z0-9 \-]{0,40})", lowered)
+    match = re.search(r"counterfeit\s+(.+)", lowered)
     if not match:
         return "drug"
     kept = []
-    for word in match.group(1).split():
-        if word in {"sold", "found", "alert", "warning", "online", "products", "product"}:
+    for word in re.findall(r"[a-z0-9][a-z0-9'-]*", match.group(1)):
+        if word in _COUNTERFEIT_STOP:
             break
+        if word in _COUNTERFEIT_FILLER:
+            continue
         kept.append(word)
-        if len(kept) == 3:
-            break
     return " ".join(kept) or "drug"
+
+
+def _counterfeit_sentence(title: str, summary: str) -> str:
+    product = _counterfeit_target(title.lower())
+    verb = "were" if product.endswith("s") else "was"
+    states = _states_in(f"{title} {summary}")
+    if len(states) >= 2:
+        where = f"{states[0]} and {states[1]}"
+    elif states:
+        where = states[0]
+    elif "several states" in title.lower():
+        where = "several states"
+    elif "sold online" in title.lower() or "online" in title.lower():
+        return f"Counterfeit {product} {verb} sold online."
+    else:
+        return _finish_sentence(title)
+    return f"Counterfeit {product} {verb} found in {where}."
+
+
+def _states_in(text: str) -> list[str]:
+    pattern = "|".join(re.escape(state) for state in sorted(_US_STATES, key=len, reverse=True))
+    found = []
+    for match in re.finditer(rf"\b(?:{pattern})\b", text, flags=re.IGNORECASE):
+        label = " ".join(part[:1].upper() + part[1:].lower() for part in match.group(0).split())
+        if label not in found:
+            found.append(label)
+    return found
+
+
+def _harm_product(title: str) -> str:
+    text = _clean(title)
+    product = re.split(r"\s+may\b|\s+could\b", text, maxsplit=1)[0].strip(" .")
+    return product or "the product"
+
+
+def _finish_sentence(text: str) -> str:
+    clean = " ".join(_clean(text).split())
+    if len(clean) > 140:
+        return _fit_words(clean, 140)
+    if clean and clean[-1] not in ".!?…":
+        clean += "."
+    return clean
 
 
 def _fit_words(text: str, limit: int) -> str:
@@ -1151,15 +1307,79 @@ def _condition_phrase(item: dict) -> str:
     }.get(label, label)
 
 
+_NOT_A_DRUG = {
+    "induction",
+    "maintenance",
+    "efficacy",
+    "safety",
+    "placebo",
+    "therapy",
+    "treatment",
+    "study",
+    "participants",
+    "patients",
+    "combination",
+    "extension",
+    "long",
+    "term",
+    "active",
+    "moderate",
+    "severe",
+    "standard",
+    "care",
+    "oral",
+    "inhaled",
+    "moderately",
+    "severely",
+    "mild",
+    "mildly",
+    "adults",
+    "children",
+    "pediatric",
+    "young",
+    "versus",
+    "without",
+    "using",
+    "taking",
+}
+
+
 def _drug_from_trial(item: dict) -> str:
+    for name in _intervention_names(item):
+        return _display_drug(name.split()[0] if " " not in name else name)
     title = _clean(item.get("title"))
     named = _name_in_text(title)
     if named and named.lower() not in {label.lower() for label in CLASS_SHORT.values()} and not named.endswith("inhibitor"):
         return _display_drug(named)
-    match = re.search(r"\b(?:of|evaluat(?:e|ing))\s+([A-Za-z][A-Za-z0-9-]{2,})", title, re.IGNORECASE)
-    if match:
-        return _display_drug(match.group(1))
+    for match in re.finditer(r"\b(?:of|evaluat(?:e|ing)|with)\s+([A-Za-z][A-Za-z0-9-]{2,})", title, re.IGNORECASE):
+        word = match.group(1)
+        if word.lower() in _NOT_A_DRUG:
+            continue
+        return _display_drug(word)
     return ""
+
+
+def _intervention_names(item: dict) -> list[str]:
+    raw = item.get("interventions")
+    if not raw:
+        raw = item.get("intervention") or []
+    if isinstance(raw, str):
+        raw = [part.strip() for part in re.split(r"[;|]", raw) if part.strip()]
+    names = []
+    for entry in raw:
+        kind = ""
+        if isinstance(entry, dict):
+            kind = str(entry.get("type") or entry.get("interventionType") or "").upper()
+            name = str(entry.get("name") or entry.get("interventionName") or "")
+        else:
+            name = str(entry)
+        if kind and kind not in {"DRUG", "BIOLOGICAL", "COMBINATION_PRODUCT"}:
+            continue
+        name = _clean(re.sub(r"\s*\([^)]*\)", "", name))
+        if not name or name.lower() in {"placebo", "standard of care", "soc", "vehicle"}:
+            continue
+        names.append(name)
+    return names
 
 
 def _display_drug(name: str) -> str:
@@ -1172,8 +1392,12 @@ def _display_drug(name: str) -> str:
 
 def _study_kind(title: str) -> str:
     lowered = title.lower()
+    if "induction" in lowered and "maintenance" in lowered:
+        return "induction and maintenance study"
     if "maintenance" in lowered:
         return "maintenance study"
+    if "induction" in lowered:
+        return "induction study"
     if "extension" in lowered or "long-term" in lowered or "long term" in lowered:
         return "extension study"
     if "safety" in lowered:

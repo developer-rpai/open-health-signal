@@ -3,8 +3,8 @@
   "slug": "2026-10-15",
   "cadence": "weekly",
   "kind": "inaugural",
-  "subject": "TNF inhibitors: tuberculosis signal, Tyenne biosimilar recall",
-  "headline": "TNF inhibitors: tuberculosis signal, Tyenne biosimilar recall",
+  "subject": "TNF inhibitors: tuberculosis signal; Tyenne biosimilar recall",
+  "headline": "TNF inhibitors: tuberculosis signal; Tyenne biosimilar recall",
   "kicker": "Inaugural briefing \u00b7 15 October 2026",
   "intro": "",
   "highlights": [
@@ -189,42 +189,6 @@
       "empty": "None in this snapshot.",
       "items": [
         {
-          "title": "Longitudinal Immunophenotyping of Patients With Inflammatory Bowel Disease",
-          "meta": "NCT07619547 \u00b7 Recruiting \u00b7 Crohn's disease \u00b7 start 2026-10-19",
-          "body": "Inflammatory Bowel Disease; Crohn's Disease; Ulcerative Colitis",
-          "href": "https://clinicaltrials.gov/study/NCT07619547",
-          "badge": "",
-          "phase": "",
-          "status": "RECRUITING",
-          "topic": "crohns_disease",
-          "conditions": "Inflammatory Bowel Disease; Crohn's Disease; Ulcerative Colitis",
-          "sponsor": ""
-        },
-        {
-          "title": "Deciphering the Genetic Architecture of Autoimmune Diseases",
-          "meta": "NCT06948110 \u00b7 Recruiting \u00b7 Systemic lupus erythematosus \u00b7 start 2026-10-19",
-          "body": "Autoimmune Diseases",
-          "href": "https://clinicaltrials.gov/study/NCT06948110",
-          "badge": "",
-          "phase": "",
-          "status": "RECRUITING",
-          "topic": "lupus",
-          "conditions": "Autoimmune Diseases",
-          "sponsor": ""
-        },
-        {
-          "title": "Retinal Capillary Vessel Density and Foveal Avascular Zone Size in Patients With Psoriatic Arthritis: A Case-Control Study.",
-          "meta": "NCT07858591 \u00b7 Recruiting \u00b7 Psoriasis \u00b7 start 2026-09-01",
-          "body": "Arthritic Psoriasis; Psoriasis (PsO); Retinal Vessels",
-          "href": "https://clinicaltrials.gov/study/NCT07858591",
-          "badge": "",
-          "phase": "",
-          "status": "RECRUITING",
-          "topic": "psoriasis",
-          "conditions": "Arthritic Psoriasis; Psoriasis (PsO); Retinal Vessels",
-          "sponsor": ""
-        },
-        {
           "title": "Two Arm, Double-blind, Phase III Study Assessing Efficacy and Safety of Ianalumab Versus Placebo, in Participants With Sj\u00f6gren's Disease With High Symptom Burden",
           "meta": "NCT07621809 \u00b7 PHASE3 \u00b7 Recruiting \u00b7 Rheumatoid arthritis \u00b7 start 2026-07-16",
           "body": "Sj\u00f6gren\u00b4s Disease",
@@ -234,7 +198,47 @@
           "status": "RECRUITING",
           "topic": "rheumatoid_arthritis",
           "conditions": "Sj\u00f6gren\u00b4s Disease",
-          "sponsor": ""
+          "sponsor": "",
+          "interventions": []
+        },
+        {
+          "title": "A Study of JNJ-78934804 in Participants With Moderately to Severely Active Ulcerative Colitis",
+          "meta": "NCT07577856 \u00b7 PHASE3 \u00b7 Recruiting \u00b7 Ulcerative colitis \u00b7 start 2026-05-23",
+          "body": "Colitis, Ulcerative",
+          "href": "https://clinicaltrials.gov/study/NCT07577856",
+          "badge": "",
+          "phase": "PHASE3",
+          "status": "RECRUITING",
+          "topic": "ulcerative_colitis",
+          "conditions": "Colitis, Ulcerative",
+          "sponsor": "",
+          "interventions": []
+        },
+        {
+          "title": "A Study of JNJ-78934804 in Participants With Moderately to Severely Active Crohn's Disease",
+          "meta": "NCT07577843 \u00b7 PHASE3 \u00b7 Recruiting \u00b7 Crohn's disease \u00b7 start 2026-05-22",
+          "body": "Crohn Disease",
+          "href": "https://clinicaltrials.gov/study/NCT07577843",
+          "badge": "",
+          "phase": "PHASE3",
+          "status": "RECRUITING",
+          "topic": "crohns_disease",
+          "conditions": "Crohn Disease",
+          "sponsor": "",
+          "interventions": []
+        },
+        {
+          "title": "Longitudinal Immunophenotyping of Patients With Inflammatory Bowel Disease",
+          "meta": "NCT07619547 \u00b7 Recruiting \u00b7 Crohn's disease \u00b7 start 2026-10-19",
+          "body": "Inflammatory Bowel Disease; Crohn's Disease; Ulcerative Colitis",
+          "href": "https://clinicaltrials.gov/study/NCT07619547",
+          "badge": "",
+          "phase": "",
+          "status": "RECRUITING",
+          "topic": "crohns_disease",
+          "conditions": "Inflammatory Bowel Disease; Crohn's Disease; Ulcerative Colitis",
+          "sponsor": "",
+          "interventions": []
         }
       ]
     },

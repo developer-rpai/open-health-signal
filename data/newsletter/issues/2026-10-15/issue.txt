@@ -2,7 +2,7 @@ OPEN HEALTH SIGNALS
 Inflammation Signal Monitor
 Inaugural briefing · 15 October 2026
 
-TNF inhibitors: tuberculosis signal, Tyenne biosimilar recall
+TNF inhibitors: tuberculosis signal; Tyenne biosimilar recall
 
 This week
 - Tuberculosis was reported more often than expected with TNF inhibitors (PRR 7.54).
@@ -92,25 +92,25 @@ STRONGEST PRESPECIFIED SAFETY SIGNALS
   Gastrointestinal haemorrhage was reported more often than expected with NSAIDs than with all other FAERS reports (PRR 2.52, 95% CI 2.46–2.59). This is a disproportionality signal. The reporting odds ratio is 2.54 (95% CI 2.47–2.61). This meets the Evans screen: at least 3 reports, a PRR of at least 2, and a chi-square of at least 4. The ratio is not an incidence rate.
 
 RECENT TRIALS
-- Longitudinal Immunophenotyping of Patients With Inflammatory Bowel Disease
-  NCT07619547 · Recruiting · Crohn's disease · start 2026-10-19
-  Inflammatory Bowel Disease; Crohn's Disease; Ulcerative Colitis
-  https://clinicaltrials.gov/study/NCT07619547
-
-- Deciphering the Genetic Architecture of Autoimmune Diseases
-  NCT06948110 · Recruiting · Systemic lupus erythematosus · start 2026-10-19
-  Autoimmune Diseases
-  https://clinicaltrials.gov/study/NCT06948110
-
-- Retinal Capillary Vessel Density and Foveal Avascular Zone Size in Patients With Psoriatic Arthritis: A Case-Control Study.
-  NCT07858591 · Recruiting · Psoriasis · start 2026-09-01
-  Arthritic Psoriasis; Psoriasis (PsO); Retinal Vessels
-  https://clinicaltrials.gov/study/NCT07858591
-
 - Two Arm, Double-blind, Phase III Study Assessing Efficacy and Safety of Ianalumab Versus Placebo, in Participants With Sjögren's Disease With High Symptom Burden
   NCT07621809 · PHASE3 · Recruiting · Rheumatoid arthritis · start 2026-07-16
   Sjögren´s Disease
   https://clinicaltrials.gov/study/NCT07621809
+
+- A Study of JNJ-78934804 in Participants With Moderately to Severely Active Ulcerative Colitis
+  NCT07577856 · PHASE3 · Recruiting · Ulcerative colitis · start 2026-05-23
+  Colitis, Ulcerative
+  https://clinicaltrials.gov/study/NCT07577856
+
+- A Study of JNJ-78934804 in Participants With Moderately to Severely Active Crohn's Disease
+  NCT07577843 · PHASE3 · Recruiting · Crohn's disease · start 2026-05-22
+  Crohn Disease
+  https://clinicaltrials.gov/study/NCT07577843
+
+- Longitudinal Immunophenotyping of Patients With Inflammatory Bowel Disease
+  NCT07619547 · Recruiting · Crohn's disease · start 2026-10-19
+  Inflammatory Bowel Disease; Crohn's Disease; Ulcerative Colitis
+  https://clinicaltrials.gov/study/NCT07619547
 
 RECENT PUBMED PAPERS
 Titles and links only. Abstracts are not shown. NCBI disclaimer: https://www.ncbi.nlm.nih.gov/home/about/policies/

@@ -1,0 +1,503 @@
+{
+  "manifest": {
+    "generated_at": "2026-10-18T00:07:34+00:00",
+    "openfda_last_updated": "2026-07-30",
+    "product": "Inflammation Signal Monitor",
+    "disclaimer": "For research and informational purposes only. Not medical advice. Do not stop or change any medication without talking to your doctor. FAERS is a spontaneous-report system with under-reporting, duplicate reports, and no exposure denominator. A disproportionality signal means a reaction was reported more often than expected. It is not an incidence rate. Report adverse events to FDA MedWatch."
+  },
+  "alerts": [
+    {
+      "source": "FDA Drugs",
+      "title": "Counterfeit Versions of Eye Drops Found in Several States",
+      "link": "http://www.fda.gov/drugs/counterfeit-medicine/counterfeit-versions-eye-drops-found-several-states",
+      "published": "Fri, 16 Oct 2026 16:07:20 EDT",
+      "summary": "Counterfeit versions of over-the-counter eye drops have been found in Florida and Georgia in stores serving primarily Spanish-speaking customers. These products also may be in Louisiana, Mississippi, North Carolina and potentially other states.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Expedited IND Rolling Submission Process and Program Structure",
+      "link": "http://www.fda.gov/industry/fda-expedited-investigational-new-drug-ind-pilot-program/expedited-ind-rolling-submission-process-and-program-structure",
+      "published": "Fri, 16 Oct 2026 15:28:27 EDT",
+      "summary": "A majority of the Expedited IND Pilot will take place during the \u201cPre-IND\u201d phase \u2013 the period of nonclinical development before the sponsor submits their official 30-day IND application.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Expedited Investigational New Drug Pilot Program - Application Instructions",
+      "link": "http://www.fda.gov/industry/fda-expedited-investigational-new-drug-ind-pilot-program/expedited-investigational-new-drug-pilot-program-application-instructions",
+      "published": "Fri, 16 Oct 2026 15:28:14 EDT",
+      "summary": "The application will consist of two sections: 1) Sponsor and Investigative New Drug Information, and 2) Prospective Research Institution Qualifications.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "FDA Expedited Investigational New Drug (IND) Pilot Program",
+      "link": "http://www.fda.gov/industry/fda-actions-accelerate-and-modernize-early-and-late-stage-clinical-development/fda-expedited-investigational-new-drug-ind-pilot-program",
+      "published": "Fri, 16 Oct 2026 15:25:16 EDT",
+      "summary": "The FDA Expedited IND Pilot Program is an initiative under HHS Operation TrialBlazer designed to evaluate new approaches for accelerating first-in-human (FIH) clinical trials in the United States while maintaining FDA's rigorous standards for participant safety and scientific oversight.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Untitled Letters",
+      "link": "http://www.fda.gov/drugs/warning-letters-and-notice-violation-letters-pharmaceutical-companies/untitled-letters",
+      "published": "Fri, 16 Oct 2026 15:00:38 EDT",
+      "summary": "These letters are supplied by the CDER Freedom of Information Office and only cover Office of Prescription Drug Promotion's untitled letters. FDA may have redacted or edited some of the letters to remove confidential information.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Sunscreen: How to Help Protect Your Skin from the Sun",
+      "link": "http://www.fda.gov/drugs/understanding-over-counter-medicines/sunscreen-how-help-protect-your-skin-sun",
+      "published": "Fri, 16 Oct 2026 14:37:30 EDT",
+      "summary": "How you use sunscreens, and what other protective measures you take, make a difference in how well you are able to protect yourself and your family from sunburn, skin cancer, early skin aging and other risks of overexposure to the sun.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Regulatory Pharmaceutical Fellowship Program",
+      "link": "http://www.fda.gov/about-fda/center-drug-evaluation-and-research-cder/regulatory-pharmaceutical-fellowship-program",
+      "published": "Fri, 16 Oct 2026 14:13:54 EDT",
+      "summary": "Explore the FDA\u2019s Regulatory Pharmaceutical Fellowship Program, a partnership with academia and industry, offering specialized training in regulatory science, policy, and drug development. Learn how to advance your career in the pharmaceutical field through this unique fellowship opportunity.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Verified Clinical Benefit | Cancer Accelerated Approvals",
+      "link": "http://www.fda.gov/drugs/resources-information-approved-drugs/verified-clinical-benefit-cancer-accelerated-approvals",
+      "published": "Fri, 16 Oct 2026 13:54:21 EDT",
+      "summary": "This listing includes accelerated approvals (AAs) for malignant hematology and oncology indications with postmarketing trials that have verified clinical benefit and for which traditional approval has been subsequently granted for the specific indication.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Office of Generic Drugs | Offices and Divisions",
+      "link": "http://www.fda.gov/about-fda/cder-offices-and-divisions/office-generic-drugs-offices-and-divisions",
+      "published": "Fri, 16 Oct 2026 13:28:59 EDT",
+      "summary": "Generic Drugs Offices and Divisions",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Other | Cancer Accelerated Approvals",
+      "link": "http://www.fda.gov/drugs/resources-information-approved-drugs/other-cancer-accelerated-approvals",
+      "published": "Fri, 16 Oct 2026 13:26:37 EDT",
+      "summary": "This listing includes accelerated approvals (AAs) for malignant hematology and oncology indications that have been granted for supportive care products and changes to dosing or formulation.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Ongoing | Cancer Accelerated Approvals",
+      "link": "http://www.fda.gov/drugs/resources-information-approved-drugs/ongoing-cancer-accelerated-approvals",
+      "published": "Fri, 16 Oct 2026 13:24:49 EDT",
+      "summary": "This listing includes accelerated approvals (AAs) for malignant hematology and oncology indications that have postmarketing requirement(s) for ongoing clinical trial(s) to verify clinical benefit.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "What You Should Know about Eye Drops",
+      "link": "http://www.fda.gov/drugs/buying-using-medicine-safely/what-you-should-know-about-eye-drops",
+      "published": "Fri, 16 Oct 2026 11:48:46 EDT",
+      "summary": "Ophthalmic drug products, such as eye drops, pose a heightened risk of harm to users because drugs applied to the eyes bypass some of the body\u2019s natural defenses. Any drug used in the eyes must be sterile to reduce the risk of infection. Eye drops are available by prescription or sold as OTCs.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Counterfeit Medicine",
+      "link": "http://www.fda.gov/drugs/buying-using-medicine-safely/counterfeit-medicine",
+      "published": "Fri, 16 Oct 2026 11:02:57 EDT",
+      "summary": "Counterfeit (fake or falsified) medicines may be harmful to your health because while being passed off as authentic, may contain the wrong ingredients, contain too much, too little or no active ingredient at all or contain other harmful ingredients.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "FDA Approves New Nonprescription Eye Drop for Relief of Eye Redness",
+      "link": "http://www.fda.gov/drugs/drug-alerts-and-statements/fda-approves-new-nonprescription-eye-drop-relief-eye-redness",
+      "published": "Fri, 16 Oct 2026 10:18:56 EDT",
+      "summary": "CDER Statement: FDA Approves New Nonprescription Eye Drop for Relief of Eye Redness",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "CDER Exclusivity Board",
+      "link": "http://www.fda.gov/drugs/development-approval-process-drugs/cder-exclusivity-board",
+      "published": "Fri, 16 Oct 2026 09:33:00 EDT",
+      "summary": "CDER Exclusivity Board",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "Sexual Enhancement and Energy Product Notifications",
+      "link": "http://www.fda.gov/drugs/medication-health-fraud-notifications/sexual-enhancement-and-energy-product-notifications",
+      "published": "Thu, 15 Oct 2026 16:10:17 EDT",
+      "summary": "Learn about the warnings for sexual enhancement and energy products that contain hidden drugs and other hidden ingredients.",
+      "tags": []
+    },
+    {
+      "source": "FDA Drugs",
+      "title": "10 Day Forecast may be harmful due to hidden ingredients",
+      "link": "http://www.fda.gov/drugs/medication-health-fraud-notifications/10-day-forecast-may-be-harmful-due-hidden-ingredients",
+      "published": "Thu, 15 Oct 2026 16:09:12 EDT",
+      "summary": "The FDA is advising consumers not to purchase or use 10 Day Forecast, a product promoted and sold for sexual enhancement on various websites, including ebay.com, and possibly in some retail stores.",
+      "tags": []
+    },
+    {
+      "source": "FDA MedWatch",
+      "title": "Early Alert: Transcatheter Mitral Valve Delivery System Issue from Edwards Lifesciences",
+      "link": "http://www.fda.gov/medical-devices/medical-device-recalls-and-early-alerts/early-alert-transcatheter-mitral-valve-delivery-system-issue-edwards-lifesciences",
+      "published": "Thu, 15 Oct 2026 00:00:00 EDT",
+      "summary": "Potential balloon burst during inflation can lead to embolism or the need for surgery.",
+      "tags": []
+    }
+  ],
+  "recalls": [],
+  "signals": [],
+  "validation": {
+    "checks": []
+  },
+  "publications": [],
+  "trials": [
+    {
+      "nct_id": "NCT07137598",
+      "title": "A Study to Assess the Efficacy and Safety of RO7790121 in Participants With Moderate to Severe Rheumatoid Arthritis Who Have Not Responded to or Who Cannot Tolerate Tumor Necrosis Factor (TNF) and/or Janus Kinase (JAK Inhibitors)",
+      "status": "RECRUITING",
+      "phase": "PHASE2",
+      "conditions": "Rheumatoid Arthritis",
+      "start_date": "2025-12-05",
+      "last_update": "2026-10-16",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07137598"
+    },
+    {
+      "nct_id": "NCT07620392",
+      "title": "An Extension Study to Assess Long-Term Safety and Efficacy of Afimkibart in Participants With Rheumatoid Arthritis",
+      "status": "RECRUITING",
+      "phase": "PHASE2",
+      "conditions": "Rheumatoid Arthritis",
+      "start_date": "2026-06-03",
+      "last_update": "2026-10-16",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07620392"
+    },
+    {
+      "nct_id": "NCT07878975",
+      "title": "HRV Variation in Rheumatoid Arthritis",
+      "status": "RECRUITING",
+      "phase": "",
+      "conditions": "Rheumatoid Arthritis (RA)",
+      "start_date": "2026-09-01",
+      "last_update": "2026-10-16",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07878975"
+    },
+    {
+      "nct_id": "NCT06329401",
+      "title": "A Study Evaluating the Safety and Efficacy of Inhaled AP01 in Participants With Progressive Pulmonary Fibrosis",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE2",
+      "conditions": "Pulmonary Fibrosis; Progressive Pulmonary Fibrosis; Pulmonary Fibrosis Secondary to Systemic Sclerosis; Pulmonary Fibrosis, Interstitial Lung Disease; Interstitial Lung Disease; Interstitial Lung Disease Due to Connective Tissue Disease (Disorder)",
+      "start_date": "2024-04-03",
+      "last_update": "2026-10-16",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT06329401"
+    },
+    {
+      "nct_id": "NCT07878611",
+      "title": "Musclockeletal Ultra-sound Assessment of Pulley Inflammation in Rheumatoid Arthrits Pateints",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "",
+      "conditions": "Rheumatoid Arthritis (RA)",
+      "start_date": "2026-09",
+      "last_update": "2026-10-16",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07878611"
+    },
+    {
+      "nct_id": "NCT07865390",
+      "title": "Patient-Reported Outcomes Dashboard With Goal Setting to Support Shared Decision-Making in Inflammatory Arthritis",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "NA",
+      "conditions": "Arthritis, Psoriatic (PsA); Arthritis, Rheumatoid (RA)",
+      "start_date": "2027-01-01",
+      "last_update": "2026-10-15",
+      "topic": "rheumatoid_arthritis",
+      "link": "https://clinicaltrials.gov/study/NCT07865390"
+    },
+    {
+      "nct_id": "NCT07663201",
+      "title": "Cardiovascular Risk in Patients With IBD",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "",
+      "conditions": "Ulcerative Colitis (UC); Crohn's Diseases; Cardiovascular Risk",
+      "start_date": "2026-09",
+      "last_update": "2026-10-16",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT07663201"
+    },
+    {
+      "nct_id": "NCT07095634",
+      "title": "Estimation of Cardiovascular Risk in Patients With Crohn's Disease and Ulcerative Colitis (PROVACI)",
+      "status": "RECRUITING",
+      "phase": "",
+      "conditions": "Ulcerative Colitis; Myocardial Infarction; Stroke; Ischemic Heart Disease; Atrial Fibrillation (AF); Thromboembolism",
+      "start_date": "2025-02-07",
+      "last_update": "2026-10-16",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT07095634"
+    },
+    {
+      "nct_id": "NCT07877649",
+      "title": "Longitudinal Registry of Difficult-to-Treat Inflammatory Bowel Disease",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "",
+      "conditions": "Inflammatory Bowel Diseases (IBD); Crohn Disease; Colitis, Ulcerative",
+      "start_date": "2026-11-01",
+      "last_update": "2026-10-16",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT07877649"
+    },
+    {
+      "nct_id": "NCT06332534",
+      "title": "Crohn's Disease: Efficacy, Safety, and Pharmacokinetics of Upadacitinib in Pediatric Subjects With Moderately to Severely Active Crohn's Disease",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Crohn's Disease",
+      "start_date": "2024-08-08",
+      "last_update": "2026-10-16",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT06332534"
+    },
+    {
+      "nct_id": "NCT00001184",
+      "title": "Immune Regulation in Ulcerative Colitis or Crohn s Disease",
+      "status": "RECRUITING",
+      "phase": "",
+      "conditions": "Inflammatory Bowel Disease; Ulcerative Colitis; Chrohn's Disease",
+      "start_date": "1998-08-07",
+      "last_update": "2026-10-16",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT00001184"
+    },
+    {
+      "nct_id": "NCT06819878",
+      "title": "A Study to Assess the Efficacy and Safety of Induction and Maintenance Therapy With Afimkibart (RO7790121) in Participants With Moderately to Severely Active Crohn's Disease",
+      "status": "RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Moderately to Severely Active Crohns Disease",
+      "start_date": "2025-03-17",
+      "last_update": "2026-10-16",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT06819878"
+    },
+    {
+      "nct_id": "NCT07250815",
+      "title": "A Study on Infections in Adults With Ulcerative Colitis/Crohn's Disease",
+      "status": "WITHDRAWN",
+      "phase": "",
+      "conditions": "Ulcerative Colitis; Crohn's Disease",
+      "start_date": "2026-09-21",
+      "last_update": "2026-10-15",
+      "topic": "crohns_disease",
+      "link": "https://clinicaltrials.gov/study/NCT07250815"
+    },
+    {
+      "nct_id": "NCT07663201",
+      "title": "Cardiovascular Risk in Patients With IBD",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "",
+      "conditions": "Ulcerative Colitis (UC); Crohn's Diseases; Cardiovascular Risk",
+      "start_date": "2026-09",
+      "last_update": "2026-10-16",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT07663201"
+    },
+    {
+      "nct_id": "NCT07878026",
+      "title": "This is a Single-center, Prospective, Single-arm Clinical Study Designed to Evaluate the Efficacy and Safety of Oral Aeromonas sp. MTB Phage Therapy for Pouchitis in Patients With Ulcerative Colitis (UC).",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "EARLY_PHASE1",
+      "conditions": "Pouchitis; UC - Ulcerative Colitis",
+      "start_date": "2027-01-01",
+      "last_update": "2026-10-16",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT07878026"
+    },
+    {
+      "nct_id": "NCT07071519",
+      "title": "A Study to Learn More About How Risankizumab Works in Young Participants With Ulcerative Colitis",
+      "status": "RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Ulcerative Colitis",
+      "start_date": "2025-07-28",
+      "last_update": "2026-10-16",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT07071519"
+    },
+    {
+      "nct_id": "NCT07095634",
+      "title": "Estimation of Cardiovascular Risk in Patients With Crohn's Disease and Ulcerative Colitis (PROVACI)",
+      "status": "RECRUITING",
+      "phase": "",
+      "conditions": "Ulcerative Colitis; Myocardial Infarction; Stroke; Ischemic Heart Disease; Atrial Fibrillation (AF); Thromboembolism",
+      "start_date": "2025-02-07",
+      "last_update": "2026-10-16",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT07095634"
+    },
+    {
+      "nct_id": "NCT07877649",
+      "title": "Longitudinal Registry of Difficult-to-Treat Inflammatory Bowel Disease",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "",
+      "conditions": "Inflammatory Bowel Diseases (IBD); Crohn Disease; Colitis, Ulcerative",
+      "start_date": "2026-11-01",
+      "last_update": "2026-10-16",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT07877649"
+    },
+    {
+      "nct_id": "NCT06755021",
+      "title": "Whey Protein Milk-Derived Exosomes",
+      "status": "COMPLETED",
+      "phase": "NA",
+      "conditions": "Ulcerative Colitis; Inflammatory Bowel Disease",
+      "start_date": "2025-03-26",
+      "last_update": "2026-10-16",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT06755021"
+    },
+    {
+      "nct_id": "NCT07185009",
+      "title": "A Maintenance Study to Investigate the Efficacy and Safety of Duvakitug in Participants With Moderately to Severely Active Ulcerative Colitis",
+      "status": "RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Ulcerative Colitis",
+      "start_date": "2026-01-16",
+      "last_update": "2026-10-16",
+      "topic": "ulcerative_colitis",
+      "link": "https://clinicaltrials.gov/study/NCT07185009"
+    },
+    {
+      "nct_id": "NCT07683065",
+      "title": "A Study to Estimate Secukinumab Retention Rate in Psoriasis Patients With MASLD",
+      "status": "RECRUITING",
+      "phase": "",
+      "conditions": "Plaque Psoriasis; Metabolic Dysfunction-Associated Steatotic Liver Disease",
+      "start_date": "2026-07-08",
+      "last_update": "2026-10-16",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT07683065"
+    },
+    {
+      "nct_id": "NCT07474792",
+      "title": "Dose Ranging Study of ORKA-002 in Patients With Moderate-to-Severe Plaque Psoriasis",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE2",
+      "conditions": "Plaque Psoriasis",
+      "start_date": "2026-03-19",
+      "last_update": "2026-10-16",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT07474792"
+    },
+    {
+      "nct_id": "NCT04908202",
+      "title": "A Study to Determine the Efficacy and Safety of Deucravacitinib Compared With Placebo in Participants With Active Psoriatic Arthritis (PsA) Who Are Na\u00efve to Biologic Disease-modifying Anti-rheumatic Drugs",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Psoriatic Arthritis",
+      "start_date": "2021-07-13",
+      "last_update": "2026-10-16",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT04908202"
+    },
+    {
+      "nct_id": "NCT07865390",
+      "title": "Patient-Reported Outcomes Dashboard With Goal Setting to Support Shared Decision-Making in Inflammatory Arthritis",
+      "status": "NOT_YET_RECRUITING",
+      "phase": "NA",
+      "conditions": "Arthritis, Psoriatic (PsA); Arthritis, Rheumatoid (RA)",
+      "start_date": "2027-01-01",
+      "last_update": "2026-10-15",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT07865390"
+    },
+    {
+      "nct_id": "NCT07232004",
+      "title": "A Study to Evaluate How the Study Drug Moves Through the Body, Adverse Events, and How the Body Tolerates ABBV-547 Injections",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE1",
+      "conditions": "Healthy Volunteer; Psoriasis",
+      "start_date": "2025-11-24",
+      "last_update": "2026-10-15",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT07232004"
+    },
+    {
+      "nct_id": "NCT07875608",
+      "title": "Comparative Study of Intralesional Methotrexate Versus Intralesional Triamcinolone Acetonide in Treatment of Nail Psoriasis",
+      "status": "COMPLETED",
+      "phase": "PHASE2",
+      "conditions": "Nail Psoriasis",
+      "start_date": "2023-05-01",
+      "last_update": "2026-10-15",
+      "topic": "psoriasis",
+      "link": "https://clinicaltrials.gov/study/NCT07875608"
+    },
+    {
+      "nct_id": "NCT06796569",
+      "title": "Systemic Immune Inflammatory Index in Systemic Lupus Erythematosus",
+      "status": "COMPLETED",
+      "phase": "",
+      "conditions": "Systemic Lupus Erythematosus; Lupus Nephritis",
+      "start_date": "2024-12-02",
+      "last_update": "2026-10-16",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT06796569"
+    },
+    {
+      "nct_id": "NCT05126277",
+      "title": "Safety, Efficacy and Tolerability of Ianalumab Versus Placebo, Combination With SoC Therapy, in Participants With Active Lupus Nephritis",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Lupus Nephritis",
+      "start_date": "2022-07-14",
+      "last_update": "2026-10-15",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT05126277"
+    },
+    {
+      "nct_id": "NCT05268289",
+      "title": "Study of Efficacy and Safety of LNP023 in Participants With Active Lupus Nephritis Class III-IV, +/- V",
+      "status": "TERMINATED",
+      "phase": "PHASE2",
+      "conditions": "Lupus Nephritis",
+      "start_date": "2022-08-10",
+      "last_update": "2026-10-15",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT05268289"
+    },
+    {
+      "nct_id": "NCT06617325",
+      "title": "A Study to Evaluate the Efficacy and Safety of Dapirolizumab Pegol in Study Participants With Moderately to Severely Active Systemic Lupus Erythematosus",
+      "status": "RECRUITING",
+      "phase": "PHASE3",
+      "conditions": "Systemic Lupus Erythematosus",
+      "start_date": "2024-11-21",
+      "last_update": "2026-10-15",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT06617325"
+    },
+    {
+      "nct_id": "NCT05540327",
+      "title": "The Willow LTE Study With M5049 in Participants With SCLE, DLE and/or SLE (WILLOW LTE)",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "phase": "PHASE2",
+      "conditions": "Systemic Lupus Erythematosus",
+      "start_date": "2022-09-16",
+      "last_update": "2026-10-15",
+      "topic": "lupus",
+      "link": "https://clinicaltrials.gov/study/NCT05540327"
+    }
+  ]
+}
