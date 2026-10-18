@@ -43,8 +43,8 @@ export default function PrivacyPage() {
           link is opened. Each sent issue includes a signed unsubscribe link, and it takes effect immediately.
         </p>
         <p className="mt-2">
-          The site records anonymous page views (the page, time, country, device type, and referrer) with no cookies or
-          IP addresses, and uses Cloudflare Web Analytics.
+          The site records anonymous page views (the page, time, country, device type, and referrer) with no cookies or IP
+          addresses{(process.env.NEXT_PUBLIC_CF_BEACON_TOKEN || "").trim() ? ", and uses Cloudflare Web Analytics." : "."}
         </p>
       </section>
 

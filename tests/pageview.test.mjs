@@ -264,6 +264,8 @@ test("migration defines page_views, private RLS, and the Pacific daily view", ()
   const privacy = readFileSync(new URL("../web/src/app/privacy/page.tsx", import.meta.url), "utf8").replace(/\s+/g, " ");
   assert.match(
     privacy,
-    /The site records anonymous page views \(the page, time, country, device type, and referrer\) with no cookies or IP addresses, and uses Cloudflare Web Analytics\./,
+    /The site records anonymous page views \(the page, time, country, device type, and referrer\) with no cookies or IP addresses/,
   );
+  assert.match(privacy, /NEXT_PUBLIC_CF_BEACON_TOKEN/);
+  assert.match(privacy, /and uses Cloudflare Web Analytics/);
 });
