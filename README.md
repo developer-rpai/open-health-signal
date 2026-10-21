@@ -1,5 +1,16 @@
 # Open Health Signals
 
+[![Live site](https://img.shields.io/badge/live-openhealthsignals.org-0a7f5a)](https://openhealthsignals.org)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776ab.svg)](pyproject.toml)
+[![Cite](https://img.shields.io/badge/cite-CITATION.cff-orange)](CITATION.cff)
+
+**A free, weekly public dashboard of FDA safety signals, recalls, clinical trials, and PubMed trends for inflammatory disease, built only from open government data.**
+
+[![Open Health Signals dashboard](docs/screenshot.png)](https://openhealthsignals.org)
+
+**Jump to:** [Data sources](#data-sources-and-licenses) · [How to run](#quickstart) · [Methods](#methods) · [Citation](#citation) · [License](#license)
+
 Open Health Signals (https://openhealthsignals.org) is an independent health-data project. Inflammation Signal Monitor is its first project: a public record of FAERS safety signals, FDA notices, recalls, trials, and papers for inflammatory disease.
 
 It watches two problems that are usually split across different websites:
